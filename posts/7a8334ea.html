@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mrxiuxing.cn","root":"/","scheme":"Muse","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="*When one can see no future, all one can do is the next right thing. ——《冰雪奇缘2》**如果看不清未来，就走好当下的路。*">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬取拉钩(Selenium + pyquery + MongoDB)">
+<meta property="og:url" content="http://mrxiuxing.cn/posts/7a8334ea.html">
+<meta property="og:site_name" content="Mr.xiuxing&#39;s Blog">
+<meta property="og:description" content="*When one can see no future, all one can do is the next right thing. ——《冰雪奇缘2》**如果看不清未来，就走好当下的路。*">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/7a8334ea/mind.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/7a8334ea/index_1.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/7a8334ea/2index_1.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/7a8334ea/2index_2.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/7a8334ea/2index_3.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/7a8334ea/index_tanchuang.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/7a8334ea/tanchuang2.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/7a8334ea/end.gif">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/7a8334ea/end.png">
+<meta property="article:published_time" content="2020-02-23T03:03:23.000Z">
+<meta property="article:modified_time" content="2020-02-23T03:03:23.000Z">
+<meta property="article:author" content="Mr.xiuxing">
+<meta property="article:tag" content="爬虫">
+<meta property="article:tag" content="requests">
+<meta property="article:tag" content="Selenium">
+<meta property="article:tag" content="pyquery">
+<meta property="article:tag" content="MongoDB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mrxiuxing.cn/posts/7a8334ea/mind.png">
+
+<link rel="canonical" href="http://mrxiuxing.cn/posts/7a8334ea.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>爬取拉钩(Selenium + pyquery + MongoDB) | Mr.xiuxing's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mr.xiuxing's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mrxiuxing.cn/posts/7a8334ea.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/tiger.jpg">
+      <meta itemprop="name" content="Mr.xiuxing">
+      <meta itemprop="description" content="爱生活，爱技术（Python）">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.xiuxing's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          爬取拉钩(Selenium + pyquery + MongoDB)
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-23 11:03:23" itemprop="dateCreated datePublished" datetime="2020-02-23T11:03:23+08:00">2020-02-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%88%AC%E8%99%AB/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>*<center>When one can see no future, all one can do is the next right thing. ——《冰雪奇缘2》</center>*</strong><br><strong>*<center>如果看不清未来，就走好当下的路。</center>*</strong></p>
+<a id="more"></a>
+
+<p><strong><center>爬取拉钩(Selenium + pyquery + MongoDB)</center></strong></p>
+<h2 id="抓取目标"><a href="#抓取目标" class="headerlink" title="抓取目标"></a>抓取目标</h2><p>&emsp;&emsp;利用Selenium抓取拉钩Python相关职位并用pyquery解析得到Python相关职位的职位名称、所在城市、薪资、需要经验、教育程度以及公司名称，并将其保存到MongoDB。</p>
+<h2 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h2><p>&emsp;&emsp;既然准备使用Selenium那我们就全程让他模拟人的行为去进行一些操作。初步思路如下：<br><img src="/posts/7a8334ea/mind.png" alt></p>
+<h2 id="站点分析"><a href="#站点分析" class="headerlink" title="站点分析"></a>站点分析</h2><p>&emsp;&emsp;站点的搜索框以及搜索按钮如下：<br><img src="/posts/7a8334ea/index_1.png" alt><br>&emsp;&emsp;进入职位详情页后，我们可以发现每一个职位都对应一个 li 标签中。<br><img src="/posts/7a8334ea/2index_1.png" alt><br>&emsp;&emsp;点击其中一个 li 标签，可以看到职位的详细信息。<br><img src="/posts/7a8334ea/2index_2.png" alt><br>&emsp;&emsp;最后我们查看一下”下一页”按钮的信息<br><img src="/posts/7a8334ea/2index_3.png" alt></p>
+<h2 id="初始化代码"><a href="#初始化代码" class="headerlink" title="初始化代码"></a>初始化代码</h2><p>&emsp;&emsp;首先构造一个WebDriver对象，使用的是浏览器Chrome，然后模拟人的行为：在搜索框中输入想要搜索的职位，然后点击搜索。初始化MongoDB，首先创建了一个MongoDB连接对象，然后指定了Collection的名称。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> pyquery <span class="keyword">import</span> PyQuery <span class="keyword">as</span> pq</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support.wait <span class="keyword">import</span> WebDriverWait</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support <span class="keyword">import</span> expected_conditions <span class="keyword">as</span> EC</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LagouSpider</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.data = list()</span><br><span class="line">        self.isEnd = <span class="literal">False</span>    <span class="comment"># 判定是不是最后一页的Flag</span></span><br><span class="line">        self.browser = webdriver.Chrome()</span><br><span class="line">        self.wait = WebDriverWait(self.browser, <span class="number">10</span>)</span><br><span class="line">        self.browser.get(<span class="string">'https://www.lagou.com/'</span>)</span><br><span class="line">        input_search = self.browser.find_element_by_id(<span class="string">'search_input'</span>)    <span class="comment"># 搜索框</span></span><br><span class="line">        input_search.send_keys(<span class="string">'Python'</span>)    <span class="comment"># 在搜索框输入职位名称</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        button = self.browser.find_element_by_class_name(<span class="string">'search_button'</span>)    <span class="comment"># 搜索按钮</span></span><br><span class="line">        button.click()    <span class="comment"># 模拟点击</span></span><br><span class="line">        client = pymongo.MongoClient(<span class="string">'localhost'</span>)</span><br><span class="line">        db = client.lagou</span><br><span class="line">        self.collection = db.Python</span><br></pre></td></tr></table></figure>
+
+<h2 id="解析职位列表"><a href="#解析职位列表" class="headerlink" title="解析职位列表"></a>解析职位列表</h2><p>&emsp;&emsp;我们直接获取页面源代码，然后构造PyQuery解析对象，接着提取了职位列表，此时使用的CSS选择器是#s_position_list .item_con_list .con_list_item，它会匹配整个页面的每一个职位。因为它匹配的结果是多个，所以我们对它进行了以此遍历，用for循环将每一个结果分别进行解析，每一次循环把它赋值为item变量，每一个item变量都是一个PyQuery对象，然后调用它的find()方法，传入CSS选择器，就可以得到每一个职位的特定内容了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_page</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        doc = pq(self.browser.page_source)</span><br><span class="line">        items = doc(<span class="string">'#s_position_list .item_con_list .con_list_item'</span>).items()</span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">            money_experience_educational = item.find(<span class="string">'.position .p_bot .li_b_l'</span>).text().split(<span class="string">' '</span>)</span><br><span class="line">            product = [&#123;</span><br><span class="line">                <span class="string">"position"</span>: item.find(<span class="string">'.p_top .position_link h3'</span>).text(),</span><br><span class="line">                <span class="string">"city"</span>: item.find(<span class="string">'.position .p_top .add em'</span>).text(),</span><br><span class="line">                <span class="string">"money"</span>: money_experience_educational[<span class="number">0</span>],</span><br><span class="line">                <span class="string">"experience"</span>: money_experience_educational[<span class="number">1</span>],</span><br><span class="line">                <span class="string">"educational"</span>: money_experience_educational[<span class="number">3</span>],</span><br><span class="line">                <span class="string">"company"</span>: item.find(<span class="string">'.company .company_name a'</span>).text(),</span><br><span class="line">            &#125;]</span><br><span class="line">            self.data.extend(product)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        time.sleep(<span class="number">3</span>)</span><br><span class="line">        self.parse_page()</span><br></pre></td></tr></table></figure>
+
+<h2 id="翻页操作"><a href="#翻页操作" class="headerlink" title="翻页操作"></a>翻页操作</h2><p>&emsp;&emsp;首先判断是不是最后一页，不是的话才模拟点击下一页，否则的改变Flag。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">turn_page</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> pq(self.browser.page_source)(<span class="string">'.pager_container span:last-child'</span>).attr(<span class="string">'class'</span>) != <span class="string">'pager_next pager_next_disabled'</span>:</span><br><span class="line">        pager_next = self.wait.until(EC.element_to_be_clickable((By.CLASS_NAME, <span class="string">'pager_next'</span>)))</span><br><span class="line">        pager_next.click()</span><br><span class="line">        time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        self.isEnd = <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="保存到MongoDB"><a href="#保存到MongoDB" class="headerlink" title="保存到MongoDB"></a>保存到MongoDB</h2><p>&emsp;&emsp;因为在之前初始化了MongoDB，所以这里直接将数据插入到MongoDB。update_one()方法：更新或插入一条数据。这里使用update_one()方法一条一条插入是为了去重数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_to_mongo</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> self.data:</span><br><span class="line">            <span class="keyword">if</span> self.collection.update_one(item, &#123;<span class="string">"$setOnInsert"</span>: item&#125;, <span class="literal">True</span>):</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">        print(<span class="string">'储存到MongoDB成功'</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception:</span><br><span class="line">        print(<span class="string">'储存到MongoDB失败'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="定义爬取函数"><a href="#定义爬取函数" class="headerlink" title="定义爬取函数"></a>定义爬取函数</h2><p>&emsp;&emsp;这里提取了每一页的当前页码，使我们可以很方便的观察爬取进度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crawl</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> self.isEnd:</span><br><span class="line">        page = self.browser.find_element_by_class_name(<span class="string">'pager_is_current'</span>).text</span><br><span class="line">        print(<span class="string">'正在爬取第 '</span> + page + <span class="string">' 页 ...'</span>)</span><br><span class="line">        self.parse_page()</span><br><span class="line">        self.turn_page()</span><br><span class="line">    self.save_to_mongo()</span><br><span class="line">    print(<span class="string">'爬取结束'</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="试运行"><a href="#试运行" class="headerlink" title="试运行"></a>试运行</h2><p>&emsp;&emsp;此时的全部代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> pyquery <span class="keyword">import</span> PyQuery <span class="keyword">as</span> pq</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support.wait <span class="keyword">import</span> WebDriverWait</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support <span class="keyword">import</span> expected_conditions <span class="keyword">as</span> EC</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LagouSpider</span>:</span></span><br><span class="line">    <span class="comment"># 初始化</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.data = list()</span><br><span class="line">        self.isEnd = <span class="literal">False</span></span><br><span class="line">        self.browser = webdriver.Chrome()</span><br><span class="line">        self.wait = WebDriverWait(self.browser, <span class="number">10</span>)</span><br><span class="line">        self.browser.get(<span class="string">'https://www.lagou.com/'</span>)</span><br><span class="line">        input_search = self.browser.find_element_by_id(<span class="string">'search_input'</span>)    <span class="comment"># 搜索框</span></span><br><span class="line">        input_search.send_keys(<span class="string">'Python'</span>)    <span class="comment"># 在搜索框输入职位名称</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        button = self.browser.find_element_by_class_name(<span class="string">'search_button'</span>)    <span class="comment"># 搜索按钮</span></span><br><span class="line">        button.click()    <span class="comment"># 模拟点击</span></span><br><span class="line">        client = pymongo.MongoClient(<span class="string">'localhost'</span>)</span><br><span class="line">        db = client.lagou</span><br><span class="line">        self.collection = db.Python</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 解析网页数据</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_page</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            doc = pq(self.browser.page_source)</span><br><span class="line">            items = doc(<span class="string">'#s_position_list .item_con_list .con_list_item'</span>).items()</span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">                money_experience_educational = item.find(<span class="string">'.position .p_bot .li_b_l'</span>).text().split(<span class="string">' '</span>)</span><br><span class="line">                product = [&#123;</span><br><span class="line">                    <span class="comment"># "link": item.find('.p_top .position_link').attr('href'),</span></span><br><span class="line">                    <span class="string">"position"</span>: item.find(<span class="string">'.p_top .position_link h3'</span>).text(),</span><br><span class="line">                    <span class="string">"city"</span>: item.find(<span class="string">'.position .p_top .add em'</span>).text(),</span><br><span class="line">                    <span class="string">"money"</span>: money_experience_educational[<span class="number">0</span>],</span><br><span class="line">                    <span class="string">"experience"</span>: money_experience_educational[<span class="number">1</span>],</span><br><span class="line">                    <span class="string">"educational"</span>: money_experience_educational[<span class="number">3</span>],</span><br><span class="line">                    <span class="string">"company"</span>: item.find(<span class="string">'.company .company_name a'</span>).text(),</span><br><span class="line">                &#125;]</span><br><span class="line">                self.data.extend(product)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            time.sleep(<span class="number">3</span>)</span><br><span class="line">            self.parse_page()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 翻页操作</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">turn_page</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> pq(self.browser.page_source)(<span class="string">'.pager_container span:last-child'</span>).attr(<span class="string">'class'</span>) != <span class="string">'pager_next pager_next_disabled'</span>:</span><br><span class="line">            pager_next = self.wait.until(EC.element_to_be_clickable((By.CLASS_NAME, <span class="string">'pager_next'</span>)))</span><br><span class="line">            pager_next.click()</span><br><span class="line">            time.sleep(<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.isEnd = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 储存至MongoDB</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">save_to_mongo</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> self.data:</span><br><span class="line">                <span class="keyword">if</span> self.collection.update_one(item, &#123;<span class="string">"$setOnInsert"</span>: item&#125;, <span class="literal">True</span>):</span><br><span class="line">                    <span class="keyword">pass</span></span><br><span class="line">            print(<span class="string">'储存到MongoDB成功'</span>)</span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            print(<span class="string">'储存到MongoDB失败'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 爬取数据</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">crawl</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">not</span> self.isEnd:</span><br><span class="line">            page = self.browser.find_element_by_class_name(<span class="string">'pager_is_current'</span>).text</span><br><span class="line">            print(<span class="string">'正在爬取第 '</span> + page + <span class="string">' 页 ...'</span>)</span><br><span class="line">            self.parse_page()</span><br><span class="line">            self.turn_page()</span><br><span class="line">        self.save_to_mongo()</span><br><span class="line">        print(<span class="string">'爬取结束'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    obj = LagouSpider()</span><br><span class="line">    obj.crawl()</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;我们运行一下代码发现出现了：<font color="red">selenium.common.exceptions.ElementNotInteractableException: Message: element not interactable</font> 错误。我们再看一看浏览器现在是什么情况，发现浏览器出现了弹窗，如下图:<br><img src="/posts/7a8334ea/index_tanchuang.png" alt><br>&emsp;&emsp;因为弹窗selenium找不到搜索框的元素，所以出现了错误。既然你出现弹窗想让我点击一下，那我就点一下呗！通过检查源代码，定位你想点击的按钮，这里我选择的是北京站。既然错误发生在输入框输入前，那就把代码添加在此之前，具体如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LagouSpider</span>:</span></span><br><span class="line">    <span class="comment"># 初始化</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.data = list()</span><br><span class="line">        self.isEnd = <span class="literal">False</span></span><br><span class="line">        self.browser = webdriver.Chrome()</span><br><span class="line">        self.wait = WebDriverWait(self.browser, <span class="number">10</span>)</span><br><span class="line">        self.browser.get(<span class="string">'https://www.lagou.com/'</span>)</span><br><span class="line">        <span class="comment"># 首页弹窗模拟点击</span></span><br><span class="line">        index_tab = self.browser.find_element_by_xpath(<span class="string">'//*[@id="changeCityBox"]/ul/li[1]/a'</span>)</span><br><span class="line">        index_tab.click()</span><br><span class="line">        input_search = self.browser.find_element_by_id(<span class="string">'search_input'</span>)    <span class="comment"># 搜索框</span></span><br><span class="line">        input_search.send_keys(<span class="string">'Python'</span>)    <span class="comment"># 在搜索框输入职位名称</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        button = self.browser.find_element_by_class_name(<span class="string">'search_button'</span>)    <span class="comment"># 搜索按钮</span></span><br><span class="line">        button.click()    <span class="comment"># 模拟点击</span></span><br><span class="line">        client = pymongo.MongoClient(<span class="string">'localhost'</span>)</span><br><span class="line">        db = client.lagou</span><br><span class="line">        self.collection = db.Python</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;我们再运行一下试试。然后顺利点击首页弹窗，顺利在输入框输入职位，顺利点击搜索，然后进入到职位详情页，突然就蹦出来这么一个玩意：<br><img src="/posts/7a8334ea/tanchuang2.png" alt><br>&emsp;&emsp;怎么办呐！还能怎么办！点呗！！！为了防止频繁出现这样的弹窗，干脆写一个函数吧！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">body_btn</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        body_btn = self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, <span class="string">'div.body-btn'</span>)))</span><br><span class="line">        <span class="comment"># body_btn = self.browser.find_element_by_css_selector('div.body-btn')</span></span><br><span class="line">        <span class="keyword">if</span> body_btn:</span><br><span class="line">            body_btn.click()</span><br><span class="line">            time.sleep(<span class="number">3</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;经过多次试验，当弹窗的class的属性为 body-container 的时候，弹窗是不会展示在页面的；当弹窗的class的属性为 body-container showData 的时候，弹窗才会展示在页面。修改抓取函数代码，具体如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crawl</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> self.isEnd:</span><br><span class="line">        page = self.browser.find_element_by_class_name(<span class="string">'pager_is_current'</span>).text</span><br><span class="line">        print(<span class="string">'正在爬取第 '</span> + page + <span class="string">' 页 ...'</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            showData = self.browser.find_element_by_css_selector(<span class="string">'[class="body-container showData"]'</span>)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            showData = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">if</span> showData:</span><br><span class="line">            self.body_btn()</span><br><span class="line">        self.parse_page()</span><br><span class="line">        self.turn_page()</span><br><span class="line">    self.save_to_mongo()</span><br><span class="line">    print(<span class="string">'爬取结束'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="整合所有代码"><a href="#整合所有代码" class="headerlink" title="整合所有代码"></a>整合所有代码</h2><p>&emsp;&emsp;经过一系列的弹窗，最终代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> pyquery <span class="keyword">import</span> PyQuery <span class="keyword">as</span> pq</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support.wait <span class="keyword">import</span> WebDriverWait</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support <span class="keyword">import</span> expected_conditions <span class="keyword">as</span> EC</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LagouSpider</span>:</span></span><br><span class="line">    <span class="comment"># 初始化</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.data = list()</span><br><span class="line">        self.isEnd = <span class="literal">False</span></span><br><span class="line">        self.browser = webdriver.Chrome()</span><br><span class="line">        self.wait = WebDriverWait(self.browser, <span class="number">10</span>)</span><br><span class="line">        self.browser.get(<span class="string">'https://www.lagou.com/'</span>)</span><br><span class="line">        <span class="comment"># 首页弹窗模拟点击</span></span><br><span class="line">        index_tab = self.browser.find_element_by_xpath(<span class="string">'//*[@id="changeCityBox"]/ul/li[1]/a'</span>)</span><br><span class="line">        index_tab.click()</span><br><span class="line">        input_search = self.browser.find_element_by_id(<span class="string">'search_input'</span>)    <span class="comment"># 搜索框</span></span><br><span class="line">        input_search.send_keys(<span class="string">'Python'</span>)    <span class="comment"># 在搜索框输入职位名称</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        button = self.browser.find_element_by_class_name(<span class="string">'search_button'</span>)    <span class="comment"># 搜索按钮</span></span><br><span class="line">        button.click()    <span class="comment"># 模拟点击</span></span><br><span class="line">        client = pymongo.MongoClient(<span class="string">'localhost'</span>)</span><br><span class="line">        db = client.lagou</span><br><span class="line">        self.collection = db.Python</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 解析网页数据</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_page</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            doc = pq(self.browser.page_source)</span><br><span class="line">            items = doc(<span class="string">'#s_position_list .item_con_list .con_list_item'</span>).items()</span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">                money_experience_educational = item.find(<span class="string">'.position .p_bot .li_b_l'</span>).text().split(<span class="string">' '</span>)</span><br><span class="line">                product = [&#123;</span><br><span class="line">                    <span class="string">"position"</span>: item.find(<span class="string">'.p_top .position_link h3'</span>).text(),</span><br><span class="line">                    <span class="string">"city"</span>: item.find(<span class="string">'.position .p_top .add em'</span>).text(),</span><br><span class="line">                    <span class="string">"money"</span>: money_experience_educational[<span class="number">0</span>],</span><br><span class="line">                    <span class="string">"experience"</span>: money_experience_educational[<span class="number">1</span>],</span><br><span class="line">                    <span class="string">"educational"</span>: money_experience_educational[<span class="number">3</span>],</span><br><span class="line">                    <span class="string">"company"</span>: item.find(<span class="string">'.company .company_name a'</span>).text(),</span><br><span class="line">                &#125;]</span><br><span class="line">                self.data.extend(product)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            time.sleep(<span class="number">3</span>)</span><br><span class="line">            self.parse_page()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 翻页操作</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">turn_page</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> pq(self.browser.page_source)(<span class="string">'.pager_container span:last-child'</span>).attr(<span class="string">'class'</span>) != <span class="string">'pager_next pager_next_disabled'</span>:</span><br><span class="line">            pager_next = self.wait.until(EC.element_to_be_clickable((By.CLASS_NAME, <span class="string">'pager_next'</span>)))</span><br><span class="line">            pager_next.click()</span><br><span class="line">            time.sleep(<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.isEnd = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 职位详情页弹窗</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">body_btn</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            body_btn = self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, <span class="string">'div.body-btn'</span>)))</span><br><span class="line">            <span class="keyword">if</span> body_btn:</span><br><span class="line">                body_btn.click()</span><br><span class="line">                time.sleep(<span class="number">3</span>)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 储存至MongoDB</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">save_to_mongo</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> self.data:</span><br><span class="line">                <span class="keyword">if</span> self.collection.update_one(item, &#123;<span class="string">"$setOnInsert"</span>: item&#125;, <span class="literal">True</span>):</span><br><span class="line">                    <span class="keyword">pass</span></span><br><span class="line">            print(<span class="string">'储存到MongoDB成功'</span>)</span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            print(<span class="string">'储存到MongoDB失败'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 爬取数据</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">crawl</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">not</span> self.isEnd:</span><br><span class="line">            page = self.browser.find_element_by_class_name(<span class="string">'pager_is_current'</span>).text</span><br><span class="line">            print(<span class="string">'正在爬取第 '</span> + page + <span class="string">' 页 ...'</span>)</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                showData = self.browser.find_element_by_css_selector(<span class="string">'[class="body-container showData"]'</span>)</span><br><span class="line">            <span class="keyword">except</span>:</span><br><span class="line">                showData = <span class="literal">False</span></span><br><span class="line">            <span class="keyword">if</span> showData:</span><br><span class="line">                self.body_btn()</span><br><span class="line">            self.parse_page()</span><br><span class="line">            self.turn_page()</span><br><span class="line">        self.browser.close()</span><br><span class="line">        self.save_to_mongo()</span><br><span class="line">        print(<span class="string">'爬取结束'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    obj = LagouSpider()</span><br><span class="line">    obj.crawl()</span><br></pre></td></tr></table></figure>
+
+<h2 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h2><h3 id="爬取效果"><a href="#爬取效果" class="headerlink" title="爬取效果"></a>爬取效果</h3><p><img src="/posts/7a8334ea/end.gif" alt></p>
+<h3 id="数据展示"><a href="#数据展示" class="headerlink" title="数据展示"></a>数据展示</h3><p><img src="/posts/7a8334ea/end.png" alt></p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>&emsp;&emsp;你也可以使用Headless模式，也就是无界面模式，这样爬取的时候就不会弹出浏览器了。具体代码如下：</p>
+<p>将初始化时的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.browser = webdriver.Chrome()</span><br></pre></td></tr></table></figure>
+<p>修改为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chrome_options = webdriver.ChromeOptions()</span><br><span class="line">chrome_options.add_argument(<span class="string">'--headless'</span>)</span><br><span class="line">self.browser = webdriver.Chrome(chrome_options=chrome_options)</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"># 爬虫</a>
+              <a href="/tags/requests/" rel="tag"># requests</a>
+              <a href="/tags/Selenium/" rel="tag"># Selenium</a>
+              <a href="/tags/pyquery/" rel="tag"># pyquery</a>
+              <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/16fc5052.html" rel="prev" title="Python数据储存(TXT、JSON、CSV)">
+      <i class="fa fa-chevron-left"></i> Python数据储存(TXT、JSON、CSV)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/38ef7f6b.html" rel="next" title="Scrapy爬取天天基金网站基金数据">
+      Scrapy爬取天天基金网站基金数据 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#抓取目标"><span class="nav-number">1.</span> <span class="nav-text">抓取目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路分析"><span class="nav-number">2.</span> <span class="nav-text">思路分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#站点分析"><span class="nav-number">3.</span> <span class="nav-text">站点分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化代码"><span class="nav-number">4.</span> <span class="nav-text">初始化代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析职位列表"><span class="nav-number">5.</span> <span class="nav-text">解析职位列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#翻页操作"><span class="nav-number">6.</span> <span class="nav-text">翻页操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保存到MongoDB"><span class="nav-number">7.</span> <span class="nav-text">保存到MongoDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义爬取函数"><span class="nav-number">8.</span> <span class="nav-text">定义爬取函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#试运行"><span class="nav-number">9.</span> <span class="nav-text">试运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整合所有代码"><span class="nav-number">10.</span> <span class="nav-text">整合所有代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#效果展示"><span class="nav-number">11.</span> <span class="nav-text">效果展示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#爬取效果"><span class="nav-number">11.1.</span> <span class="nav-text">爬取效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据展示"><span class="nav-number">11.2.</span> <span class="nav-text">数据展示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最后"><span class="nav-number">12.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mr.xiuxing"
+      src="/images/tiger.jpg">
+  <p class="site-author-name" itemprop="name">Mr.xiuxing</p>
+  <div class="site-description" itemprop="description">爱生活，爱技术（Python）</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mrxiuxing" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mrxiuxing" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:mr.xiuxing@qq.com" title="E-Mail → mailto:mr.xiuxing@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">By Mr.xiuxing</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">55k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">50 分钟</span>
+</div>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
