@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"mrxiuxing.cn","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="*It’s never to late to do the right thing. ——《小事》**做正确的事永远都不会迟。*">
+  <meta name="description" content="It’s never to late to do the right thing. ——《小事》 做正确的事永远都不会迟。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL(一) 连接、选择、查看">
 <meta property="og:url" content="http://mrxiuxing.cn/posts/ace0d300.html">
 <meta property="og:site_name" content="Mr.xiuxing&#39;s Blog">
-<meta property="og:description" content="*It’s never to late to do the right thing. ——《小事》**做正确的事永远都不会迟。*">
+<meta property="og:description" content="It’s never to late to do the right thing. ——《小事》 做正确的事永远都不会迟。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://mrxiuxing.cn/posts/ace0d300/mysqllocalhostroot3306.png">
 <meta property="og:image" content="http://mrxiuxing.cn/posts/ace0d300/mysqlrootp.png">
@@ -265,31 +265,50 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>*<center>It’s never to late to do the right thing. ——《小事》</center>*</strong><br><strong>*<center>做正确的事永远都不会迟。</center>*</strong></p>
+        <p><em><strong><center>It’s never to late to do the right thing. ——《小事》</center></strong></em><br>
+<em><strong><center>做正确的事永远都不会迟。</center></strong></em></p>
 <a id="more"></a>
-
-<h1 id="MySQL-一-连接、选择、查看"><a href="#MySQL-一-连接、选择、查看" class="headerlink" title="MySQL(一) 连接、选择、查看"></a><strong><center>MySQL(一) 连接、选择、查看</center></strong></h1><h2 id="终端命令行连接MySQL"><a href="#终端命令行连接MySQL" class="headerlink" title="终端命令行连接MySQL"></a>终端命令行连接MySQL</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h 主机名 -u 用户名 -P 端口 -p</span><br></pre></td></tr></table></figure>
+<h1><strong><center>MySQL(一) 连接、选择、查看</center></strong></h1>
+<h2 id="终端命令行连接MySQL">终端命令行连接MySQL</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h 主机名 -u 用户名 -P 端口 -p</span><br></pre></td></tr></table></figure>
 <p><img src="/posts/ace0d300/mysqllocalhostroot3306.png" alt></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-h: 主机名,表示要连接数据库的主机名或IP;如果是连接到本地MySQL服务器，为localhost</span><br><span class="line">-u: 用户名,表示要连接的数据库名</span><br><span class="line">-P: 端口，表示要连接的数据库的端口，默认是3306，可以不写，但如果使用的不是默认端口，则必须指明</span><br><span class="line">-p: 密码，表示要连接的数据库的密码，可以直接输在-p后面，但是这样明文输入密码不安全，建议在回车之后，换行输入密码</span><br></pre></td></tr></table></figure>
-<p>如果你在自己的本机上安装了MySQL并且没有修改默认端口3306,那么通过命令行连接本机的MySQL就不用指定主机名和端口号了，可以直接采用下面的连接方式<br><img src="/posts/ace0d300/mysqlrootp.png" alt></p>
-<h2 id="选择数据库"><a href="#选择数据库" class="headerlink" title="选择数据库"></a>选择数据库</h2><p>在操作数据库之前，必须要确定使用的是哪一个库;在最初连接到MySQL的时候，没有任何数据库打开供你使用;当用 CREATE DATABASE 语句创建数据库之后，该数据库不会自动成为当前数据库。这些情况都需要USE来指定当前数据库。其语法格式为：</p>
+<p>如果你在自己的本机上安装了MySQL并且没有修改默认端口3306,那么通过命令行连接本机的MySQL就不用指定主机名和端口号了，可以直接采用下面的连接方式<br>
+<img src="/posts/ace0d300/mysqlrootp.png" alt></p>
+<h2 id="选择数据库">选择数据库</h2>
+<p>在操作数据库之前，必须要确定使用的是哪一个库;在最初连接到MySQL的时候，没有任何数据库打开供你使用;当用 CREATE DATABASE 语句创建数据库之后，该数据库不会自动成为当前数据库。这些情况都需要USE来指定当前数据库。其语法格式为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USE &lt;数据库名&gt;</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;该语句通知 MySQL 把&lt;数据库名&gt;所指示的数据库作为当前数据库。该数据库保持为默认数据库，直到语段的结尾，或者直到遇见一个不同的 USE 语句。只有使用 USE 语句来指定某个数据库作为当前数据库之后，才能对该数据库及其存储的数据对象执行操作。<br><strong>例如: 使用命令行工具将数据库 sys 设置为默认数据库</strong><br><img src="/posts/ace0d300/USEsys.png" alt><br>USE语句并不返回任何结果。依赖于使用的客户机，显示特定的通知。例如，这里显示的Database changed消息就是MySQL命令行工具在数据库选择成功后所显示的。</p>
-<h2 id="查看数据库和表"><a href="#查看数据库和表" class="headerlink" title="查看数据库和表"></a>查看数据库和表</h2><h3 id="显示所有可用数据库"><a href="#显示所有可用数据库" class="headerlink" title="显示所有可用数据库"></a>显示所有可用数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show databases;</span><br></pre></td></tr></table></figure>
-<p><img src="/posts/ace0d300/showdatabases.png" alt><br>show databases; 返回所有可用数据库的列表。</p>
-<h3 id="显示一个数据库内所有的表"><a href="#显示一个数据库内所有的表" class="headerlink" title="显示一个数据库内所有的表"></a>显示一个数据库内所有的表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show tables;</span><br></pre></td></tr></table></figure>
-<p><img src="/posts/ace0d300/showtables.png" alt><br>show tables;返回当前数据库所有可用表的列表。</p>
-<h3 id="其他的支持show语句命令"><a href="#其他的支持show语句命令" class="headerlink" title="其他的支持show语句命令"></a>其他的支持show语句命令</h3><h4 id="展示表的字段详情"><a href="#展示表的字段详情" class="headerlink" title="展示表的字段详情"></a>展示表的字段详情</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show columns from &lt;表名&gt;;</span><br></pre></td></tr></table></figure>
+<p>  该语句通知 MySQL 把&lt;数据库名&gt;所指示的数据库作为当前数据库。该数据库保持为默认数据库，直到语段的结尾，或者直到遇见一个不同的 USE 语句。只有使用 USE 语句来指定某个数据库作为当前数据库之后，才能对该数据库及其存储的数据对象执行操作。<br>
+<strong>例如: 使用命令行工具将数据库 sys 设置为默认数据库</strong><br>
+<img src="/posts/ace0d300/USEsys.png" alt><br>
+USE语句并不返回任何结果。依赖于使用的客户机，显示特定的通知。例如，这里显示的Database changed消息就是MySQL命令行工具在数据库选择成功后所显示的。</p>
+<h2 id="查看数据库和表">查看数据库和表</h2>
+<h3 id="显示所有可用数据库">显示所有可用数据库</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show databases;</span><br></pre></td></tr></table></figure>
+<p><img src="/posts/ace0d300/showdatabases.png" alt><br>
+show databases; 返回所有可用数据库的列表。</p>
+<h3 id="显示一个数据库内所有的表">显示一个数据库内所有的表</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show tables;</span><br></pre></td></tr></table></figure>
+<p><img src="/posts/ace0d300/showtables.png" alt><br>
+show tables;返回当前数据库所有可用表的列表。</p>
+<h3 id="其他的支持show语句命令">其他的支持show语句命令</h3>
+<h4 id="展示表的字段详情">展示表的字段详情</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show columns from &lt;表名&gt;;</span><br></pre></td></tr></table></figure>
 <p><img src="/posts/ace0d300/showcolumnsfrom.png" alt></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc &lt;表名&gt;;  # 也可以展示表的字段详情</span><br></pre></td></tr></table></figure>
 <p><img src="/posts/ace0d300/desc.png" alt></p>
-<h4 id="显示创建数据库的MySQL语句"><a href="#显示创建数据库的MySQL语句" class="headerlink" title="显示创建数据库的MySQL语句"></a>显示创建数据库的MySQL语句</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create database &lt;数据库名&gt;;</span><br></pre></td></tr></table></figure>
+<h4 id="显示创建数据库的MySQL语句">显示创建数据库的MySQL语句</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create database &lt;数据库名&gt;;</span><br></pre></td></tr></table></figure>
 <p><img src="/posts/ace0d300/showcreatedatabase.png" alt></p>
-<h4 id="显示创建表的MySQL语句"><a href="#显示创建表的MySQL语句" class="headerlink" title="显示创建表的MySQL语句"></a>显示创建表的MySQL语句</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create table &lt;表名&gt;;</span><br></pre></td></tr></table></figure>
+<h4 id="显示创建表的MySQL语句">显示创建表的MySQL语句</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create table &lt;表名&gt;;</span><br></pre></td></tr></table></figure>
 <p><img src="/posts/ace0d300/showcreatetable.png" alt></p>
-<h4 id="显示服务器错误或警告消息"><a href="#显示服务器错误或警告消息" class="headerlink" title="显示服务器错误或警告消息"></a>显示服务器错误或警告消息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show errors; # 错误</span><br><span class="line">show warnings; # 警告</span><br></pre></td></tr></table></figure>
-<p>例如：故意输错命令,在第二次输入正确命令后可以看到错误等级、错误码以及错误信息<br><img src="/posts/ace0d300/showwarnings.png" alt></p>
-<h4 id="显示授权用户的安全权限"><a href="#显示授权用户的安全权限" class="headerlink" title="显示授权用户的安全权限"></a>显示授权用户的安全权限</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show grants;</span><br></pre></td></tr></table></figure>
+<h4 id="显示服务器错误或警告消息">显示服务器错误或警告消息</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show errors; # 错误</span><br><span class="line">show warnings; # 警告</span><br></pre></td></tr></table></figure>
+<p>例如：故意输错命令,在第二次输入正确命令后可以看到错误等级、错误码以及错误信息<br>
+<img src="/posts/ace0d300/showwarnings.png" alt></p>
+<h4 id="显示授权用户的安全权限">显示授权用户的安全权限</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show grants;</span><br></pre></td></tr></table></figure>
 <p><img src="/posts/ace0d300/showgrants.png" alt></p>
 
     </div>
@@ -394,7 +413,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL-一-连接、选择、查看"><span class="nav-number">1.</span> <span class="nav-text">MySQL(一) 连接、选择、查看</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#终端命令行连接MySQL"><span class="nav-number">1.1.</span> <span class="nav-text">终端命令行连接MySQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择数据库"><span class="nav-number">1.2.</span> <span class="nav-text">选择数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看数据库和表"><span class="nav-number">1.3.</span> <span class="nav-text">查看数据库和表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#显示所有可用数据库"><span class="nav-number">1.3.1.</span> <span class="nav-text">显示所有可用数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#显示一个数据库内所有的表"><span class="nav-number">1.3.2.</span> <span class="nav-text">显示一个数据库内所有的表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他的支持show语句命令"><span class="nav-number">1.3.3.</span> <span class="nav-text">其他的支持show语句命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#展示表的字段详情"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">展示表的字段详情</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示创建数据库的MySQL语句"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">显示创建数据库的MySQL语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示创建表的MySQL语句"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">显示创建表的MySQL语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示服务器错误或警告消息"><span class="nav-number">1.3.3.4.</span> <span class="nav-text">显示服务器错误或警告消息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示授权用户的安全权限"><span class="nav-number">1.3.3.5.</span> <span class="nav-text">显示授权用户的安全权限</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">MySQL(一) 连接、选择、查看</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#终端命令行连接MySQL"><span class="nav-number">1.1.</span> <span class="nav-text">终端命令行连接MySQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择数据库"><span class="nav-number">1.2.</span> <span class="nav-text">选择数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看数据库和表"><span class="nav-number">1.3.</span> <span class="nav-text">查看数据库和表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#显示所有可用数据库"><span class="nav-number">1.3.1.</span> <span class="nav-text">显示所有可用数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#显示一个数据库内所有的表"><span class="nav-number">1.3.2.</span> <span class="nav-text">显示一个数据库内所有的表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他的支持show语句命令"><span class="nav-number">1.3.3.</span> <span class="nav-text">其他的支持show语句命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#展示表的字段详情"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">展示表的字段详情</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示创建数据库的MySQL语句"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">显示创建数据库的MySQL语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示创建表的MySQL语句"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">显示创建表的MySQL语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示服务器错误或警告消息"><span class="nav-number">1.3.3.4.</span> <span class="nav-text">显示服务器错误或警告消息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示授权用户的安全权限"><span class="nav-number">1.3.3.5.</span> <span class="nav-text">显示授权用户的安全权限</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -467,12 +486,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">55k</span>
+    <span title="站点总字数">53k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">50 分钟</span>
+    <span title="站点阅读时长">48 分钟</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
   </div>

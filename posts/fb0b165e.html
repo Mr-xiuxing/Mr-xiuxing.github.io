@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"mrxiuxing.cn","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="*You can do anything you put your mind to. ——《惊涛飓浪》**世上无难事，只怕有心人。*">
+  <meta name="description" content="You can do anything you put your mind to. ——《惊涛飓浪》 世上无难事，只怕有心人。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux常用命令(二) rm：删除">
 <meta property="og:url" content="http://mrxiuxing.cn/posts/fb0b165e.html">
 <meta property="og:site_name" content="Mr.xiuxing&#39;s Blog">
-<meta property="og:description" content="*You can do anything you put your mind to. ——《惊涛飓浪》**世上无难事，只怕有心人。*">
+<meta property="og:description" content="You can do anything you put your mind to. ——《惊涛飓浪》 世上无难事，只怕有心人。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://mrxiuxing.cn/posts/fb0b165e/-i.png">
 <meta property="og:image" content="http://mrxiuxing.cn/posts/fb0b165e/-i2.png">
@@ -239,7 +239,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>686</span>
+              <span>632</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -258,17 +258,27 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>*<center>You can do anything you put your mind to. ——《惊涛飓浪》</center>*</strong><br><strong>*<center>世上无难事，只怕有心人。</center>*</strong></p>
+        <p><em><strong><center>You can do anything you put your mind to. ——《惊涛飓浪》</center></strong></em><br>
+<em><strong><center>世上无难事，只怕有心人。</center></strong></em></p>
 <a id="more"></a>
-
-<h1 id="rm-删除文件或目录"><a href="#rm-删除文件或目录" class="headerlink" title="rm (删除文件或目录)"></a><strong><center>rm (删除文件或目录)</center></strong></h1><h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm [rif] 文件或目录</span><br></pre></td></tr></table></figure>
-
-<h4 id="选项与参数"><a href="#选项与参数" class="headerlink" title="选项与参数"></a>选项与参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-f ：就是force(暴力)的意思，忽略不存在的文件，即使目标属性为只读，也直接删除，不会发出警告信息。</span><br><span class="line">-i ：交互模式，删除前会询问使用者是否操作。</span><br><span class="line">-r ：递归删除，常用与目录的删除，这是高危选项。</span><br></pre></td></tr></table></figure>
-
-<h4 id="例一：将在cp例子中建立的bashrc删除掉"><a href="#例一：将在cp例子中建立的bashrc删除掉" class="headerlink" title="例一：将在cp例子中建立的bashrc删除掉"></a>例一：将在cp例子中建立的bashrc删除掉</h4><p><img src="/posts/fb0b165e/-i.png" alt><br>&emsp;&emsp;加上-i的选项会主动询问，避免删除错误的文件。</p>
-<h4 id="例二：利用通配符-，将-tmp下面开头为bashrc的文件全部删除。"><a href="#例二：利用通配符-，将-tmp下面开头为bashrc的文件全部删除。" class="headerlink" title="例二：利用通配符*，将/tmp下面开头为bashrc的文件全部删除。"></a>例二：利用通配符*，将/tmp下面开头为bashrc的文件全部删除。</h4><p><img src="/posts/fb0b165e/-i2.png" alt><br>&emsp;&emsp;*代表的是0到无穷大。因为加入了-i选项，所以每删除一个文件前都会进行询问。</p>
-<h4 id="例三：将在cp例子中创建的-tmp-etc-这个目录删除掉。"><a href="#例三：将在cp例子中创建的-tmp-etc-这个目录删除掉。" class="headerlink" title="例三：将在cp例子中创建的/tmp/etc/这个目录删除掉。"></a>例三：将在cp例子中创建的/tmp/etc/这个目录删除掉。</h4><p><img src="/posts/fb0b165e/-r.png" alt><br>&emsp;&emsp;直接使用rmdir或者rm是删不掉非空的文件夹的，这个时候-r就可以用到了。</p>
-<h4 id="例四：删除一个开头是-的文件"><a href="#例四：删除一个开头是-的文件" class="headerlink" title="例四：删除一个开头是-的文件"></a>例四：删除一个开头是-的文件</h4><p><img src="/posts/fb0b165e/end.png" alt><br>&emsp;&emsp;touch这个命令可以创建一个空文件。第三行第五列为0，所以这是一个空文件。第四行因为”-“的选项，被系统误判了。不过好在第六行新的bash给了我们建议。其实还有一种方法，那就是【rm – -aaa-】也可以。<br>&emsp;&emsp;所以说文件名最好不要用”-“号开头，因为”-“后面跟的是选项。<b>不过使用rm -r这个命令之前，请千万注意，因为该目录或文件肯定会被root删除。</b>因为系统不会再次询问你是否要删除，所以那时一个非常严重的问题，需要特别注意。</p>
+<h1><strong><center>rm (删除文件或目录)</center></strong></h1>
+<h4 id="语法">语法</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm [rif] 文件或目录</span><br></pre></td></tr></table></figure>
+<h4 id="选项与参数">选项与参数</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-f ：就是force(暴力)的意思，忽略不存在的文件，即使目标属性为只读，也直接删除，不会发出警告信息。</span><br><span class="line">-i ：交互模式，删除前会询问使用者是否操作。</span><br><span class="line">-r ：递归删除，常用与目录的删除，这是高危选项。</span><br></pre></td></tr></table></figure>
+<h4 id="例一：将在cp例子中建立的bashrc删除掉">例一：将在cp例子中建立的bashrc删除掉</h4>
+<p><img src="/posts/fb0b165e/-i.png" alt><br>
+  加上-i的选项会主动询问，避免删除错误的文件。</p>
+<h4 id="例二：利用通配符-，将-tmp下面开头为bashrc的文件全部删除。">例二：利用通配符*，将/tmp下面开头为bashrc的文件全部删除。</h4>
+<p><img src="/posts/fb0b165e/-i2.png" alt><br>
+  *代表的是0到无穷大。因为加入了-i选项，所以每删除一个文件前都会进行询问。</p>
+<h4 id="例三：将在cp例子中创建的-tmp-etc-这个目录删除掉。">例三：将在cp例子中创建的/tmp/etc/这个目录删除掉。</h4>
+<p><img src="/posts/fb0b165e/-r.png" alt><br>
+  直接使用rmdir或者rm是删不掉非空的文件夹的，这个时候-r就可以用到了。</p>
+<h4 id="例四：删除一个开头是-的文件">例四：删除一个开头是-的文件</h4>
+<p><img src="/posts/fb0b165e/end.png" alt><br>
+  touch这个命令可以创建一个空文件。第三行第五列为0，所以这是一个空文件。第四行因为&quot;-“的选项，被系统误判了。不过好在第六行新的bash给了我们建议。其实还有一种方法，那就是【rm – -aaa-】也可以。<br>
+  所以说文件名最好不要用”-“号开头，因为”-&quot;后面跟的是选项。<b>不过使用rm -r这个命令之前，请千万注意，因为该目录或文件肯定会被root删除。</b>因为系统不会再次询问你是否要删除，所以那时一个非常严重的问题，需要特别注意。</p>
 <p><b>PS: 本文参考来自-鸟哥的Linux私房菜、菜鸟教程</b></p>
 
     </div>
@@ -373,7 +383,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#rm-删除文件或目录"><span class="nav-number">1.</span> <span class="nav-text">rm (删除文件或目录)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选项与参数"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">选项与参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例一：将在cp例子中建立的bashrc删除掉"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">例一：将在cp例子中建立的bashrc删除掉</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例二：利用通配符-，将-tmp下面开头为bashrc的文件全部删除。"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">例二：利用通配符*，将&#x2F;tmp下面开头为bashrc的文件全部删除。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例三：将在cp例子中创建的-tmp-etc-这个目录删除掉。"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">例三：将在cp例子中创建的&#x2F;tmp&#x2F;etc&#x2F;这个目录删除掉。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例四：删除一个开头是-的文件"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">例四：删除一个开头是-的文件</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">rm (删除文件或目录)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选项与参数"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">选项与参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例一：将在cp例子中建立的bashrc删除掉"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">例一：将在cp例子中建立的bashrc删除掉</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例二：利用通配符-，将-tmp下面开头为bashrc的文件全部删除。"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">例二：利用通配符*，将&#x2F;tmp下面开头为bashrc的文件全部删除。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例三：将在cp例子中创建的-tmp-etc-这个目录删除掉。"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">例三：将在cp例子中创建的&#x2F;tmp&#x2F;etc&#x2F;这个目录删除掉。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例四：删除一个开头是-的文件"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">例四：删除一个开头是-的文件</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -446,12 +456,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">55k</span>
+    <span title="站点总字数">53k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">50 分钟</span>
+    <span title="站点阅读时长">48 分钟</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
   </div>

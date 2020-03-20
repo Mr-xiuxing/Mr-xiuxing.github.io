@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"mrxiuxing.cn","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="*Maybe sometimes good can come from bad. ——《金翅雀》**有时候，塞翁失马焉知非福。*">
+  <meta name="description" content="Maybe sometimes good can come from bad. ——《金翅雀》 有时候，塞翁失马焉知非福。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux常用命令(四) cat ：直接查看文件内容">
 <meta property="og:url" content="http://mrxiuxing.cn/posts/ae5db918.html">
 <meta property="og:site_name" content="Mr.xiuxing&#39;s Blog">
-<meta property="og:description" content="*Maybe sometimes good can come from bad. ——《金翅雀》**有时候，塞翁失马焉知非福。*">
+<meta property="og:description" content="Maybe sometimes good can come from bad. ——《金翅雀》 有时候，塞翁失马焉知非福。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://mrxiuxing.cn/posts/ae5db918/cat.png">
 <meta property="og:image" content="http://mrxiuxing.cn/posts/ae5db918/-n.png">
@@ -241,7 +241,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>649</span>
+              <span>609</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -260,17 +260,27 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>*<center>Maybe sometimes good can come from bad. ——《金翅雀》</center>*</strong><br><strong>*<center>有时候，塞翁失马焉知非福。</center>*</strong></p>
+        <p><em><strong><center>Maybe sometimes good can come from bad. ——《金翅雀》</center></strong></em><br>
+<em><strong><center>有时候，塞翁失马焉知非福。</center></strong></em></p>
 <a id="more"></a>
-
-<h1 id="cat-直接查看文件内容"><a href="#cat-直接查看文件内容" class="headerlink" title="cat (直接查看文件内容)"></a><strong><center>cat (直接查看文件内容)</center></strong></h1><h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat [-AbeEnstTuv] filename</span><br></pre></td></tr></table></figure>
-<h4 id="选项与参数："><a href="#选项与参数：" class="headerlink" title="选项与参数："></a>选项与参数：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-n : 从1开始对所有输出的行数编号，包括空白行。</span><br><span class="line">-b : 与-n雷类似，列出行号，但仅针对非空白行做行号显示，空白行不标行号。</span><br><span class="line">-s : 当遇到有连续两行以上的空白行，就代换为一行的空白行。</span><br><span class="line">-v : 列出一些看不出来的特殊字符。</span><br><span class="line">-E : 将结尾用$显示出来。</span><br><span class="line">-T : 将[Tab]按键用^T显示出来。</span><br><span class="line">-A : 等价于-vET，可列出一些非空白的特殊字符。</span><br><span class="line">-e : 等价于-eV选项</span><br><span class="line">-t : 等价于-vT选项</span><br></pre></td></tr></table></figure>
-<h4 id="例一：查看-etc-issue这个文件的内容"><a href="#例一：查看-etc-issue这个文件的内容" class="headerlink" title="例一：查看/etc/issue这个文件的内容"></a>例一：查看/etc/issue这个文件的内容</h4><p><img src="/posts/ae5db918/cat.png" alt></p>
-<h4 id="例二：承接例一，如果需要打印行号？"><a href="#例二：承接例一，如果需要打印行号？" class="headerlink" title="例二：承接例一，如果需要打印行号？"></a>例二：承接例一，如果需要打印行号？</h4><p><img src="/posts/ae5db918/-n.png" alt></p>
-<h4 id="例三：承接例一，如果需要打印行号？-空白行不加"><a href="#例三：承接例一，如果需要打印行号？-空白行不加" class="headerlink" title="例三：承接例一，如果需要打印行号？(空白行不加)"></a>例三：承接例一，如果需要打印行号？(空白行不加)</h4><p><img src="/posts/ae5db918/-b.png" alt></p>
-<h4 id="例四：将-etc-man-db-info的内容完整显示出来-包含特殊字符"><a href="#例四：将-etc-man-db-info的内容完整显示出来-包含特殊字符" class="headerlink" title="例四：将/etc/man_db.info的内容完整显示出来(包含特殊字符)"></a>例四：将/etc/man_db.info的内容完整显示出来(包含特殊字符)</h4><p><img src="/posts/ae5db918/-A.png" alt><br>&emsp;&emsp;注：由于这个文件还是很长的，所以我只截取了一部分。</p>
-<h4 id="例五：tac反向输出"><a href="#例五：tac反向输出" class="headerlink" title="例五：tac反向输出"></a>例五：tac反向输出</h4><p><img src="/posts/ae5db918/tac.png" alt><br>&emsp;&emsp;和例一相比，tac是将cat反转过来。也就是说：cat是由第一行到最后一行连续显示在屏幕上，而tac则是由最后一行到第一行反向在屏幕上显示出来！</p>
-<p>&emsp;&emsp;一般来说：新打开的terminal窗口大小为80x24，也就是一行最多显示80个字符，最多显示24行。所以，当你的文件内容是24行以上，就会来不及在屏幕上看到结果。</p>
+<h1><strong><center>cat (直接查看文件内容)</center></strong></h1>
+<h4 id="语法">语法</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat [-AbeEnstTuv] filename</span><br></pre></td></tr></table></figure>
+<h4 id="选项与参数：">选项与参数：</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-n : 从1开始对所有输出的行数编号，包括空白行。</span><br><span class="line">-b : 与-n雷类似，列出行号，但仅针对非空白行做行号显示，空白行不标行号。</span><br><span class="line">-s : 当遇到有连续两行以上的空白行，就代换为一行的空白行。</span><br><span class="line">-v : 列出一些看不出来的特殊字符。</span><br><span class="line">-E : 将结尾用$显示出来。</span><br><span class="line">-T : 将[Tab]按键用^T显示出来。</span><br><span class="line">-A : 等价于-vET，可列出一些非空白的特殊字符。</span><br><span class="line">-e : 等价于-eV选项</span><br><span class="line">-t : 等价于-vT选项</span><br></pre></td></tr></table></figure>
+<h4 id="例一：查看-etc-issue这个文件的内容">例一：查看/etc/issue这个文件的内容</h4>
+<p><img src="/posts/ae5db918/cat.png" alt></p>
+<h4 id="例二：承接例一，如果需要打印行号？">例二：承接例一，如果需要打印行号？</h4>
+<p><img src="/posts/ae5db918/-n.png" alt></p>
+<h4 id="例三：承接例一，如果需要打印行号？-空白行不加">例三：承接例一，如果需要打印行号？(空白行不加)</h4>
+<p><img src="/posts/ae5db918/-b.png" alt></p>
+<h4 id="例四：将-etc-man-db-info的内容完整显示出来-包含特殊字符">例四：将/etc/man_db.info的内容完整显示出来(包含特殊字符)</h4>
+<p><img src="/posts/ae5db918/-A.png" alt><br>
+  注：由于这个文件还是很长的，所以我只截取了一部分。</p>
+<h4 id="例五：tac反向输出">例五：tac反向输出</h4>
+<p><img src="/posts/ae5db918/tac.png" alt><br>
+  和例一相比，tac是将cat反转过来。也就是说：cat是由第一行到最后一行连续显示在屏幕上，而tac则是由最后一行到第一行反向在屏幕上显示出来！</p>
+<p>  一般来说：新打开的terminal窗口大小为80x24，也就是一行最多显示80个字符，最多显示24行。所以，当你的文件内容是24行以上，就会来不及在屏幕上看到结果。</p>
 <p><b>PS: 本文参考来自-鸟哥的Linux私房菜、菜鸟教程</b></p>
 
     </div>
@@ -375,7 +385,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cat-直接查看文件内容"><span class="nav-number">1.</span> <span class="nav-text">cat (直接查看文件内容)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选项与参数："><span class="nav-number">1.0.0.2.</span> <span class="nav-text">选项与参数：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例一：查看-etc-issue这个文件的内容"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">例一：查看&#x2F;etc&#x2F;issue这个文件的内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例二：承接例一，如果需要打印行号？"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">例二：承接例一，如果需要打印行号？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例三：承接例一，如果需要打印行号？-空白行不加"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">例三：承接例一，如果需要打印行号？(空白行不加)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例四：将-etc-man-db-info的内容完整显示出来-包含特殊字符"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">例四：将&#x2F;etc&#x2F;man_db.info的内容完整显示出来(包含特殊字符)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例五：tac反向输出"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">例五：tac反向输出</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">cat (直接查看文件内容)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选项与参数："><span class="nav-number">1.0.0.2.</span> <span class="nav-text">选项与参数：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例一：查看-etc-issue这个文件的内容"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">例一：查看&#x2F;etc&#x2F;issue这个文件的内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例二：承接例一，如果需要打印行号？"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">例二：承接例一，如果需要打印行号？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例三：承接例一，如果需要打印行号？-空白行不加"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">例三：承接例一，如果需要打印行号？(空白行不加)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例四：将-etc-man-db-info的内容完整显示出来-包含特殊字符"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">例四：将&#x2F;etc&#x2F;man_db.info的内容完整显示出来(包含特殊字符)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例五：tac反向输出"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">例五：tac反向输出</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -448,12 +458,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">55k</span>
+    <span title="站点总字数">53k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">50 分钟</span>
+    <span title="站点阅读时长">48 分钟</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
   </div>
