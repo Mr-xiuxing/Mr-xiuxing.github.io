@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mrxiuxing.cn","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="The future has not been written. There is no fate but what we make for ourselves. ——《终结者3》 一切未成定局，未来等你去开创。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模拟登录淘宝并抓取指定商品(Selenium + pyquery + MongoDB)">
+<meta property="og:url" content="http://mrxiuxing.cn/posts/fc939d6e.html">
+<meta property="og:site_name" content="Mr.xiuxing&#39;s Blog">
+<meta property="og:description" content="The future has not been written. There is no fate but what we make for ourselves. ——《终结者3》 一切未成定局，未来等你去开创。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/fc939d6e/weibosetting.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/fc939d6e/weiboliucheng.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/fc939d6e/taobaoend.gif">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/fc939d6e/result.png">
+<meta property="article:published_time" content="2020-03-23T09:51:54.000Z">
+<meta property="article:modified_time" content="2020-03-23T09:51:54.000Z">
+<meta property="article:author" content="Mr.xiuxing">
+<meta property="article:tag" content="爬虫">
+<meta property="article:tag" content="Selenium">
+<meta property="article:tag" content="pyquery">
+<meta property="article:tag" content="MongoDB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mrxiuxing.cn/posts/fc939d6e/weibosetting.png">
+
+<link rel="canonical" href="http://mrxiuxing.cn/posts/fc939d6e.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>模拟登录淘宝并抓取指定商品(Selenium + pyquery + MongoDB) | Mr.xiuxing's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mr.xiuxing's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mrxiuxing.cn/posts/fc939d6e.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/tiger.jpg">
+      <meta itemprop="name" content="Mr.xiuxing">
+      <meta itemprop="description" content="爱生活，爱技术（Python）">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.xiuxing's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          模拟登录淘宝并抓取指定商品(Selenium + pyquery + MongoDB)
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-23 17:51:54" itemprop="dateCreated datePublished" datetime="2020-03-23T17:51:54+08:00">2020-03-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%88%AC%E8%99%AB/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><em><strong><center>The future has not been written. There is no fate but what we make for ourselves. ——《终结者3》</center></strong></em><br>
+<em><strong><center>一切未成定局，未来等你去开创。</center></strong></em></p>
+<a id="more"></a>
+<h1><strong><center>模拟登录淘宝并抓取指定商品(Selenium + pyquery + MongoDB)</center></strong></h1>
+<p><b>PS: 本文仅供学习参考、仅供学习参考、仅供学习参考</b></p>
+<h2 id="使用微博账号登录淘宝">使用微博账号登录淘宝</h2>
+<p>  目前的淘宝，如果未登录是不能搜索商品的，如果使用淘宝的账号密码需要验证验证码，然后就想着用其他账号登录淘宝–微博账号。使用微博账号登录淘宝需要先绑定淘宝账号。步骤：登录淘宝 —— 点击你的用户名 —— 点击账号管理 —— 点击微博绑定设置，然后按照提示一步步来就好。<br>
+<img src="/posts/fc939d6e/weibosetting.png" alt></p>
+<h3 id="登录流程">登录流程</h3>
+<p><img src="/posts/fc939d6e/weiboliucheng.png" alt></p>
+<h3 id="代码实现">代码实现</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support.ui <span class="keyword">import</span> WebDriverWait</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support <span class="keyword">import</span> expected_conditions <span class="keyword">as</span> EC</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Taobao</span>:</span></span><br><span class="line">    <span class="comment"># 初始化</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.url = <span class="string">'https://login.taobao.com/member/login.jhtml'</span></span><br><span class="line">        options = webdriver.ChromeOptions()</span><br><span class="line">        <span class="comment"># options.add_experimental_option("prefs", &#123;"profile.managed_default_content_settings.images": 2&#125;)  # 不加载图片,加快访问速度</span></span><br><span class="line">        options.add_experimental_option(<span class="string">'excludeSwitches'</span>, [<span class="string">'enable-automation'</span>])  <span class="comment"># 设置为开发者模式，防止被各大网站识别出来使用了Selenium</span></span><br><span class="line">        self.browser = webdriver.Chrome(options=options)</span><br><span class="line">        self.wait = WebDriverWait(self.browser, <span class="number">10</span>)  <span class="comment"># 超时时长为10s</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 登录</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">(self, weibo_username, weibo_password)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        使用微博登录，避免验证</span></span><br><span class="line"><span class="string">        :param weibo_username: 微博用户名</span></span><br><span class="line"><span class="string">        :param weibo_password: 微博密码</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.browser.get(self.url)</span><br><span class="line">        self.wait.until(EC.presence_of_element_located((By.PARTIAL_LINK_TEXT, <span class="string">'微博登录'</span>))).click()    <span class="comment"># 使用微博登录</span></span><br><span class="line">        self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, <span class="string">'.username &gt; .W_input'</span>))).send_keys(weibo_username)    <span class="comment"># 输入账号</span></span><br><span class="line">        self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, <span class="string">'.password &gt; .W_input'</span>))).send_keys(weibo_password)    <span class="comment"># 输入密码</span></span><br><span class="line">        self.wait.until(EC.presence_of_element_located((By.XPATH, <span class="string">'//*[@class="btn_tip"]/a/span'</span>))).click()    <span class="comment"># 点击登录</span></span><br><span class="line">        <span class="comment"># 打印淘宝会员昵称</span></span><br><span class="line">        taobao_user = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, <span class="string">'div.site-nav-user &gt; a.site-nav-login-info-nick'</span>)))</span><br><span class="line">        print(taobao_user.text)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    weibo_username = <span class="string">"XXXX"</span>  <span class="comment"># 改成你的微博账号</span></span><br><span class="line">    weibo_password = <span class="string">"XXXX"</span>  <span class="comment"># 改成你的微博密码</span></span><br><span class="line">    taobao = Taobao()</span><br><span class="line">    taobao.login(weibo_username, weibo_password)</span><br></pre></td></tr></table></figure>
+<h2 id="抓取商品">抓取商品</h2>
+<p>  使用selenium模拟登录后是跳转到了淘宝首页，我们可以继续模拟搜索商品以及翻页行为。</p>
+<h3 id="搜索商品">搜索商品</h3>
+<p>  在搜索框输入商品名，点击搜索</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 搜索</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">(self, kw)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :param kw: 商品名</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    self.wait.until(EC.presence_of_element_located((By.ID, <span class="string">'q'</span>))).send_keys(kw)</span><br><span class="line">    self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, <span class="string">'div.search-button &gt; button.btn-search.tb-bg'</span>))).click()</span><br></pre></td></tr></table></figure>
+<h3 id="翻页行为">翻页行为</h3>
+<p>  提取一共多少页all_page_num，提取当前页activate_page_num，如果activate_page_num小于all_page_num，模拟点击下一页，否则改变flag (isEND)。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下一页</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">next_page</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        all_page_num = int(self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, <span class="string">'div.total'</span>))).get_attribute(<span class="string">"innerHTML"</span>).split()[<span class="number">1</span>])</span><br><span class="line">        activate_page_num = int(self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, <span class="string">'li.item.active &gt; span.num'</span>))).get_attribute(<span class="string">"innerHTML"</span>))</span><br><span class="line">        <span class="keyword">if</span> activate_page_num &lt; all_page_num:</span><br><span class="line">            self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, <span class="string">'li.item.next a.J_Ajax.num.icon-tag'</span>))).click()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.isEND = <span class="literal">True</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        time.sleep(<span class="number">2</span>)</span><br><span class="line">        self.next_page()</span><br></pre></td></tr></table></figure>
+<h3 id="解析页面">解析页面</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解析页面</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self)</span>:</span></span><br><span class="line">    time.sleep(<span class="number">3</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        doc = pq(self.browser.page_source)</span><br><span class="line">        items = doc(<span class="string">'#mainsrp-itemlist .items .item'</span>).items()</span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">            product = [&#123;</span><br><span class="line">                <span class="string">"image"</span>: item.find(<span class="string">'.pic .img'</span>).attr(<span class="string">'data-src'</span>),  <span class="comment"># 图片地址</span></span><br><span class="line">                <span class="string">"price"</span>: item.find(<span class="string">'.price'</span>).text(),  <span class="comment"># 价格</span></span><br><span class="line">                <span class="string">"deal"</span>: item.find(<span class="string">'.deal-cnt'</span>).text(),  <span class="comment"># 购买人次</span></span><br><span class="line">                <span class="string">"title"</span>: item.find(<span class="string">'.title'</span>).text(),  <span class="comment"># 标题</span></span><br><span class="line">                <span class="string">"shop"</span>: item.find(<span class="string">'.shop'</span>).text(),  <span class="comment"># 店铺</span></span><br><span class="line">                <span class="string">"location"</span>: item.find(<span class="string">'.location'</span>).text(),  <span class="comment"># 店铺地址</span></span><br><span class="line">            &#125;]</span><br><span class="line">            <span class="comment"># print(product)</span></span><br><span class="line">            self.data.extend(product)</span><br><span class="line">        self.next_page()</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        time.sleep(<span class="number">3</span>)</span><br><span class="line">        self.parse()</span><br></pre></td></tr></table></figure>
+<h3 id="持久化储存至MongoDB">持久化储存至MongoDB</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_to_mongo</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> self.data:</span><br><span class="line">            <span class="keyword">if</span> self.collection.update_one(item, &#123;<span class="string">"$setOnInsert"</span>: item&#125;, <span class="literal">True</span>):</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">        print(<span class="string">"储存到MongoDB成功"</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception:</span><br><span class="line">        print(<span class="string">"储存到MongoDB失败"</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="整合所有代码">整合所有代码</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> pyquery <span class="keyword">import</span> PyQuery <span class="keyword">as</span> pq</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support.ui <span class="keyword">import</span> WebDriverWait</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support <span class="keyword">import</span> expected_conditions <span class="keyword">as</span> EC</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Taobao</span>:</span></span><br><span class="line">    <span class="comment"># 初始化</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, trade_name)</span>:</span></span><br><span class="line">        self.data = list()</span><br><span class="line">        self.isEND = <span class="literal">False</span>    <span class="comment"># 判断是否为最后一页</span></span><br><span class="line">        self.trade_name = trade_name    <span class="comment"># 要搜索的商品名及MongoDB表名</span></span><br><span class="line">        self.url = <span class="string">'https://login.taobao.com/member/login.jhtml'</span></span><br><span class="line">        options = webdriver.ChromeOptions()</span><br><span class="line">        <span class="comment"># options.add_experimental_option("prefs", &#123;"profile.managed_default_content_settings.images": 2&#125;)  # 不加载图片,加快访问速度</span></span><br><span class="line">        options.add_experimental_option(<span class="string">'excludeSwitches'</span>, [<span class="string">'enable-automation'</span>])  <span class="comment"># 设置为开发者模式，防止被各大网站识别出来使用了Selenium</span></span><br><span class="line">        self.browser = webdriver.Chrome(options=options)</span><br><span class="line">        self.wait = WebDriverWait(self.browser, <span class="number">10</span>)  <span class="comment"># 超时时长为10s</span></span><br><span class="line">        client = pymongo.MongoClient(<span class="string">'localhost'</span>)</span><br><span class="line">        db = client[<span class="string">'taobao'</span>]</span><br><span class="line">        self.collection = db[self.trade_name]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 登录</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">(self, weibo_username, weibo_password)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        使用微博登录，避免验证</span></span><br><span class="line"><span class="string">        :param weibo_username: 微博用户名</span></span><br><span class="line"><span class="string">        :param weibo_password: 微博密码</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.browser.get(self.url)</span><br><span class="line">        self.wait.until(EC.presence_of_element_located((By.PARTIAL_LINK_TEXT, <span class="string">'微博登录'</span>))).click()    <span class="comment"># 使用微博登录</span></span><br><span class="line">        self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, <span class="string">'.username &gt; .W_input'</span>))).send_keys(weibo_username)    <span class="comment"># 输入账号</span></span><br><span class="line">        self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, <span class="string">'.password &gt; .W_input'</span>))).send_keys(weibo_password)    <span class="comment"># 输入密码</span></span><br><span class="line">        self.wait.until(EC.presence_of_element_located((By.XPATH, <span class="string">'//*[@class="btn_tip"]/a/span'</span>))).click()    <span class="comment"># 点击登录</span></span><br><span class="line">        <span class="comment"># 打印淘宝会员昵称</span></span><br><span class="line">        taobao_user = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, <span class="string">'div.site-nav-user &gt; a.site-nav-login-info-nick'</span>)))</span><br><span class="line">        print(taobao_user.text)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 搜索</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">(self, kw)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :param kw: 搜索关键字</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.wait.until(EC.presence_of_element_located((By.ID, <span class="string">'q'</span>))).send_keys(kw)</span><br><span class="line">        self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, <span class="string">'div.search-button &gt; button.btn-search.tb-bg'</span>))).click()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 下一页</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">next_page</span><span class="params">(self, page=None)</span>:</span>    <span class="comment"># 如果不指定页码，则抓取全部</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> page:</span><br><span class="line">                all_page_num = int(self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, <span class="string">'div.total'</span>))).get_attribute(<span class="string">"innerHTML"</span>).split()[<span class="number">1</span>])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                all_page_num = page</span><br><span class="line">            activate_page_num = int(self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, <span class="string">'li.item.active &gt; span.num'</span>))).get_attribute(<span class="string">"innerHTML"</span>))</span><br><span class="line">            <span class="keyword">if</span> activate_page_num &lt; all_page_num:</span><br><span class="line">                self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, <span class="string">'li.item.next a.J_Ajax.num.icon-tag'</span>))).click()</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                self.isEND = <span class="literal">True</span></span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            time.sleep(<span class="number">2</span>)</span><br><span class="line">            self.next_page()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 解析页面</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self)</span>:</span></span><br><span class="line">        time.sleep(<span class="number">3</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            doc = pq(self.browser.page_source)</span><br><span class="line">            items = doc(<span class="string">'#mainsrp-itemlist .items .item'</span>).items()</span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">                product = [&#123;</span><br><span class="line">                    <span class="string">"image"</span>: item.find(<span class="string">'.pic .img'</span>).attr(<span class="string">'data-src'</span>),  <span class="comment"># 图片地址</span></span><br><span class="line">                    <span class="string">"price"</span>: item.find(<span class="string">'.price'</span>).text(),  <span class="comment"># 价格</span></span><br><span class="line">                    <span class="string">"deal"</span>: item.find(<span class="string">'.deal-cnt'</span>).text(),  <span class="comment"># 购买人次</span></span><br><span class="line">                    <span class="string">"title"</span>: item.find(<span class="string">'.title'</span>).text(),  <span class="comment"># 标题</span></span><br><span class="line">                    <span class="string">"shop"</span>: item.find(<span class="string">'.shop'</span>).text(),  <span class="comment"># 店铺</span></span><br><span class="line">                    <span class="string">"location"</span>: item.find(<span class="string">'.location'</span>).text(),  <span class="comment"># 店铺地址</span></span><br><span class="line">                &#125;]</span><br><span class="line">                <span class="comment"># print(product)</span></span><br><span class="line">                self.data.extend(product)</span><br><span class="line">            self.next_page()</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            time.sleep(<span class="number">3</span>)</span><br><span class="line">            self.parse()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 持久化储存至MongoDB</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">save_to_mongo</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> self.data:</span><br><span class="line">                <span class="keyword">if</span> self.collection.update_one(item, &#123;<span class="string">"$setOnInsert"</span>: item&#125;, <span class="literal">True</span>):</span><br><span class="line">                    <span class="keyword">pass</span></span><br><span class="line">            print(<span class="string">"储存到MongoDB成功"</span>)</span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            print(<span class="string">"储存到MongoDB失败"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 主函数</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.search(self.trade_name)</span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">not</span> self.isEND:    <span class="comment"># 循环条件 存在下一页</span></span><br><span class="line">            self.parse()</span><br><span class="line">        self.save_to_mongo()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    weibo_username = <span class="string">"XXXX"</span>  <span class="comment"># 改成你的微博账号</span></span><br><span class="line">    weibo_password = <span class="string">"XXXX"</span>  <span class="comment"># 改成你的微博密码</span></span><br><span class="line">    trade_name = <span class="string">'梅艳芳'</span>    <span class="comment"># 改成你想要抓取的商品</span></span><br><span class="line">    taobao = Taobao(trade_name)</span><br><span class="line">    taobao.login(weibo_username, weibo_password)</span><br><span class="line">    taobao.main()</span><br></pre></td></tr></table></figure>
+<h2 id="效果展示">效果展示</h2>
+<h3 id="爬取效果">爬取效果</h3>
+<p><img src="/posts/fc939d6e/taobaoend.gif" alt></p>
+<h3 id="结果展示">结果展示</h3>
+<p><img src="/posts/fc939d6e/result.png" alt></p>
+<h2 id="写在最后">写在最后</h2>
+<p>  梅艳芳：她，不是一两句话就能说清楚的。很多90后应该都不知道这个名字了。很多次我问我不同的朋友：你知道梅艳芳吗？他们的回答出奇的一致，梅艳芳？你说的是梅兰芳吧！我抓取了关于她的所有商品，很多都是0人付款。或许是时代在前进，属于她的时代已经往事如烟，随风飘散，人们渐渐将她遗忘。但是，我写这段话的时候她的那首《梦里共醉》仿佛依然萦绕在我的耳畔。</p>
+<p><b>PS: 本文仅供学习参考、仅供学习参考、仅供学习参考</b></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"><i class="fa fa-tag"></i> 爬虫</a>
+              <a href="/tags/Selenium/" rel="tag"><i class="fa fa-tag"></i> Selenium</a>
+              <a href="/tags/pyquery/" rel="tag"><i class="fa fa-tag"></i> pyquery</a>
+              <a href="/tags/MongoDB/" rel="tag"><i class="fa fa-tag"></i> MongoDB</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/867e7a3d.html" rel="prev" title="响应状态码及其详细描述">
+      <i class="fa fa-chevron-left"></i> 响应状态码及其详细描述
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">模拟登录淘宝并抓取指定商品(Selenium + pyquery + MongoDB)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用微博账号登录淘宝"><span class="nav-number">1.1.</span> <span class="nav-text">使用微博账号登录淘宝</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#登录流程"><span class="nav-number">1.1.1.</span> <span class="nav-text">登录流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实现"><span class="nav-number">1.1.2.</span> <span class="nav-text">代码实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抓取商品"><span class="nav-number">1.2.</span> <span class="nav-text">抓取商品</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#搜索商品"><span class="nav-number">1.2.1.</span> <span class="nav-text">搜索商品</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#翻页行为"><span class="nav-number">1.2.2.</span> <span class="nav-text">翻页行为</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析页面"><span class="nav-number">1.2.3.</span> <span class="nav-text">解析页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#持久化储存至MongoDB"><span class="nav-number">1.2.4.</span> <span class="nav-text">持久化储存至MongoDB</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整合所有代码"><span class="nav-number">1.3.</span> <span class="nav-text">整合所有代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#效果展示"><span class="nav-number">1.4.</span> <span class="nav-text">效果展示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#爬取效果"><span class="nav-number">1.4.1.</span> <span class="nav-text">爬取效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果展示"><span class="nav-number">1.4.2.</span> <span class="nav-text">结果展示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最后"><span class="nav-number">1.5.</span> <span class="nav-text">写在最后</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mr.xiuxing"
+      src="/images/tiger.jpg">
+  <p class="site-author-name" itemprop="name">Mr.xiuxing</p>
+  <div class="site-description" itemprop="description">爱生活，爱技术（Python）</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mrxiuxing" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mrxiuxing" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:mr.xiuxing@qq.com" title="E-Mail → mailto:mr.xiuxing@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">By Mr.xiuxing</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">60k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">55 分钟</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
