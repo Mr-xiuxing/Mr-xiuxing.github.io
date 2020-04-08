@@ -260,7 +260,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>632</span>
+              <span>616</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -282,18 +282,17 @@
         <p><em><strong><center>Tell yourself, “I am worthy. I can do this. I have what it takes”. ——《史努比：花生大电影》</center></strong></em><br>
 <em><strong><center>告诉你自己：“我很棒，我能做到，我有成功所必要的条件”。</center></strong></em></p>
 <a id="more"></a>
-<h1><strong><center>mv (移动文件与目录，或重命名)</center></strong></h1>
-<h4 id="语法">语法</h4>
+<h3 id="语法">语法</h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mv [-fiu] source destination</span><br><span class="line">mv [options] source1 souce2 souce3 ... directory</span><br></pre></td></tr></table></figure>
-<h4 id="选项与参数：">选项与参数：</h4>
+<h3 id="选项与参数：">选项与参数：</h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-f ：force强制的意思，如果目标文件已经存在，不会询问直接覆盖。</span><br><span class="line">-i ：若目标文件(destination)已经存在，会先询问是否覆盖。</span><br><span class="line">-u ：若目标文件已经存在，且source比较新，才会更新</span><br></pre></td></tr></table></figure>
-<h4 id="例一：复制一个文件，建立一个目录，将文件移动到目录中。">例一：复制一个文件，建立一个目录，将文件移动到目录中。</h4>
+<h3 id="例一：复制一个文件，建立一个目录，将文件移动到目录中。">例一：复制一个文件，建立一个目录，将文件移动到目录中。</h3>
 <p><img src="/posts/557083f0/cpmkmv.png" alt><br>
   将某个文件移动到某个目录去，就是这样做。</p>
-<h4 id="例二：将刚刚的目录名称更名为mvtest2">例二：将刚刚的目录名称更名为mvtest2.</h4>
+<h3 id="例二：将刚刚的目录名称更名为mvtest2">例二：将刚刚的目录名称更名为mvtest2.</h3>
 <p><img src="/posts/557083f0/mvmvmv.png" alt><br>
   在Linux下面还有个有趣的命令，为rename，该命令专职进行多个文件名的同时命名，并非针对单一文件修改，与mv不同，有兴趣的话，请man rename。</p>
-<h4 id="例三：再建立两个文件，再全部移动到-tmp-mvtest2中。">例三：再建立两个文件，再全部移动到/tmp/mvtest2中。</h4>
+<h3 id="例三：再建立两个文件，再全部移动到-tmp-mvtest2中。">例三：再建立两个文件，再全部移动到/tmp/mvtest2中。</h3>
 <p><img src="/posts/557083f0/cpcpmv.png" alt><br>
   注意：如果有多个源文件或目录，那么最后一个目标文件一定是【目录】。意思就是将所有的文件移动到该目录的意思。</p>
 <p>  mv就是move(移动)的意思，当你要移动文件或目录的时候，这个命令就很重要了。你也可以用-u(update)来测试文件的新旧，看看是否需要移动。此外，另一个用途就是<b>修改文件名</b>。</p>
@@ -402,7 +401,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">mv (移动文件与目录，或重命名)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选项与参数："><span class="nav-number">1.0.0.2.</span> <span class="nav-text">选项与参数：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例一：复制一个文件，建立一个目录，将文件移动到目录中。"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">例一：复制一个文件，建立一个目录，将文件移动到目录中。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例二：将刚刚的目录名称更名为mvtest2"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">例二：将刚刚的目录名称更名为mvtest2.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例三：再建立两个文件，再全部移动到-tmp-mvtest2中。"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">例三：再建立两个文件，再全部移动到&#x2F;tmp&#x2F;mvtest2中。</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选项与参数："><span class="nav-number">2.</span> <span class="nav-text">选项与参数：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例一：复制一个文件，建立一个目录，将文件移动到目录中。"><span class="nav-number">3.</span> <span class="nav-text">例一：复制一个文件，建立一个目录，将文件移动到目录中。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例二：将刚刚的目录名称更名为mvtest2"><span class="nav-number">4.</span> <span class="nav-text">例二：将刚刚的目录名称更名为mvtest2.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例三：再建立两个文件，再全部移动到-tmp-mvtest2中。"><span class="nav-number">5.</span> <span class="nav-text">例三：再建立两个文件，再全部移动到&#x2F;tmp&#x2F;mvtest2中。</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -418,7 +417,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -431,7 +430,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -475,12 +474,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">60k</span>
+    <span title="站点总字数">79k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">55 分钟</span>
+    <span title="站点阅读时长">1:12</span>
 </div>
 
         

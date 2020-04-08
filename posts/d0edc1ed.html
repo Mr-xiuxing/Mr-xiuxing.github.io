@@ -264,14 +264,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.7k</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -286,15 +286,14 @@
         <p><em><strong><center>You’ve worked harder than everyone who’s ever doubted you. ——《高材生》</center></strong></em><br>
 <em><strong><center>你要比任何曾经质疑过你的人都更努力。</center></strong></em></p>
 <a id="more"></a>
-<h1><strong><center>cp (复制文件或目录)</center></strong></h1>
-<h4 id="语法">语法</h4>
+<h3 id="语法">语法</h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp [-adfilprsu] 源文件(source) 目标文件(destination)</span><br><span class="line">cp [options] source1 souce2 souce3 ... directory</span><br></pre></td></tr></table></figure>
-<h4 id="选项与参数">选项与参数</h4>
+<h3 id="选项与参数">选项与参数</h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-a : 相当于dpr参数组合,至于dpr请参考下列说明;(常用)</span><br><span class="line">-d : 若源文件为链接文件的属性(link file),则复制链接文件属性而不是文件本身;</span><br><span class="line">-f : 若目标文件已经存在,则直接覆盖且没有提示;</span><br><span class="line">-i : 与-f参数相反,即如果目标文件存在,会询问用户是否覆盖;(常用)</span><br><span class="line">-l : 进行硬链接(hard link)的链接文件创建,而不是复制本身;</span><br><span class="line">-p : 连同文件的属性(权限、用户、时间)一起复制过去,而非使用默认属性;(备份常用)</span><br><span class="line">-r : 递归复制,用于目录的复制操作;(常用)</span><br><span class="line">-s : 软链接(不支持目录),亦称“快捷方式”文件;</span><br><span class="line">-u : 目标文件比源文件旧才可以更新,或目标文件不存在的情况下才复制;</span><br></pre></td></tr></table></figure>
-<h4 id="例一：用root身份，将家目录下的-bashrc文件复制到-tmp下，并重命名为bashrc">例一：用root身份，将家目录下的.bashrc文件复制到/tmp下，并重命名为bashrc</h4>
+<h3 id="例一：用root身份，将家目录下的-bashrc文件复制到-tmp下，并重命名为bashrc">例一：用root身份，将家目录下的.bashrc文件复制到/tmp下，并重命名为bashrc</h3>
 <p><img src="/posts/d0edc1ed/-i.png" alt><br>
   重复操作两次，由于/tmp已经存在bashrc了，加上-i选项后，会在覆盖前对你进行询问是否确定，可以按下n否定或者y确认。</p>
-<h4 id="例二：切换到-tmp-并将-var-log-wtmp复制到-tmp且观察属性。">例二：切换到/tmp,并将/var/log/wtmp复制到/tmp且观察属性。</h4>
+<h3 id="例二：切换到-tmp-并将-var-log-wtmp复制到-tmp且观察属性。">例二：切换到/tmp,并将/var/log/wtmp复制到/tmp且观察属性。</h3>
 <p><img src="/posts/d0edc1ed/-a1.png" alt><br>
   在不加任何选项的情况下，文件的某些属性/权限会改变。还有，就连文件创建的时间也改变了。如果你想将文件的所有特性都复制过来，可以加上-a，如下图：<br>
 <img src="/posts/d0edc1ed/-a2.png" alt><br>
@@ -302,20 +301,20 @@
 <p>  <strong>在默认条件下，cp的源文件与目标文件的权限是不同的，目标文件的拥有者通常会是命令操作者本身。</strong><br>
   如例二中由于我是root用户，因此复制过来的文件拥有者与用户组就变成了root所有。<br>
   由于这个特性，我们在备份某些需要特别注意权限的文件时，例如密码文件(/etc/shadow)以及一些配置文件，就不能直接cp来复制，而必须加上-a或者-p等可以完整复制文件权限的才行。另外，如果你要复制文件给其他用户时，也必须要注意文件的权限(包含读、写、执行以及文件的拥有者等)，否则你的小伙伴还是无法使用啊！</p>
-<h4 id="例三：复制-etc-这个目录下的所有内容到-tmp下面。">例三：复制/etc/这个目录下的所有内容到/tmp下面。</h4>
+<h3 id="例三：复制-etc-这个目录下的所有内容到-tmp下面。">例三：复制/etc/这个目录下的所有内容到/tmp下面。</h3>
 <p><img src="/posts/d0edc1ed/-r.png" alt><br>
   图片这种第二行的意思是/etc/是一个目录，你需要加上-r选项。-r是可以复制目录，但是，文件与目录的权限可能会被改变。所以，也可以使用【cp -a /etc/ /tmp】来执行，尤其是在备份的时候。</p>
-<h4 id="例四：将例一复制的bashrc建立一个符号链接文件-symbolic-link-。">例四：将例一复制的bashrc建立一个符号链接文件(symbolic link)。</h4>
+<h3 id="例四：将例一复制的bashrc建立一个符号链接文件-symbolic-link-。">例四：将例一复制的bashrc建立一个符号链接文件(symbolic link)。</h3>
 <p><img src="/posts/d0edc1ed/-s-l.png" alt><br>
   使用-l及-s都会创建所谓的链接文件(link file),但是这两种链接文件却有不一样的情况。-l就是所谓的硬链接(hard link)，而-s则是符号链接(symbolic link),即常说的软连接，简单来说bashrc_slink是一个快捷方式，这个快捷方式会链接到bashrc。所以你会看到文件右侧会有指向(-&gt;)的符号。</p>
 <p>  至于bashrc_hlink文件与bashrc文件的属性与权限完全一模一样，与链接前的唯一差异就是第二栏的link数由1变成了2。</p>
-<h4 id="例五：当-bashrc比-tmp-bashrc新时，才复制过来。">例五：当~/.bashrc比/tmp/bashrc新时，才复制过来。</h4>
+<h3 id="例五：当-bashrc比-tmp-bashrc新时，才复制过来。">例五：当~/.bashrc比/tmp/bashrc新时，才复制过来。</h3>
 <p><img src="/posts/d0edc1ed/-u.png" alt><br>
   -u的特性是只有目标文件与源文件有差异时才复制。所以常用在备份工作中。</p>
-<h4 id="例六：将例四创建的bashrc-slink复制成bashrc-slink-1与bashrc-slink-2。">例六：将例四创建的bashrc_slink复制成bashrc_slink_1与bashrc_slink_2。</h4>
+<h3 id="例六：将例四创建的bashrc-slink复制成bashrc-slink-1与bashrc-slink-2。">例六：将例四创建的bashrc_slink复制成bashrc_slink_1与bashrc_slink_2。</h3>
 <p><img src="/posts/d0edc1ed/-d.png" alt><br>
   在不加任何参数的时候，cp复制的是源文件，而非链接文件的属性。如果想要复制链接文件的属性，就得要使用-d的选项了，如bashrc_slink_2的创建。</p>
-<h4 id="例七：将家目录的-bashrc及-bash-history复制到-tmp下面。">例七：将家目录的.bashrc及.bash_history复制到/tmp下面。</h4>
+<h3 id="例七：将家目录的-bashrc及-bash-history复制到-tmp下面。">例七：将家目录的.bashrc及.bash_history复制到/tmp下面。</h3>
 <p><img src="/posts/d0edc1ed/many.png" alt><br>
   可以将多个文件一次复制到同一个目录中去，记住，最后一个才是目标目录。</p>
 <p><b>PS: 本文参考来自-鸟哥的Linux私房菜、菜鸟教程</b></p>
@@ -423,7 +422,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">cp (复制文件或目录)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选项与参数"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">选项与参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例一：用root身份，将家目录下的-bashrc文件复制到-tmp下，并重命名为bashrc"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">例一：用root身份，将家目录下的.bashrc文件复制到&#x2F;tmp下，并重命名为bashrc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例二：切换到-tmp-并将-var-log-wtmp复制到-tmp且观察属性。"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">例二：切换到&#x2F;tmp,并将&#x2F;var&#x2F;log&#x2F;wtmp复制到&#x2F;tmp且观察属性。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例三：复制-etc-这个目录下的所有内容到-tmp下面。"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">例三：复制&#x2F;etc&#x2F;这个目录下的所有内容到&#x2F;tmp下面。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例四：将例一复制的bashrc建立一个符号链接文件-symbolic-link-。"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">例四：将例一复制的bashrc建立一个符号链接文件(symbolic link)。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例五：当-bashrc比-tmp-bashrc新时，才复制过来。"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">例五：当~&#x2F;.bashrc比&#x2F;tmp&#x2F;bashrc新时，才复制过来。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例六：将例四创建的bashrc-slink复制成bashrc-slink-1与bashrc-slink-2。"><span class="nav-number">1.0.0.8.</span> <span class="nav-text">例六：将例四创建的bashrc_slink复制成bashrc_slink_1与bashrc_slink_2。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例七：将家目录的-bashrc及-bash-history复制到-tmp下面。"><span class="nav-number">1.0.0.9.</span> <span class="nav-text">例七：将家目录的.bashrc及.bash_history复制到&#x2F;tmp下面。</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选项与参数"><span class="nav-number">2.</span> <span class="nav-text">选项与参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例一：用root身份，将家目录下的-bashrc文件复制到-tmp下，并重命名为bashrc"><span class="nav-number">3.</span> <span class="nav-text">例一：用root身份，将家目录下的.bashrc文件复制到&#x2F;tmp下，并重命名为bashrc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例二：切换到-tmp-并将-var-log-wtmp复制到-tmp且观察属性。"><span class="nav-number">4.</span> <span class="nav-text">例二：切换到&#x2F;tmp,并将&#x2F;var&#x2F;log&#x2F;wtmp复制到&#x2F;tmp且观察属性。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例三：复制-etc-这个目录下的所有内容到-tmp下面。"><span class="nav-number">5.</span> <span class="nav-text">例三：复制&#x2F;etc&#x2F;这个目录下的所有内容到&#x2F;tmp下面。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例四：将例一复制的bashrc建立一个符号链接文件-symbolic-link-。"><span class="nav-number">6.</span> <span class="nav-text">例四：将例一复制的bashrc建立一个符号链接文件(symbolic link)。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例五：当-bashrc比-tmp-bashrc新时，才复制过来。"><span class="nav-number">7.</span> <span class="nav-text">例五：当~&#x2F;.bashrc比&#x2F;tmp&#x2F;bashrc新时，才复制过来。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例六：将例四创建的bashrc-slink复制成bashrc-slink-1与bashrc-slink-2。"><span class="nav-number">8.</span> <span class="nav-text">例六：将例四创建的bashrc_slink复制成bashrc_slink_1与bashrc_slink_2。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例七：将家目录的-bashrc及-bash-history复制到-tmp下面。"><span class="nav-number">9.</span> <span class="nav-text">例七：将家目录的.bashrc及.bash_history复制到&#x2F;tmp下面。</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -439,7 +438,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -452,7 +451,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -496,12 +495,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">60k</span>
+    <span title="站点总字数">79k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">55 分钟</span>
+    <span title="站点阅读时长">1:12</span>
 </div>
 
         

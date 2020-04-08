@@ -288,7 +288,7 @@
 <p><img src="/posts/d3b909a4/hexoindex.png" alt><br>
 注：本文参考自https://staunchkai.com/hexo_deploy.html</p>
 <p>  原本我的hexo是部署在Github上的。但是，就今年来说，基于美国贸易政策影响，Github已经限制了一些国家的用户访问。一名国外的开发者发表声明：Github封禁了他的账号，不能访问私有仓库，认为他在开发核武器。看到这，我不禁笑了出来，然后我就萌发了,将博客迁回国内的想法（当然，我不会告诉你，真正的原因是是因为访问速度太慢了。）</p>
-<h1>部署环境</h1>
+<h2 id="部署环境">部署环境</h2>
 <ul>
 <li>
 <p>本地环境</p>
@@ -307,7 +307,7 @@
 </ul>
 </li>
 </ul>
-<h1>服务器配置</h1>
+<h2 id="服务器配置">服务器配置</h2>
 <p>安装Git</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y git</span><br></pre></td></tr></table></figure>
 <p>创建git用户</p>
@@ -333,7 +333,7 @@
 <p>创建网站目录<br>
 创建一个目录作为网站根目录，并赋予权限</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su root</span><br><span class="line">mkdir &#x2F;home&#x2F;hexo  # 作为网站根目录</span><br><span class="line">chown git:git -R &#x2F;home&#x2F;hexo</span><br></pre></td></tr></table></figure>
-<h1>安装配置Nginx</h1>
+<h2 id="安装配置Nginx">安装配置Nginx</h2>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y nginx    # 安装</span><br><span class="line">systemctl start nginx.service    # 启动服务</span><br></pre></td></tr></table></figure>
 <p>此时去访问服务器的公网IP地址，可以看到Nginx的欢迎页面，至此Nginx安装成功。</p>
 <p><img src="/posts/d3b909a4/welcometonginx.png" alt></p>
@@ -352,7 +352,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;sh</span><br><span class="line">git --work-tree&#x3D;&#x2F;home&#x2F;hexo --git-dir&#x3D;&#x2F;home&#x2F;git&#x2F;blog.git checkout -f</span><br></pre></td></tr></table></figure>
 <p>添加权限</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x &#x2F;home&#x2F;git&#x2F;blog.git&#x2F;hooks&#x2F;post-receive</span><br></pre></td></tr></table></figure>
-<h1>本地配置</h1>
+<h2 id="本地配置">本地配置</h2>
 <p>在本地中，和部署到 pages 服务一样，需要先 hexo g 命令生成静态文件，通过 hexo s 命令能够正常进行本地访问，并且确保已经安装了 hexo-deployer-git。</p>
 <p>配置<font face="微软雅黑" color="#FF0000">_config.yml</font></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">    type: git</span><br><span class="line">    repo: git@SERVER_IP:&#x2F;home&#x2F;git&#x2F;blog.git     # repository url</span><br><span class="line">    branch: master</span><br></pre></td></tr></table></figure>
@@ -464,7 +464,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">部署环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">服务器配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">安装配置Nginx</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">4.</span> <span class="nav-text">本地配置</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#部署环境"><span class="nav-number">1.</span> <span class="nav-text">部署环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器配置"><span class="nav-number">2.</span> <span class="nav-text">服务器配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装配置Nginx"><span class="nav-number">3.</span> <span class="nav-text">安装配置Nginx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地配置"><span class="nav-number">4.</span> <span class="nav-text">本地配置</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -480,7 +480,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -493,7 +493,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -537,12 +537,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">60k</span>
+    <span title="站点总字数">79k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">55 分钟</span>
+    <span title="站点阅读时长">1:12</span>
 </div>
 
         

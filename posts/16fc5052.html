@@ -296,7 +296,7 @@
         <p><em><strong><center>Do you take anyone else’s word about what is right and wrong. ——《21座桥》</center></strong></em><br>
 <em><strong><center>不要人云亦云。</center></strong></em></p>
 <a id="more"></a>
-<h1><strong><center> Python数据储存(TXT、JSON、CSV)</center></strong></h1>
+<h2 id="语法">语法</h2>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open(file, mode&#x3D;&#39;r&#39;, buffering&#x3D;None, encoding&#x3D;None, errors&#x3D;None, newline&#x3D;None, closefd&#x3D;True)</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">file : 包含了目标名称的字符串值。</span><br><span class="line">mode : 决定了打开文件的模式。默认文件访问模式为只读(r)。</span><br><span class="line">buffering : 如果 buffering 的值被设为 0，就不会有寄存。如果 buffering 的值取 1，访问文件时会寄存行。</span><br><span class="line">            如果将 buffering 的值设为大于 1 的整数，表明了这就是的寄存区的缓冲大小。</span><br><span class="line">            如果取负值，寄存区的缓冲大小则为系统默认。</span><br><span class="line">encoding: 对文件规定打开的编码</span><br><span class="line">newline &#x3D; &quot;&quot;：读取文件真正的换行符，在window里面为&quot;\r\n&quot;,Linux和Python里面为&quot;\n&quot;</span><br></pre></td></tr></table></figure>
 <h2 id="打开方式">打开方式</h2>
@@ -612,7 +612,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text"> Python数据储存(TXT、JSON、CSV)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#打开方式"><span class="nav-number">1.1.</span> <span class="nav-text">打开方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#file对象"><span class="nav-number">1.2.</span> <span class="nav-text">file对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TXT文本储存"><span class="nav-number">1.3.</span> <span class="nav-text">TXT文本储存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#将字符串写入TXT文件"><span class="nav-number">1.3.1.</span> <span class="nav-text">将字符串写入TXT文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简化写法"><span class="nav-number">1.3.2.</span> <span class="nav-text">简化写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将中文字符串写入TXT文件"><span class="nav-number">1.3.3.</span> <span class="nav-text">将中文字符串写入TXT文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取TXT文件"><span class="nav-number">1.3.4.</span> <span class="nav-text">读取TXT文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSON文件储存"><span class="nav-number">1.4.</span> <span class="nav-text">JSON文件储存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取JSON字符串"><span class="nav-number">1.4.1.</span> <span class="nav-text">读取JSON字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将JSON对象写入文本"><span class="nav-number">1.4.2.</span> <span class="nav-text">将JSON对象写入文本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从JSON文本中读取内容"><span class="nav-number">1.4.3.</span> <span class="nav-text">从JSON文本中读取内容</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSV文件储存"><span class="nav-number">1.5.</span> <span class="nav-text">CSV文件储存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#写入一行数据"><span class="nav-number">1.5.1.</span> <span class="nav-text">写入一行数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写入多行数据"><span class="nav-number">1.5.2.</span> <span class="nav-text">写入多行数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将字典写入CSV文件"><span class="nav-number">1.5.3.</span> <span class="nav-text">将字典写入CSV文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取CSV文件"><span class="nav-number">1.5.4.</span> <span class="nav-text">读取CSV文件</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打开方式"><span class="nav-number">2.</span> <span class="nav-text">打开方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#file对象"><span class="nav-number">3.</span> <span class="nav-text">file对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TXT文本储存"><span class="nav-number">4.</span> <span class="nav-text">TXT文本储存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#将字符串写入TXT文件"><span class="nav-number">4.1.</span> <span class="nav-text">将字符串写入TXT文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简化写法"><span class="nav-number">4.2.</span> <span class="nav-text">简化写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将中文字符串写入TXT文件"><span class="nav-number">4.3.</span> <span class="nav-text">将中文字符串写入TXT文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取TXT文件"><span class="nav-number">4.4.</span> <span class="nav-text">读取TXT文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSON文件储存"><span class="nav-number">5.</span> <span class="nav-text">JSON文件储存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取JSON字符串"><span class="nav-number">5.1.</span> <span class="nav-text">读取JSON字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将JSON对象写入文本"><span class="nav-number">5.2.</span> <span class="nav-text">将JSON对象写入文本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从JSON文本中读取内容"><span class="nav-number">5.3.</span> <span class="nav-text">从JSON文本中读取内容</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSV文件储存"><span class="nav-number">6.</span> <span class="nav-text">CSV文件储存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#写入一行数据"><span class="nav-number">6.1.</span> <span class="nav-text">写入一行数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写入多行数据"><span class="nav-number">6.2.</span> <span class="nav-text">写入多行数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将字典写入CSV文件"><span class="nav-number">6.3.</span> <span class="nav-text">将字典写入CSV文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取CSV文件"><span class="nav-number">6.4.</span> <span class="nav-text">读取CSV文件</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -628,7 +628,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -641,7 +641,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -685,12 +685,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">60k</span>
+    <span title="站点总字数">79k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">55 分钟</span>
+    <span title="站点阅读时长">1:12</span>
 </div>
 
         

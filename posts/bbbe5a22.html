@@ -286,24 +286,23 @@
         <p><em><strong><center>Use knowledge to wipe out ignorance. ——《叫我第一名》</center></strong></em><br>
 <em><strong><center>要用知识来打败无知。</center></strong></em></p>
 <a id="more"></a>
-<h1><strong><center>CentOS 普通用户添加sudo权限</center></strong></h1>
 <p>  Ubuntu中默认是禁用了root账户，在安装系统时建立的用户，默认是添加到了sudoers中。在CentOS中，并没有把root之外的用户添加到sudoers中，所以在执行sudo命令时就会出现以下错误：<br>
 <img src="/posts/bbbe5a22/sudoyumupdate0.png" alt><br>
 或者是：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xxx is not in the sudoers file.This incident will be reported.</span><br></pre></td></tr></table></figure>
 <p>既然想要添加权限的用户不在sudoers，那就把它添加进去。</p>
-<h2 id="1-查找sudoers文件">1.查找sudoers文件</h2>
+<h2 id="查找sudoers文件">查找sudoers文件</h2>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis sudoers</span><br></pre></td></tr></table></figure>
 <p><img src="/posts/bbbe5a22/whereissudoers.png" alt><br>
 我们发现sudoers这个文件在/etc/sudoers</p>
-<h2 id="2-修改sudoers权限">2.修改sudoers权限</h2>
+<h2 id="修改sudoers权限">修改sudoers权限</h2>
 <p>先看一下sudoers的权限，发现是root下只读权限</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ll &#x2F;etc&#x2F;sudoers</span><br></pre></td></tr></table></figure>
 <p><img src="/posts/bbbe5a22/lletcsudoers.png" alt><br>
 那就修改一下吧，切换到root用户，给sudoers文件添加写权限，并查看是否添加成功</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su root</span><br><span class="line">chmod u+w &#x2F;etc&#x2F;sudoers</span><br><span class="line">ll &#x2F;etc&#x2F;sudoers</span><br></pre></td></tr></table></figure>
 <p><img src="/posts/bbbe5a22/chmodetcsudoers1.png" alt></p>
-<h2 id="3-编辑sudoers文件">3.编辑sudoers文件</h2>
+<h2 id="编辑sudoers文件">编辑sudoers文件</h2>
 <p>打开sudoers文件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;sudoers</span><br></pre></td></tr></table></figure>
 <p>在大概100行的位置，即root ALL=(ALL) ALL，在它的下面加入yoursuser    ALL=(ALL)<br>
@@ -311,12 +310,12 @@
 ps: 在vim的命令行模式下输入: set number 可以显示文件行数。</p>
 <p>也可以是以下内容:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yoursuser ALL&#x3D;(ALL) ALL                # 允许用户yoursuser执行sudo命令(需要输入密码)</span><br><span class="line">%yoursuser ALL&#x3D;(ALL) ALL               # 允许用户组yoursuser里面的用户执行sudo命令(需要输入密码)</span><br><span class="line">yoursuser ALL&#x3D;(ALL) NOPASSWD: ALL      # 允许用户yoursuser执行sudo命令,并且在执行的时候不输入密码</span><br><span class="line">%yoursuser ALL&#x3D;(ALL) NOPASSWD: ALL     # 允许用户组yoursuser里面的用户执行sudo命令,并且在执行的时候不输入密码</span><br></pre></td></tr></table></figure>
-<h2 id="4-还原sudoers文件权限">4.还原sudoers文件权限</h2>
+<h2 id="还原sudoers文件权限">还原sudoers文件权限</h2>
 <p>如果不还原文件权限，系统不允许执行sudoers文件<br>
 还原sudoers文件权限，并查看是否还原成功</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod u-w &#x2F;etc&#x2F;sudoers</span><br><span class="line">ll &#x2F;etc&#x2F;sudoers</span><br></pre></td></tr></table></figure>
 <p><img src="/posts/bbbe5a22/chmodetcsudoers2.png" alt></p>
-<h2 id="5-使用普通用户验证sudo权限">5.使用普通用户验证sudo权限</h2>
+<h2 id="使用普通用户验证sudo权限">使用普通用户验证sudo权限</h2>
 <p>切换到普通用户，使用sudo命令，发现已经可以正常执行了。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su yoursuser</span><br><span class="line">sudo yum update</span><br></pre></td></tr></table></figure>
 <p><img src="/posts/bbbe5a22/sudoyumupdate1.png" alt></p>
@@ -426,7 +425,7 @@ ps: 在vim的命令行模式下输入: set number 可以显示文件行数。</p
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">CentOS 普通用户添加sudo权限</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-查找sudoers文件"><span class="nav-number">1.1.</span> <span class="nav-text">1.查找sudoers文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-修改sudoers权限"><span class="nav-number">1.2.</span> <span class="nav-text">2.修改sudoers权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-编辑sudoers文件"><span class="nav-number">1.3.</span> <span class="nav-text">3.编辑sudoers文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-还原sudoers文件权限"><span class="nav-number">1.4.</span> <span class="nav-text">4.还原sudoers文件权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-使用普通用户验证sudo权限"><span class="nav-number">1.5.</span> <span class="nav-text">5.使用普通用户验证sudo权限</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#查找sudoers文件"><span class="nav-number">1.</span> <span class="nav-text">查找sudoers文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改sudoers权限"><span class="nav-number">2.</span> <span class="nav-text">修改sudoers权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编辑sudoers文件"><span class="nav-number">3.</span> <span class="nav-text">编辑sudoers文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#还原sudoers文件权限"><span class="nav-number">4.</span> <span class="nav-text">还原sudoers文件权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用普通用户验证sudo权限"><span class="nav-number">5.</span> <span class="nav-text">使用普通用户验证sudo权限</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -442,7 +441,7 @@ ps: 在vim的命令行模式下输入: set number 可以显示文件行数。</p
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -455,7 +454,7 @@ ps: 在vim的命令行模式下输入: set number 可以显示文件行数。</p
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -499,12 +498,12 @@ ps: 在vim的命令行模式下输入: set number 可以显示文件行数。</p
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">60k</span>
+    <span title="站点总字数">79k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">55 分钟</span>
+    <span title="站点阅读时长">1:12</span>
 </div>
 
         

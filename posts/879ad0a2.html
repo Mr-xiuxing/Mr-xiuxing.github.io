@@ -281,9 +281,9 @@
 <a id="more"></a>
 <p><img src="/posts/879ad0a2/fibbeike.jpg" alt><br>
   斐波那契数列（Fibonacci sequence），又称黄金分割数列、因数学家列昂纳多·斐波那契（Leonardoda Fibonacci）以兔子繁殖为例子而引入，故又称为“兔子数列”，指的是这样一个数列：1、1、2、3、5、8、13、21、34、……在数学上，斐波纳契数列以如下被以递推的方法定义：F(1)=1，F(2)=1, F(n)=F(n-1)+F(n-2)（n&gt;=3，n∈N*）在现代物理、准晶体结构、化学等领域，斐波纳契数列都有直接的应用，为此，美国数学会从1963年起出版了以《斐波纳契数列季刊》为名的一份数学杂志，用于专门刊载这方面的研究成果。</p>
-<h3 id="递归输出第n项">递归输出第n项</h3>
+<h2 id="递归输出第n项">递归输出第n项</h2>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib1</span><span class="params">(num)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> num == <span class="number">1</span> <span class="keyword">or</span> num == <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> fib1(num - <span class="number">1</span>) + fib1(num - <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">res = fib1(<span class="number">10</span>)</span><br><span class="line">print(res)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;<span class="number">55</span></span><br></pre></td></tr></table></figure>
-<h3 id="递归实现输出前n项">递归实现输出前n项</h3>
+<h2 id="递归实现输出前n项">递归实现输出前n项</h2>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib2</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> [<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">elif</span> n == <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> [<span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line">    fibs = [<span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, n):</span><br><span class="line">        fibs.append(fibs[<span class="number">-1</span>] + fibs[<span class="number">-2</span>])</span><br><span class="line">    <span class="keyword">return</span> fibs</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">res = fib2(<span class="number">10</span>)</span><br><span class="line">print(res)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">21</span>, <span class="number">34</span>, <span class="number">55</span>]</span><br></pre></td></tr></table></figure>
 
     </div>
@@ -389,7 +389,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#递归输出第n项"><span class="nav-number">1.</span> <span class="nav-text">递归输出第n项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#递归实现输出前n项"><span class="nav-number">2.</span> <span class="nav-text">递归实现输出前n项</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#递归输出第n项"><span class="nav-number">1.</span> <span class="nav-text">递归输出第n项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#递归实现输出前n项"><span class="nav-number">2.</span> <span class="nav-text">递归实现输出前n项</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -405,7 +405,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -418,7 +418,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -462,12 +462,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">60k</span>
+    <span title="站点总字数">79k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">55 分钟</span>
+    <span title="站点阅读时长">1:12</span>
 </div>
 
         
