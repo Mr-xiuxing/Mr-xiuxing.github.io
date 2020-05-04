@@ -340,7 +340,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">import</span> os, time, random</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'Run process %s (%s)...'</span> % (current_process().name, os.getpid()))</span><br><span class="line">    start = time.time()</span><br><span class="line">    time.sleep(random.random() * <span class="number">3</span>)</span><br><span class="line">    end = time.time()</span><br><span class="line">    print(<span class="string">'Task %s runs %0.2f seconds.'</span> % (current_process().name, (end - start)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    print(<span class="string">'Parent process %s.'</span> % os.getpid())</span><br><span class="line">    pool = Pool(processes=<span class="number">4</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">        pool.apply_async(func)    <span class="comment"># apply_async实现非阻塞模式，apply实现阻塞模式</span></span><br><span class="line">    print(<span class="string">'Waiting for all sub-processes done...'</span>)</span><br><span class="line">    pool.close()    <span class="comment"># 先调用close()才能调用join()</span></span><br><span class="line">    pool.join()    <span class="comment"># 等待所有子进程执行完毕</span></span><br><span class="line">    print(<span class="string">'All sub-processes done.'</span>)</span><br></pre></td></tr></table></figure>
 <p>输出结果：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Parent process <span class="number">7120.</span></span><br><span class="line">Waiting <span class="keyword">for</span> all sub-processes done...</span><br><span class="line">Run process SpawnPoolWorker<span class="number">-3</span> (<span class="number">13136</span>)...</span><br><span class="line">Run process SpawnPoolWorker<span class="number">-1</span> (<span class="number">13868</span>)...</span><br><span class="line">Run process SpawnPoolWorker<span class="number">-2</span> (<span class="number">4636</span>)...</span><br><span class="line">Run process SpawnPoolWorker<span class="number">-4</span> (<span class="number">10076</span>)...</span><br><span class="line">Task SpawnPoolWorker<span class="number">-2</span> runs <span class="number">0.09</span> seconds.</span><br><span class="line">Run process SpawnPoolWorker<span class="number">-2</span> (<span class="number">4636</span>)...</span><br><span class="line">Task SpawnPoolWorker<span class="number">-3</span> runs <span class="number">0.28</span> seconds.</span><br><span class="line">Task SpawnPoolWorker<span class="number">-4</span> runs <span class="number">0.42</span> seconds.</span><br><span class="line">Task SpawnPoolWorker<span class="number">-2</span> runs <span class="number">1.81</span> seconds.</span><br><span class="line">Task SpawnPoolWorker<span class="number">-1</span> runs <span class="number">2.70</span> seconds.</span><br><span class="line">All sub-processes done.</span><br></pre></td></tr></table></figure>
-<p><b>未完待续。。。</b></p>
+<p><b>未完待续。。。有时间再补充</b></p>
 
     </div>
 
@@ -464,20 +464,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">31</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -521,12 +521,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">79k</span>
+    <span title="站点总字数">86k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:12</span>
+    <span title="站点阅读时长">1:19</span>
 </div>
 
         
