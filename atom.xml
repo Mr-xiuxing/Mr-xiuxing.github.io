@@ -35,7 +35,7 @@
       <category term="Scrapy" scheme="http://mrxiuxing.cn/categories/Scrapy/"/>
     
     
-      <category term="Scrapy Python" scheme="http://mrxiuxing.cn/tags/Scrapy-Python/"/>
+      <category term="Scrapy, Python" scheme="http://mrxiuxing.cn/tags/Scrapy-Python/"/>
     
   </entry>
   
@@ -347,9 +347,9 @@
     
       <category term="Python" scheme="http://mrxiuxing.cn/tags/Python/"/>
     
-      <category term="面试题" scheme="http://mrxiuxing.cn/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
-    
       <category term="XPath" scheme="http://mrxiuxing.cn/tags/XPath/"/>
+    
+      <category term="面试题" scheme="http://mrxiuxing.cn/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
     
   </entry>
   
