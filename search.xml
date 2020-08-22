@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Scrapy输出JSON中文乱码</title>
+      <link href="/posts/231c7ec.html"/>
+      <url>/posts/231c7ec.html</url>
+      
+        <content type="html"><![CDATA[<p><em><strong><center>If you’re not statisfied with the life you’re living, don’t just complain. Do something about it. ——《三十而已》</center></strong></em><br><em><strong><center>对于现状的不满, 你不能只是抱怨, 而是要有勇气做出改变。</center></strong></em></p><a id="more"></a><h2 id="发现问题">发现问题</h2><p>在使用下面的命令运行scrapy使其输出json格式时，出现了中文乱码问题, 如下图:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl spidername -o test.json</span><br></pre></td></tr></table></figure><p><img src="/posts/231c7ec/scrapy_json_1.png" alt></p><h2 id="解决问题">解决问题</h2><h3 id="方法一">方法一</h3><p>运行爬虫时指定编码格式, 即在命令后面增加 <b>-s FEED_EXPORT_ENCODING=utf-8</b>。如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl spidername -o test.json -s FEED_EXPORT_ENCODING=utf<span class="number">-8</span></span><br></pre></td></tr></table></figure><h3 id="方法二">方法二</h3><p>方法一虽然可以解决问题，但并没有一劳永逸，每次运行爬虫都需要指定编码格式。所以我们直接在 <b>settings</b> 中指定编码格式。在合适的位置加入下面一行即可。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FEED_EXPORT_ENCODING = <span class="string">'utf-8'</span></span><br></pre></td></tr></table></figure><p><img src="/posts/231c7ec/scrapy_json_2.png" alt></p><h3 id="方法三">方法三</h3><p>自定义<b>Pipeline</b>,并在<b>settings</b>中开启</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JsonPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.f = codecs.open(<span class="string">'test.json'</span>, <span class="string">'w'</span>, encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">        self.f.write(<span class="string">'['</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        content = json.dumps(item, ensure_ascii=<span class="literal">False</span>) + <span class="string">',\n'</span></span><br><span class="line">        self.f.write(content)</span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close_spider</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">        self.f.write(<span class="string">']'</span>)</span><br><span class="line">        self.f.close()</span><br></pre></td></tr></table></figure><p>在<b>settings</b>中找到<b>ITEM_PIPELINES</b>，修改成如下格式</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">   <span class="string">'xxx.pipelines.JsonPipeline'</span>: <span class="number">300</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>自定义Pipeline之后，就不用使用 <b>-o</b> 指定文件了。如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl spidername</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Scrapy </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Scrapy Python </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>分词</title>
       <link href="/posts/a388e785.html"/>
       <url>/posts/a388e785.html</url>
