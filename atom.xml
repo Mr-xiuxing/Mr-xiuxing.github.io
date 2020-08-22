@@ -35,7 +35,11 @@
       <category term="Scrapy" scheme="http://mrxiuxing.cn/categories/Scrapy/"/>
     
     
-      <category term="Scrapy, Python" scheme="http://mrxiuxing.cn/tags/Scrapy-Python/"/>
+      <category term="Python" scheme="http://mrxiuxing.cn/tags/Python/"/>
+    
+      <category term="爬虫" scheme="http://mrxiuxing.cn/tags/%E7%88%AC%E8%99%AB/"/>
+    
+      <category term="Scrapy" scheme="http://mrxiuxing.cn/tags/Scrapy/"/>
     
   </entry>
   
