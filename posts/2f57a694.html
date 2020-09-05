@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mrxiuxing.cn","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="If you keep on believing, the dreams that you wish will come true. ——《仙履奇缘》 坚持心中有梦，终有一日它会实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正则表达式">
+<meta property="og:url" content="http://mrxiuxing.cn/posts/2f57a694.html">
+<meta property="og:site_name" content="Mr.xiuxing&#39;s Blog">
+<meta property="og:description" content="If you keep on believing, the dreams that you wish will come true. ——《仙履奇缘》 坚持心中有梦，终有一日它会实现。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-07T10:18:45.000Z">
+<meta property="article:modified_time" content="2020-06-07T10:18:45.000Z">
+<meta property="article:author" content="Mr.xiuxing">
+<meta property="article:tag" content="RE">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://mrxiuxing.cn/posts/2f57a694.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>正则表达式 | Mr.xiuxing's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mr.xiuxing's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mrxiuxing.cn/posts/2f57a694.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/tiger.jpg">
+      <meta itemprop="name" content="Mr.xiuxing">
+      <meta itemprop="description" content="爱生活，爱技术（Python）">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.xiuxing's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          正则表达式
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-07 18:18:45" itemprop="dateCreated datePublished" datetime="2020-06-07T18:18:45+08:00">2020-06-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/RE/" itemprop="url" rel="index"><span itemprop="name">RE</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/posts/2f57a694.html" class="post-meta-item leancloud_visitors" data-flag-title="正则表达式" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/2f57a694.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/2f57a694.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>29k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>26 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><em><strong><center>If you keep on believing, the dreams that you wish will come true. ——《仙履奇缘》</center></strong></em><br>
+<em><strong><center>坚持心中有梦，终有一日它会实现。</center></strong></em></p>
+<a id="more"></a>
+<h2 id="概念">概念</h2>
+<p>  正则表达式，又称规则表达式（Regular Expression，在代码中常简写为regex、regexp或RE）。正则表达式是对字符串操作的一种逻辑公式，就是用事先定义好的一些特定字符、及这些特定字符的组合，组成一个“规则字符串”，这个“规则字符串”用来表达对字符串的一种过滤逻辑。正则表达式通常被用来检索、替换那些符合某个模式(规则)的文本。</p>
+<h2 id="特点">特点</h2>
+<ol>
+<li>灵活性、逻辑性和功能性非常强；</li>
+<li>可以迅速地用极简单的方式达到字符串的复杂控制。</li>
+<li>对于刚接触的人来说，比较晦涩难懂。</li>
+</ol>
+<h2 id="元字符">元字符</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">\</td>
+<td>将下一个字符标记为一个特殊字符、或一个原义字符、或一个 向后引用、或一个八进制转义符。例如，‘n’ 匹配字符 “n”。’\n’ 匹配一个换行符。序列 ‘\\’ 匹配 “\” 而 “\(” 则匹配 “(”。</td>
+</tr>
+<tr>
+<td style="text-align:center">^</td>
+<td>匹配输入字符串的开始位置，除非在方括号表达式中使用，当该符号在方括号表达式中使用时，表示不接受该方括号表达式中的字符集合。要匹配 ^ 字符本身，请使用 \^</td>
+</tr>
+<tr>
+<td style="text-align:center">$</td>
+<td>匹配输入字符串的结尾位置。要匹配 $ 字符本身，请使用 \$</td>
+</tr>
+<tr>
+<td style="text-align:center">*</td>
+<td>匹配前面的子表达式零次或多次。例如，zo* 能匹配 “z” 以及 “zoo”。* 等价于{0,}。</td>
+</tr>
+<tr>
+<td style="text-align:center">+</td>
+<td>匹配前面的子表达式一次或多次。例如，‘zo+’ 能匹配 “zo” 以及 “zoo”，但不能匹配 “z”。+ 等价于 {1,}。</td>
+</tr>
+<tr>
+<td style="text-align:center">?</td>
+<td>匹配前面的子表达式零次或一次。例如，“do(es)?” 可以匹配 “do” 或 “does” 。? 等价于 {0,1}。</td>
+</tr>
+<tr>
+<td style="text-align:center">{n}</td>
+<td>n 是一个非负整数。匹配确定的 n 次。例如，‘o{2}’ 不能匹配 “Bob” 中的 ‘o’，但是能匹配 “food” 中的两个 o。</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,}</td>
+<td>n 是一个非负整数。至少匹配n 次。例如，‘o{2,}’ 不能匹配 “Bob” 中的 ‘o’，但能匹配 “foooood” 中的所有 o。‘o{1,}’ 等价于 ‘o+’。‘o{0,}’ 则等价于 ‘o*’。</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,m}</td>
+<td>m 和 n 均为非负整数，其中n &lt;= m。最少匹配 n 次且最多匹配 m 次。例如，“o{1,3}” 将匹配 “fooooood” 中的前三个 o。‘o{0,1}’ 等价于 ‘o?’。请注意在逗号和两个数之间不能有空格。</td>
+</tr>
+<tr>
+<td style="text-align:center">?</td>
+<td>当该字符紧跟在任何一个其他限制符 (*, +, ?, {n}, {n,}, {n,m}) 后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串 “oooo”，‘o+?’ 将匹配单个 “o”，而 ‘o+’ 将匹配所有 ‘o’。</td>
+</tr>
+<tr>
+<td style="text-align:center">.</td>
+<td>匹配除换行符（\n、\r）之外的任何单个字符。要匹配包括 ‘\n’ 在内的任何字符，请使用像&quot;(.|\n)&quot;的模式。</td>
+</tr>
+<tr>
+<td style="text-align:center">(pattern)</td>
+<td>匹配 pattern 并获取这一匹配。要匹配圆括号字符，请使用 ‘\(’ 或 ‘\)’。</td>
+</tr>
+<tr>
+<td style="text-align:center">(?:pattern)</td>
+<td>匹配 pattern 但不获取匹配结果，也就是说这是一个非获取匹配，不进行存储供以后使用。这在使用 “或” 字符 (|) 来组合一个模式的各个部分是很有用。例如， 'industr(?:y|ies) 就是一个比 ‘industry|industries’ 更简略的表达式。</td>
+</tr>
+<tr>
+<td style="text-align:center">(?=pattern)</td>
+<td>正向肯定预查（look ahead positive assert），在任何匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如，“Windows(?=95|98|NT|2000)“能匹配&quot;Windows2000&quot;中的&quot;Windows”，但不能匹配&quot;Windows3.1&quot;中的&quot;Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</td>
+</tr>
+<tr>
+<td style="text-align:center">(?!pattern)</td>
+<td>正向否定预查(negative assert)，在任何不匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如&quot;Windows(?!95|98|NT|2000)“能匹配&quot;Windows3.1&quot;中的&quot;Windows”，但不能匹配&quot;Windows2000&quot;中的&quot;Windows&quot;。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</td>
+</tr>
+<tr>
+<td style="text-align:center">(?&lt;=pattern)</td>
+<td>反向(look behind)肯定预查，与正向肯定预查类似，只是方向相反。例如，&quot;(?&lt;=95|98|NT|2000)Windows&quot;能匹配&quot;2000Windows&quot;中的&quot;Windows&quot;，但不能匹配&quot;3.1Windows&quot;中的&quot;Windows&quot;。</td>
+</tr>
+<tr>
+<td style="text-align:center">(?&lt;!pattern)</td>
+<td>反向否定预查，与正向否定预查类似，只是方向相反。例如&quot;(?&lt;!95|98|NT|2000)Windows&quot;能匹配&quot;3.1Windows&quot;中的&quot;Windows&quot;，但不能匹配&quot;2000Windows&quot;中的&quot;Windows&quot;。</td>
+</tr>
+<tr>
+<td style="text-align:center">x|y</td>
+<td>匹配 x 或 y。例如，‘z|food’ 能匹配 “z” 或 “food”。’(z|f)ood’ 则匹配 “zood” 或 “food”。</td>
+</tr>
+<tr>
+<td style="text-align:center">[xyz]</td>
+<td>字符集合。匹配所包含的任意一个字符。例如， ‘[abc]’ 可以匹配 “plain” 中的 ‘a’。</td>
+</tr>
+<tr>
+<td style="text-align:center">[^xyz]</td>
+<td>负值字符集合。匹配未包含的任意字符。例如， ‘[^abc]’ 可以匹配 “plain” 中的’p’、‘l’、‘i’、‘n’。</td>
+</tr>
+<tr>
+<td style="text-align:center">[a-z]</td>
+<td>字符范围。匹配指定范围内的任意字符。例如，’[a-z]’ 可以匹配 ‘a’ 到 ‘z’ 范围内的任意小写字母字符。</td>
+</tr>
+<tr>
+<td style="text-align:center">[^a-z]</td>
+<td>负值字符范围。匹配任何不在指定范围内的任意字符。例如，’[^a-z]’ 可以匹配任何不在 ‘a’ 到 ‘z’ 范围内的任意字符。</td>
+</tr>
+<tr>
+<td style="text-align:center">\b</td>
+<td>匹配一个单词边界，也就是指单词和空格间的位置。例如， ‘er\b’ 可以匹配&quot;never&quot; 中的 ‘er’，但不能匹配 “verb” 中的 ‘er’。</td>
+</tr>
+<tr>
+<td style="text-align:center">\B</td>
+<td>匹配非单词边界。‘er\B’ 能匹配 “verb” 中的 ‘er’，但不能匹配 “never” 中的 ‘er’。</td>
+</tr>
+<tr>
+<td style="text-align:center">\cx</td>
+<td>匹配由 x 指明的控制字符。例如， \cM 匹配一个 Control-M 或回车符。x 的值必须为 A-Z 或 a-z 之一。否则，将 c 视为一个原义的 ‘c’ 字符。</td>
+</tr>
+<tr>
+<td style="text-align:center">\d</td>
+<td>匹配一个数字字符。等价于 [0-9]。</td>
+</tr>
+<tr>
+<td style="text-align:center">\D</td>
+<td>匹配一个非数字字符。等价于 [^0-9]。</td>
+</tr>
+<tr>
+<td style="text-align:center">\f</td>
+<td>匹配一个换页符。等价于 \x0c 和 \cL。</td>
+</tr>
+<tr>
+<td style="text-align:center">\n</td>
+<td>匹配一个换行符。等价于 \x0a 和 \cJ。</td>
+</tr>
+<tr>
+<td style="text-align:center">\r</td>
+<td>匹配一个回车符。等价于 \x0d 和 \cM。</td>
+</tr>
+<tr>
+<td style="text-align:center">\s</td>
+<td>匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。</td>
+</tr>
+<tr>
+<td style="text-align:center">\S</td>
+<td>匹配任何非空白字符。等价于 [^ \f\n\r\t\v]。</td>
+</tr>
+<tr>
+<td style="text-align:center">\t</td>
+<td>匹配一个制表符。等价于 \x09 和 \cI。</td>
+</tr>
+<tr>
+<td style="text-align:center">\v</td>
+<td>匹配一个垂直制表符。等价于 \x0b 和 \cK。</td>
+</tr>
+<tr>
+<td style="text-align:center">\w</td>
+<td>匹配字母、数字、下划线。等价于’[A-Za-z0-9_]’。</td>
+</tr>
+<tr>
+<td style="text-align:center">\W</td>
+<td>匹配非字母、数字、下划线。等价于 ‘[^A-Za-z0-9_]’。</td>
+</tr>
+<tr>
+<td style="text-align:center">\xn</td>
+<td>匹配 n，其中 n 为十六进制转义值。十六进制转义值必须为确定的两个数字长。例如，’\x41’ 匹配 “A”。’\x041’ 则等价于 ‘\x04’ &amp; “1”。正则表达式中可以使用 ASCII 编码。</td>
+</tr>
+<tr>
+<td style="text-align:center">\num</td>
+<td>匹配 num，其中 num 是一个正整数。对所获取的匹配的引用。例如，’(.)\1’ 匹配两个连续的相同字符。</td>
+</tr>
+<tr>
+<td style="text-align:center">\n</td>
+<td>标识一个八进制转义值或一个向后引用。如果 \n 之前至少 n 个获取的子表达式，则 n 为向后引用。否则，如果 n 为八进制数字 (0-7)，则 n 为一个八进制转义值</td>
+</tr>
+<tr>
+<td style="text-align:center">\nm</td>
+<td>标识一个八进制转义值或一个向后引用。如果 \nm 之前至少有 nm 个获得子表达式，则 nm 为向后引用。如果 \nm 之前至少有 n 个获取，则 n 为一个后跟文字 m 的向后引用。如果前面的条件都不满足，若 n 和 m 均为八进制数字 (0-7)，则 \nm 将匹配八进制转义值 nm。</td>
+</tr>
+<tr>
+<td style="text-align:center">\nml</td>
+<td>如果 n 为八进制数字 (0-3)，且 m 和 l 均为八进制数字 (0-7)，则匹配八进制转义值 nml。</td>
+</tr>
+<tr>
+<td style="text-align:center">\un</td>
+<td>匹配 n，其中 n 是一个用四个十六进制数字表示的 Unicode 字符。例如， \u00A9 匹配版权符号 (?)。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="常用正则表达式">常用正则表达式</h2>
+<h3 id="校验数字">校验数字</h3>
+<h4 id="数字">数字</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[<span class="number">0</span><span class="number">-9</span>]*$</span><br></pre></td></tr></table></figure>
+<h4 id="n位的数字">n位的数字</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^\d&#123;n&#125;$</span><br></pre></td></tr></table></figure>
+<h4 id="至少n位的数字">至少n位的数字</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^\d&#123;n,&#125;$</span><br></pre></td></tr></table></figure>
+<h4 id="m-n位的数字">m-n位的数字</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^\d&#123;m,n&#125;$</span><br></pre></td></tr></table></figure>
+<h4 id="零和非零开头的数字">零和非零开头的数字</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^(<span class="number">0</span>|[<span class="number">1</span><span class="number">-9</span>][<span class="number">0</span><span class="number">-9</span>]*)$</span><br></pre></td></tr></table></figure>
+<h4 id="非零开头的最多带两位小数的数字">非零开头的最多带两位小数的数字</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^([1-9][0-9]*)+(.[0-9]&#123;1,2&#125;)?$</span><br></pre></td></tr></table></figure>
+<h4 id="带1-2位小数的正数或负数">带1-2位小数的正数或负数</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^(\-)?\d+(\.\d&#123;1,2&#125;)?$</span><br></pre></td></tr></table></figure>
+<h4 id="正数、负数、和小数">正数、负数、和小数</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^(\-|\+)?\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
+<h4 id="有两位小数的正实数">有两位小数的正实数</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[0-9]+(.[0-9]&#123;2&#125;)?$</span><br></pre></td></tr></table></figure>
+<h4 id="有1-3位小数的正实数">有1~3位小数的正实数</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[0-9]+(.[0-9]&#123;1,3&#125;)?$</span><br></pre></td></tr></table></figure>
+<h4 id="非零的正整数">非零的正整数</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">^[<span class="number">1</span><span class="number">-9</span>]\d*$</span><br><span class="line">^([<span class="number">1</span><span class="number">-9</span>][<span class="number">0</span><span class="number">-9</span>]*)&#123;<span class="number">1</span>,<span class="number">3</span>&#125;$</span><br><span class="line">^\+?[1-9][0-9]*$</span><br></pre></td></tr></table></figure>
+<h4 id="非零的负整数">非零的负整数</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">^-[<span class="number">1</span><span class="number">-9</span>]\d*$</span><br><span class="line">^\-[<span class="number">1</span><span class="number">-9</span>][]<span class="number">0</span><span class="number">-9</span>*$</span><br></pre></td></tr></table></figure>
+<h4 id="非负整数">非负整数</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">^\d+$</span><br><span class="line">^[<span class="number">1</span><span class="number">-9</span>]\d*|<span class="number">0</span>$</span><br></pre></td></tr></table></figure>
+<h4 id="非正整数">非正整数</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">^-[<span class="number">1</span><span class="number">-9</span>]\d*|<span class="number">0</span>$</span><br><span class="line">^((-\d+)|(<span class="number">0</span>+))$</span><br></pre></td></tr></table></figure>
+<h4 id="非负浮点数">非负浮点数</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">^\d+(\.\d+)?$</span><br><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</span><br></pre></td></tr></table></figure>
+<h4 id="非正浮点数">非正浮点数</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">^((-\d+(\.\d+)?)|(0+(\.0+)?))$</span><br><span class="line">^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</span><br></pre></td></tr></table></figure>
+<h4 id="正浮点数">正浮点数</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">^[<span class="number">1</span><span class="number">-9</span>]\d*\.\d*|<span class="number">0</span>\.\d*[<span class="number">1</span><span class="number">-9</span>]\d*$ </span><br><span class="line">^(([<span class="number">0</span><span class="number">-9</span>]+\.[<span class="number">0</span><span class="number">-9</span>]*[<span class="number">1</span><span class="number">-9</span>][<span class="number">0</span><span class="number">-9</span>]*)|([<span class="number">0</span><span class="number">-9</span>]*[<span class="number">1</span><span class="number">-9</span>][<span class="number">0</span><span class="number">-9</span>]*\.[<span class="number">0</span><span class="number">-9</span>]+)|([<span class="number">0</span><span class="number">-9</span>]*[<span class="number">1</span><span class="number">-9</span>][<span class="number">0</span><span class="number">-9</span>]*))$</span><br></pre></td></tr></table></figure>
+<h4 id="负浮点数">负浮点数</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">^-([<span class="number">1</span><span class="number">-9</span>]\d*\.\d*|<span class="number">0</span>\.\d*[<span class="number">1</span><span class="number">-9</span>]\d*)$</span><br><span class="line">^(-(([<span class="number">0</span><span class="number">-9</span>]+\.[<span class="number">0</span><span class="number">-9</span>]*[<span class="number">1</span><span class="number">-9</span>][<span class="number">0</span><span class="number">-9</span>]*)|([<span class="number">0</span><span class="number">-9</span>]*[<span class="number">1</span><span class="number">-9</span>][<span class="number">0</span><span class="number">-9</span>]*\.[<span class="number">0</span><span class="number">-9</span>]+)|([<span class="number">0</span><span class="number">-9</span>]*[<span class="number">1</span><span class="number">-9</span>][<span class="number">0</span><span class="number">-9</span>]*)))$</span><br></pre></td></tr></table></figure>
+<h4 id="浮点数">浮点数</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">^(-?\d+)(\.\d+)?$</span><br><span class="line">^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</span><br></pre></td></tr></table></figure>
+<h3 id="校验字符">校验字符</h3>
+<h4 id="汉字">汉字</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[\u4e00-\u9fa5]&#123;<span class="number">0</span>,&#125;$</span><br></pre></td></tr></table></figure>
+<h4 id="长度为3-20的所有字符">长度为3-20的所有字符</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^.&#123;<span class="number">3</span>,<span class="number">20</span>&#125;$</span><br></pre></td></tr></table></figure>
+<h4 id="由26个英文字母组成的字符串">由26个英文字母组成的字符串</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[A-Za-z]+$</span><br></pre></td></tr></table></figure>
+<h4 id="由26个大写英文字母组成的字符串">由26个大写英文字母组成的字符串</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[A-Z]+$</span><br></pre></td></tr></table></figure>
+<h4 id="由26个小写英文字母组成的字符串">由26个小写英文字母组成的字符串</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[a-z]+$</span><br></pre></td></tr></table></figure>
+<h4 id="由数字和26个英文字母组成的字符串">由数字和26个英文字母组成的字符串</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[A-Za-z0<span class="number">-9</span>]+$</span><br></pre></td></tr></table></figure>
+<h4 id="由数字、26个英文字母或者下划线组成的字符串">由数字、26个英文字母或者下划线组成的字符串</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">^\w+$</span><br><span class="line">^\w&#123;<span class="number">6</span>,<span class="number">18</span>&#125;$</span><br></pre></td></tr></table></figure>
+<h4 id="中文、英文、数字包括下划线">中文、英文、数字包括下划线</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0<span class="number">-9</span>_]+$</span><br></pre></td></tr></table></figure>
+<h4 id="中文、英文、数字但不包括下划线等符号">中文、英文、数字但不包括下划线等符号</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0<span class="number">-9</span>]+$</span><br><span class="line">^[\u4E00-\u9FA5A-Za-z0<span class="number">-9</span>]&#123;<span class="number">2</span>,<span class="number">20</span>&#125;$</span><br></pre></td></tr></table></figure>
+<h4 id="可以输入含有-’-等字符">可以输入含有^%&amp;’,;=?$&quot;等字符</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[^%&amp;<span class="string">',;=?$\x22]+</span></span><br></pre></td></tr></table></figure>
+<h4 id="禁止输入含有-的字符">禁止输入含有~的字符</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[^~\x22]+</span><br></pre></td></tr></table></figure>
+<h3 id="特殊需求">特殊需求</h3>
+<h4 id="Email地址">Email地址</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$</span><br><span class="line">^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</span><br></pre></td></tr></table></figure>
+<h4 id="帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线">帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[a-zA-Z][a-zA-Z0<span class="number">-9</span>_]&#123;<span class="number">4</span>,<span class="number">15</span>&#125;$</span><br></pre></td></tr></table></figure>
+<h4 id="密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线">密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[a-zA-Z]\w&#123;<span class="number">6</span>,<span class="number">18</span>&#125;$</span><br></pre></td></tr></table></figure>
+<h4 id="强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-18之间">强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-18之间)</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).&#123;8,18&#125;$</span><br></pre></td></tr></table></figure>
+<h4 id="19或20年某月某日">19或20年某月某日</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(19|20)\d&#123;2&#125;[\.\-/年](\d&#123;1,2&#125;[\.\-/月日号]?)&#123;2&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="示例（Python）">示例（Python）</h2>
+<h3 id="例一：爬虫中response返回的非标准json数据">例一：爬虫中response返回的非标准json数据</h3>
+<h4 id="部分展示">部分展示</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/**/jQuery34102398183434787493_1591415079072(&#123;</span><br><span class="line">	"status": "000001",</span><br><span class="line">	"msg": "\u62c9\u53d6\u6210\u529f",</span><br><span class="line">	"type": "000002",</span><br><span class="line">	"total": 31670,</span><br><span class="line">	"data": [&#123;</span><br><span class="line">		"contentid": 11698033,</span><br><span class="line">		"title": "\u6c99\u576a\u575d\u533a\u4e2d\u6881\u9547\u6458\u84dd\u8393\u00a0\u7ea6\u4e0d\u7ea6\uff1f",</span><br><span class="line">		"modelid": 1,</span><br><span class="line">		"thumb": "\/upload\/cmsupload\/2020\/0607\/1591498451982.jpg",</span><br><span class="line">		"content": "&lt;p&gt;\u91cd\u5e86\u7f51\u7edc\u5e7f\u64ad\u7535\u89c6\u53f0&amp;nbsp;\u8bb0\u8005 \u738b\u5c0f\u751f&lt;\/p&gt;\n&lt;p&gt;\u590f\u5b63\u662f\u84dd\u8393\u6210\u719f\u7684\u5b63\u8282\uff0c\u79bb\u4e3b\u57ce\u5f88\u8fd1\u7684\u6c99\u576a\u575d\u533a\u4e2d\u6881\u9547\uff0c500\u591a\u4ea9\u84dd\u8393\u6b63\u7b49\u7740\u4f60\u53bb\u91c7\u6458\u3002\u5982\u679c\u6709\u7a7a\uff0c\u4e0d\u59a8\u53bb\u4f53\u9a8c\u7530\u56ed\u4e50\u8da3\u3002&lt;\/p&gt;\n&lt;p style=\"text-align: center; text-indent: 0;\"&gt;&lt;img src=\"http:\/\/upload.cbg.cn\/2020\/0607\/1591498357808.jpg\" border=\"0\" alt=\"\u5fae\u4fe1\u56fe\u7247_20200607105240\" \/&gt;&lt;\/p&gt;\n&lt;p&gt;6\u67086\u65e5\uff0c\u8bb0\u8005\u5728\u4e2d\u6881\u9547\u65b0\u53d1\u6751\u7684\u53e4\u8302\u84dd\u8393\u8c37\u770b\u5230\uff0c\u4e00\u7c07\u4e00\u7c07\u7684\u84dd\u8393\uff0c\u72b9\u5982\u5b9d\u77f3\u822c\uff0c\u60ac\u6302\u5728\u6811\u68a2\u4e0a\uff0c\u5e02\u6c11\u4eec\u4e09\u4e94\u6210\u7fa4\uff0c\u7a7f\u68ad\u5728\u7530\u95f4\uff0c\u91c7\u6458\u84dd\u8393\uff0c\u611f\u53d7\u4e30\u6536\u7684\u559c\u60a6\uff0c\u5c3d\u60c5\u4eab\u53d7\u5468\u672b\u7f8e\u597d\u65f6\u5149\u3002\u674e\u5973\u58eb\u4eca\u5929\u5e26\u7740\u5b69\u5b50\u6765\u5230\u8fd9\u91cc\uff0c\u91c7\u6458\u4e86\u4e00\u7bee\u5b50\u84dd\u8393\uff0c\u5979\u8868\u793a\uff0c\u7531\u4e8e\u53d7\u75ab\u60c5\u5f71\u54cd\uff0c\u5b69\u5b50\u90fd\u5f88\u5c11\u51fa\u95e8\uff0c\u73b0\u5728\u75ab\u60c5\u597d\u8f6c\uff0c\u5468\u672b\u6b63\u597d\u5e26\u7740\u5b69\u5b50\u51fa\u6765\u8d70\u8d70\uff0c\u4eb2\u8fd1\u5927\u81ea\u7136\u3002&lt;\/p&gt;\n&lt;p style=\"text-align: center; text-indent: 0;\"&gt;&lt;img src=\"http:\/\/upload.cbg.cn\/2020\/0607\/1591498368902.jpg\" border=\"0\" alt=\"\u5fae\u4fe1\u56fe\u7247_20200607105244\" \/&gt;&lt;\/p&gt;\n&lt;p&gt;\u636e\u84dd\u8393\u8c37\u8d1f\u8d23\u4eba\u4ecb\u7ecd\uff0c\u4ed6\u4eec\u5171\u6709\u84dd\u8393100\u4f59\u4ea9\uff0c10\u591a\u4e2a\u54c1\u79cd\uff0c4\u4e07\u591a\u682a\uff0c\u91c7\u6458\u5468\u671f\u5c06\u6301\u7eed\u52307\u6708\u521d\uff0c\u5728\u6b64\u671f\u95f4\u5e02\u6c11\u5747\u53ef\u76f4\u63a5\u524d\u5f80\u91c7\u6458\u3002&lt;\/p&gt;\n&lt;p style=\"text-align: center; text-indent: 0;\"&gt;&lt;img src=\"http:\/\/upload.cbg.cn\/2020\/0607\/1591498386566.jpg\" border=\"0\" alt=\"\u5fae\u4fe1\u56fe\u7247_20200607105248\" \/&gt;&lt;\/p&gt;\n&lt;p style=\"text-align: center; text-indent: 0;\"&gt;&lt;img src=\"http:\/\/upload.cbg.cn\/2020\/0607\/1591498386165.jpg\" border=\"0\" alt=\"\u5fae\u4fe1\u56fe\u7247_20200607105251\" \/&gt;&lt;\/p&gt;\n&lt;p&gt;\u636e\u4e2d\u6881\u9547\u519c\u670d\u4e2d\u5fc3\u5de5\u4f5c\u4eba\u5458\u4ecb\u7ecd\uff0c\u7531\u4e8e\u4e2d\u6881\u9547\u6d77\u62d4\u8d85\u8fc7500\u7c73\uff0c\u6c14\u5019\u6e29\u548c\u3001\u571f\u58e4\u5bcc\u7852\u3001\u9178\u78b1\u9002\u5b9c\uff0c\u975e\u5e38\u9002\u5408\u79cd\u690d\u84dd\u8393\u3002\u8fd1\u5e74\u6765\uff0c\u7ed3\u5408\u4e61\u6751\u632f\u5174\u6218\u7565\u7684\u5b9e\u65bd\uff0c\u4e2d\u6881\u9547\u5927\u529b\u53d1\u5c55\u84dd\u8393\u79cd\u690d\uff0c\u73b0\u6709\u9762\u79ef500\u591a\u4ea9\u3002&lt;\/p&gt;\n&lt;p style=\"text-align: center; text-indent: 0;\"&gt;&lt;img src=\"http:\/\/upload.cbg.cn\/2020\/0607\/1591498405459.jpg\" border=\"0\" alt=\"\u5fae\u4fe1\u56fe\u7247_20200607105254\" \/&gt;&lt;\/p&gt;\n&lt;p&gt;\u84dd\u8393\u679c\u5b9e\u4e2d\u542b\u6709\u4e30\u5bcc\u7684\u8425\u517b\u6210\u5206\uff0c\u5c24\u5176\u5bcc\u542b\u82b1\u9752\u7d20\uff0c\u5b83\u4e0d\u4ec5\u5177\u6709\u826f\u597d\u7684\u8425\u517b\u4fdd\u5065\u4f5c\u7528\uff0c\u8fd8\u5177\u6709\u9632\u6b62\u8111\u795e\u7ecf\u8001\u5316\u3001\u5f3a\u5fc3\u3001\u6297\u764c\u3001\u8f6f\u5316\u8840\u7ba1\u3001\u589e\u5f3a\u4eba\u4f53\u514d\u75ab\u7b49\u529f\u80fd\uff0c\u56e0\u6b64\u6df1\u53d7\u5e02\u6c11\u559c\u7231\u3002&lt;\/p&gt;",</span><br><span class="line">		"url": "http:\/\/cq.cbg.cn\/ycxw\/2020\/0607\/11698033.shtml",</span><br><span class="line">		"catid": 1596,</span><br><span class="line">		"published": "2020-06-07 11:18:08",</span><br><span class="line">		"pv": 28179,</span><br><span class="line">		"subtitle": ""</span><br><span class="line">	&#125;, &#123;</span><br><span class="line">		"contentid": 11698039,</span><br><span class="line">		"title": "\u6850\u6893\uff1a50\u5bb6\u5e02\u53bf\u7ea7\u878d\u5a92\u4f53\u8054\u52a8\u7535\u5546\u76f4\u64ad \u52a9\u63a8\u201c\u9ed4\u8d27\u51fa\u5c71\u201d",</span><br><span class="line">		"modelid": 1,</span><br><span class="line">		"thumb": "\/upload\/cmsupload\/2020\/0607\/1591498753364.jpg",</span><br><span class="line">		"content": "&lt;p&gt;&amp;ldquo;\u5929\u9ebb\u7684\u4f5c\u7528\u5462\uff0c\u4e3b\u8981\u662f\u5206\u4e3a\u4e09\u9547\u3001\u4e09\u6297\u3001\u4e00\u8865\uff0c\u4e09\u9547\u6307\u7684\u662f\u9547\u7ecf\u3001\u9547\u9759\u3001\u8fd8\u6709\u5305\u62ec\u9547\u75db&amp;hellip;&amp;hellip;&amp;rdquo;6\u67086\u65e5\uff0c\u5728\u521a\u521a\u5ba3\u5e03\u5f00\u5e02\u7684\u6850\u6893\u53bf\u4ea7\u9500\u5bf9\u63a5\u667a\u6167\u670d\u52a1\u4e2d\u5fc3\u5927\u5385\u5185\uff0c\u5546\u5bb6\u5218\u4e39\u6b63\u5728\u901a\u8fc7\u81ea\u5df1\u7684\u5546\u57ce\u8fdb\u884c\u7f51\u7edc\u76f4\u64ad\u5e26\u8d27\u3002&lt;\/p&gt;\n&lt;p style=\"text-align: center; text-indent: 0;\"&gt;&lt;img src=\"http:\/\/upload.cbg.cn\/2020\/0607\/1591498730679.jpg\" border=\"0\" alt=\"\u5fae\u4fe1\u56fe\u7247_20200607105911\" \/&gt;&lt;\/p&gt;\n&lt;p&gt;6\u67086\u65e5\uff0c\u6850\u6893\u53bf\u4e3e\u529e&amp;ldquo;\u4e50\u8d2d\u6850\u8d27 \u4e50\u4eab\u4f18\u54c1&amp;rdquo;\u9ed4\u5317\u6e1d\u5357\u667a\u6167\u4ea7\u9500\u4e2d\u5fc3\u5f00\u5e02\u66a8\u6850\u6893\u53bf\u9996\u5c4a&amp;ldquo;6&amp;middot;6&amp;rdquo;\u7535\u5546\u8d2d\u7269\u8282\u3002\u901a\u8fc7\u7ebf\u4e0a\u7ebf\u4e0b\u8054\u52a8\uff0c\u5168\u65b9\u4f4d\u5c55\u793a\u6850\u6893\u5730\u65b9\u7279\u8272\u4ea7\u54c1\uff0c\u62d3\u5c55\u519c\u7279\u4ea7\u54c1\u9500\u552e\u6e20\u9053\uff0c\u63a8\u52a8\u6850\u6893\u53bf\u7535\u5546\u4ea7\u4e1a\u53d1\u5c55\uff0c\u8fdb\u800c\u901a\u8fc7\u7ebf\u4e0a\u5f15\u6d41\u5e26\u52a8\u5b9e\u4f53\u6d88\u8d39\uff0c\u4fc3\u8fdb\u6d88\u8d39\u56de\u8865\u548c\u6f5c\u529b\u91ca\u653e\uff0c\u52a9\u63a8&amp;ldquo;\u9ed4\u8d27\u51fa\u5c71&amp;rdquo;\u3002&lt;\/p&gt;\n&lt;p style=\"text-align: center; text-indent: 0;\"&gt;&lt;img src=\"http:\/\/upload.cbg.cn\/2020\/0607\/1591498741670.jpg\" border=\"0\" alt=\"\u5fae\u4fe1\u56fe\u7247_20200607105915\" \/&gt;&lt;\/p&gt;\n&lt;p&gt;\u6d3b\u52a8\u73b0\u573a\uff0c\u6765\u81ea\u8be5\u53bf\u7684\u90e8\u5206\u515a\u653f\u9886\u5bfc\u4e5f\u6b63\u5728\u901a\u8fc7\u7f51\u7edc\u76f4\u64ad\u7684\u65b9\u5f0f\u4e3a\u6850\u6893\u519c\u7279\u4ea7\u54c1\u4ee3\u8a00\u5e26\u8d27\uff0c\u6e38\u5ba2\u7eb7\u7eb7\u8d70\u4e0a\u524d\u54c1\u5c1d\u8d2d\u4e70\u4ea7\u54c1\u3002&amp;ldquo;\u6850\u6893\u7684\u519c\u7279\u4ea7\u54c1\u54c1\u79cd\u597d\u4e30\u5bcc\uff0c\u7433\u7405\u6ee1\u76ee\u7684\uff0c\u5473\u9053\u4e5f\u90fd\u8fd8\u4e0d\u9519\u3002&amp;rdquo;\u6765\u81ea\u56db\u5ddd\u7684\u6e38\u5ba2\u5434\u6210\u5143\uff0c\u524d\u4e00\u5929\u5728\u670b\u53cb\u5708\u77e5\u9053\u8fd9\u91cc\u8981\u4e3e\u529e\u7535\u5546\u8d2d\u7269\u8282\uff0c\u4fbf\u65e9\u65e9\u5730\u6765\u5230\u4e86\u6d3b\u52a8\u73b0\u573a\uff0c\u770b\u4e86\u4e00\u5708\u73b0\u573a\u7684\u519c\u7279\u4ea7\u54c1\u540e\uff0c\u89c9\u5f97\u6765\u8fd9\u4e00\u8d9f\u5f88\u503c\u5f97\u3002\u6b64\u6b21\u6d3b\u52a8\uff0c\u5bf9\u5546\u5bb6\u6765\u8bf4\uff0c\u4e5f\u662f\u4e00\u6b21\u5f88\u597d\u7684\u4fc3\u9500\u673a\u4f1a\uff0c&amp;ldquo;\u8fd9\u6b21\u6d3b\u52a8\u62d3\u5bbd\u4e86\u6211\u4eec\u7684\u9500\u552e\u6e20\u9053\uff0c\u4e5f\u63d0\u5347\u4e86\u6211\u4eec\u4ea7\u54c1\u7684\u77e5\u540d\u5ea6\u548c\u5f71\u54cd\u529b\u3002&amp;rdquo;\u5546\u5bb6\u91d1\u6b66\u98de\u544a\u8bc9\u8bb0\u8005\u3002&lt;\/p&gt;\n&lt;p&gt;\u8be5\u53bf\u51fa\u8d4410\u4e07\u5143\u8d2d\u7269\u4f18\u60e0\u5238\uff0c\u7528\u4e8e\u672c\u6b21\u6d3b\u52a8\u7684\u5546\u57ce\u5e73\u53f0\u7535\u5546\u8d2d\u7269\u6d88\u8d39\u8865\u8d34\u3002\u8be5\u53bf\u8fd8\u4e0e\u65b0\u534e\u793e\u5ba2\u6237\u7aef\u3001\u592e\u89c6\u9891\u5ba2\u6237\u7aef\u3001\u4eba\u6c11\u7f51\u8d35\u5dde\u9891\u9053\u5fae\u535a\u3001\u52a8\u9759APP\u3001\u591a\u5f69\u8d35\u5dde\u7f51\u7b49\u5a92\u4f53\u5e73\u53f0\u53ca\u91cd\u5e86\u3001\u4e0a\u6d77\u3001\u6d77\u5357\u3001\u5c71\u4e1c\u3001\u56db\u5ddd\u3001\u5e7f\u897f\u7b498\u4e2a\u7701\u5e0250\u591a\u5bb6\u5e02\u53bf\u7ea7\u878d\u5a92\u4f53\u5b9e\u73b0\u8054\u52a8\u76f4\u64ad\u3002&lt;\/p&gt;\n&lt;p&gt;&amp;ldquo;\u8fd9\u6b21\u6d3b\u52a8\u7684\u76ee\u7684\u662f\u4e3a\u4e86\u4fc3\u8fdb\u6d88\u8d39\u6276\u8d2b\u3001\u51b3\u80dc\u8131\u8d2b\u653b\u575a\uff0c\u8fbe\u5230\u4e86\u5e26\u57fa\u5730\u3001\u8fde\u5e02\u573a\u3001\u5bcc\u519c\u6c11\u7684\u6548\u679c\u3002&amp;rdquo;\u6850\u6893\u53bf\u7ecf\u8d38\u5c40\u5c40\u957f\u5170\u7384\u5fb7\u544a\u8bc9\u8bb0\u8005\u3002\u6850\u6893\u53bf\u8fd8\u5728\u8be5\u53bf\u4ea7\u9500\u5bf9\u63a5\u667a\u6167\u670d\u52a1\u4e2d\u5fc3\u4e13\u95e8\u8bbe\u7acb\u4e86\u7535\u5546\u76f4\u64ad\u4ea7\u4e1a\u56ed\uff0c\u7f51\u4e0a\u4e0b\u5355\uff0c\u7f51\u4e0b\u914d\u9001\uff0c\u7ebf\u4e0a\u7ebf\u4e0b\u53cc\u8054\u52a8\uff0c\u521b\u65b0\u7535\u5b50\u5546\u52a1\u65b0\u4e1a\u6001\u3001\u65b0\u6a21\u5f0f\u3002\u5b9e\u73b0&amp;ldquo;\u7ebf\u4e0a\u5f15\u6d41\u3001\u7ebf\u4e0b\u6d88\u8d39&amp;rdquo;\uff0c\u521d\u6b65\u5f62\u6210\u4e1a\u6001\u4e30\u5bcc\u3001\u670d\u52a1\u8303\u56f4\u5e7f\u6cdb\u3001\u7ebf\u4e0a\u7ebf\u4e0b\u6df1\u5ea6\u878d\u5408\u7684\u7ebf\u4e0a\u4e1a\u6001\u4f53\u7cfb\u548c\u7ebf\u4e0a\u6d88\u8d39\u73af\u5883\u3002&lt;\/p&gt;\n&lt;p&gt;\u8bb0\u8005 \u674e\u751c\u751c&amp;nbsp;\u5f20\u9896&lt;\/p&gt;",</span><br><span class="line">		"url": "http:\/\/cq.cbg.cn\/ycxw\/2020\/0607\/11698039.shtml",</span><br><span class="line">		"catid": 1596,</span><br><span class="line">		"published": "2020-06-07 11:18:07",</span><br><span class="line">		"pv": 34432,</span><br><span class="line">		"subtitle": ""</span><br><span class="line">	&#125;]</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="代码实现">代码实现</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">'http://qxapi.cbg.cn/home/getListByCatID?callback=jQuery34102398183434787493_1591415079072&amp;catid=1596&amp;page=0&amp;pagesize=10'</span></span><br><span class="line">response = requests.get(url).text</span><br><span class="line"></span><br><span class="line">pattern = re.compile(<span class="string">r'/\*\*/jQuery[\d]+_[\d]+\((.*?)\);'</span>)</span><br><span class="line">data = pattern.findall(response)[<span class="number">0</span>]</span><br><span class="line">print(data)</span><br></pre></td></tr></table></figure>
+<h4 id="输出">输出</h4>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"status"</span>: <span class="string">"000001"</span>,</span><br><span class="line">	<span class="attr">"msg"</span>: <span class="string">"\u62c9\u53d6\u6210\u529f"</span>,</span><br><span class="line">	<span class="attr">"type"</span>: <span class="string">"000002"</span>,</span><br><span class="line">	<span class="attr">"total"</span>: <span class="number">31670</span>,</span><br><span class="line">	<span class="attr">"data"</span>: [&#123;</span><br><span class="line">		<span class="attr">"contentid"</span>: <span class="number">11698033</span>,</span><br><span class="line">		<span class="attr">"title"</span>: <span class="string">"\u6c99\u576a\u575d\u533a\u4e2d\u6881\u9547\u6458\u84dd\u8393\u00a0\u7ea6\u4e0d\u7ea6\uff1f"</span>,</span><br><span class="line">		<span class="attr">"modelid"</span>: <span class="number">1</span>,</span><br><span class="line">		<span class="attr">"thumb"</span>: <span class="string">"\/upload\/cmsupload\/2020\/0607\/1591498451982.jpg"</span>,</span><br><span class="line">		<span class="attr">"content"</span>: <span class="string">"&lt;p&gt;\u91cd\u5e86\u7f51\u7edc\u5e7f\u64ad\u7535\u89c6\u53f0&amp;nbsp;\u8bb0\u8005 \u738b\u5c0f\u751f&lt;\/p&gt;\n&lt;p&gt;\u590f\u5b63\u662f\u84dd\u8393\u6210\u719f\u7684\u5b63\u8282\uff0c\u79bb\u4e3b\u57ce\u5f88\u8fd1\u7684\u6c99\u576a\u575d\u533a\u4e2d\u6881\u9547\uff0c500\u591a\u4ea9\u84dd\u8393\u6b63\u7b49\u7740\u4f60\u53bb\u91c7\u6458\u3002\u5982\u679c\u6709\u7a7a\uff0c\u4e0d\u59a8\u53bb\u4f53\u9a8c\u7530\u56ed\u4e50\u8da3\u3002&lt;\/p&gt;\n&lt;p style=\"text-align: center; text-indent: 0;\"&gt;&lt;img src=\"http:\/\/upload.cbg.cn\/2020\/0607\/1591498357808.jpg\" border=\"0\" alt=\"\u5fae\u4fe1\u56fe\u7247_20200607105240\" \/&gt;&lt;\/p&gt;\n&lt;p&gt;6\u67086\u65e5\uff0c\u8bb0\u8005\u5728\u4e2d\u6881\u9547\u65b0\u53d1\u6751\u7684\u53e4\u8302\u84dd\u8393\u8c37\u770b\u5230\uff0c\u4e00\u7c07\u4e00\u7c07\u7684\u84dd\u8393\uff0c\u72b9\u5982\u5b9d\u77f3\u822c\uff0c\u60ac\u6302\u5728\u6811\u68a2\u4e0a\uff0c\u5e02\u6c11\u4eec\u4e09\u4e94\u6210\u7fa4\uff0c\u7a7f\u68ad\u5728\u7530\u95f4\uff0c\u91c7\u6458\u84dd\u8393\uff0c\u611f\u53d7\u4e30\u6536\u7684\u559c\u60a6\uff0c\u5c3d\u60c5\u4eab\u53d7\u5468\u672b\u7f8e\u597d\u65f6\u5149\u3002\u674e\u5973\u58eb\u4eca\u5929\u5e26\u7740\u5b69\u5b50\u6765\u5230\u8fd9\u91cc\uff0c\u91c7\u6458\u4e86\u4e00\u7bee\u5b50\u84dd\u8393\uff0c\u5979\u8868\u793a\uff0c\u7531\u4e8e\u53d7\u75ab\u60c5\u5f71\u54cd\uff0c\u5b69\u5b50\u90fd\u5f88\u5c11\u51fa\u95e8\uff0c\u73b0\u5728\u75ab\u60c5\u597d\u8f6c\uff0c\u5468\u672b\u6b63\u597d\u5e26\u7740\u5b69\u5b50\u51fa\u6765\u8d70\u8d70\uff0c\u4eb2\u8fd1\u5927\u81ea\u7136\u3002&lt;\/p&gt;\n&lt;p style=\"text-align: center; text-indent: 0;\"&gt;&lt;img src=\"http:\/\/upload.cbg.cn\/2020\/0607\/1591498368902.jpg\" border=\"0\" alt=\"\u5fae\u4fe1\u56fe\u7247_20200607105244\" \/&gt;&lt;\/p&gt;\n&lt;p&gt;\u636e\u84dd\u8393\u8c37\u8d1f\u8d23\u4eba\u4ecb\u7ecd\uff0c\u4ed6\u4eec\u5171\u6709\u84dd\u8393100\u4f59\u4ea9\uff0c10\u591a\u4e2a\u54c1\u79cd\uff0c4\u4e07\u591a\u682a\uff0c\u91c7\u6458\u5468\u671f\u5c06\u6301\u7eed\u52307\u6708\u521d\uff0c\u5728\u6b64\u671f\u95f4\u5e02\u6c11\u5747\u53ef\u76f4\u63a5\u524d\u5f80\u91c7\u6458\u3002&lt;\/p&gt;\n&lt;p style=\"text-align: center; text-indent: 0;\"&gt;&lt;img src=\"http:\/\/upload.cbg.cn\/2020\/0607\/1591498386566.jpg\" border=\"0\" alt=\"\u5fae\u4fe1\u56fe\u7247_20200607105248\" \/&gt;&lt;\/p&gt;\n&lt;p style=\"text-align: center; text-indent: 0;\"&gt;&lt;img src=\"http:\/\/upload.cbg.cn\/2020\/0607\/1591498386165.jpg\" border=\"0\" alt=\"\u5fae\u4fe1\u56fe\u7247_20200607105251\" \/&gt;&lt;\/p&gt;\n&lt;p&gt;\u636e\u4e2d\u6881\u9547\u519c\u670d\u4e2d\u5fc3\u5de5\u4f5c\u4eba\u5458\u4ecb\u7ecd\uff0c\u7531\u4e8e\u4e2d\u6881\u9547\u6d77\u62d4\u8d85\u8fc7500\u7c73\uff0c\u6c14\u5019\u6e29\u548c\u3001\u571f\u58e4\u5bcc\u7852\u3001\u9178\u78b1\u9002\u5b9c\uff0c\u975e\u5e38\u9002\u5408\u79cd\u690d\u84dd\u8393\u3002\u8fd1\u5e74\u6765\uff0c\u7ed3\u5408\u4e61\u6751\u632f\u5174\u6218\u7565\u7684\u5b9e\u65bd\uff0c\u4e2d\u6881\u9547\u5927\u529b\u53d1\u5c55\u84dd\u8393\u79cd\u690d\uff0c\u73b0\u6709\u9762\u79ef500\u591a\u4ea9\u3002&lt;\/p&gt;\n&lt;p style=\"text-align: center; text-indent: 0;\"&gt;&lt;img src=\"http:\/\/upload.cbg.cn\/2020\/0607\/1591498405459.jpg\" border=\"0\" alt=\"\u5fae\u4fe1\u56fe\u7247_20200607105254\" \/&gt;&lt;\/p&gt;\n&lt;p&gt;\u84dd\u8393\u679c\u5b9e\u4e2d\u542b\u6709\u4e30\u5bcc\u7684\u8425\u517b\u6210\u5206\uff0c\u5c24\u5176\u5bcc\u542b\u82b1\u9752\u7d20\uff0c\u5b83\u4e0d\u4ec5\u5177\u6709\u826f\u597d\u7684\u8425\u517b\u4fdd\u5065\u4f5c\u7528\uff0c\u8fd8\u5177\u6709\u9632\u6b62\u8111\u795e\u7ecf\u8001\u5316\u3001\u5f3a\u5fc3\u3001\u6297\u764c\u3001\u8f6f\u5316\u8840\u7ba1\u3001\u589e\u5f3a\u4eba\u4f53\u514d\u75ab\u7b49\u529f\u80fd\uff0c\u56e0\u6b64\u6df1\u53d7\u5e02\u6c11\u559c\u7231\u3002&lt;\/p&gt;"</span>,</span><br><span class="line">		<span class="attr">"url"</span>: <span class="string">"http:\/\/cq.cbg.cn\/ycxw\/2020\/0607\/11698033.shtml"</span>,</span><br><span class="line">		<span class="attr">"catid"</span>: <span class="number">1596</span>,</span><br><span class="line">		<span class="attr">"published"</span>: <span class="string">"2020-06-07 11:18:08"</span>,</span><br><span class="line">		<span class="attr">"pv"</span>: <span class="number">28179</span>,</span><br><span class="line">		<span class="attr">"subtitle"</span>: <span class="string">""</span></span><br><span class="line">	&#125;, &#123;</span><br><span class="line">		<span class="attr">"contentid"</span>: <span class="number">11698039</span>,</span><br><span class="line">		<span class="attr">"title"</span>: <span class="string">"\u6850\u6893\uff1a50\u5bb6\u5e02\u53bf\u7ea7\u878d\u5a92\u4f53\u8054\u52a8\u7535\u5546\u76f4\u64ad \u52a9\u63a8\u201c\u9ed4\u8d27\u51fa\u5c71\u201d"</span>,</span><br><span class="line">		<span class="attr">"modelid"</span>: <span class="number">1</span>,</span><br><span class="line">		<span class="attr">"thumb"</span>: <span class="string">"\/upload\/cmsupload\/2020\/0607\/1591498753364.jpg"</span>,</span><br><span class="line">		<span class="attr">"content"</span>: <span class="string">"&lt;p&gt;&amp;ldquo;\u5929\u9ebb\u7684\u4f5c\u7528\u5462\uff0c\u4e3b\u8981\u662f\u5206\u4e3a\u4e09\u9547\u3001\u4e09\u6297\u3001\u4e00\u8865\uff0c\u4e09\u9547\u6307\u7684\u662f\u9547\u7ecf\u3001\u9547\u9759\u3001\u8fd8\u6709\u5305\u62ec\u9547\u75db&amp;hellip;&amp;hellip;&amp;rdquo;6\u67086\u65e5\uff0c\u5728\u521a\u521a\u5ba3\u5e03\u5f00\u5e02\u7684\u6850\u6893\u53bf\u4ea7\u9500\u5bf9\u63a5\u667a\u6167\u670d\u52a1\u4e2d\u5fc3\u5927\u5385\u5185\uff0c\u5546\u5bb6\u5218\u4e39\u6b63\u5728\u901a\u8fc7\u81ea\u5df1\u7684\u5546\u57ce\u8fdb\u884c\u7f51\u7edc\u76f4\u64ad\u5e26\u8d27\u3002&lt;\/p&gt;\n&lt;p style=\"text-align: center; text-indent: 0;\"&gt;&lt;img src=\"http:\/\/upload.cbg.cn\/2020\/0607\/1591498730679.jpg\" border=\"0\" alt=\"\u5fae\u4fe1\u56fe\u7247_20200607105911\" \/&gt;&lt;\/p&gt;\n&lt;p&gt;6\u67086\u65e5\uff0c\u6850\u6893\u53bf\u4e3e\u529e&amp;ldquo;\u4e50\u8d2d\u6850\u8d27 \u4e50\u4eab\u4f18\u54c1&amp;rdquo;\u9ed4\u5317\u6e1d\u5357\u667a\u6167\u4ea7\u9500\u4e2d\u5fc3\u5f00\u5e02\u66a8\u6850\u6893\u53bf\u9996\u5c4a&amp;ldquo;6&amp;middot;6&amp;rdquo;\u7535\u5546\u8d2d\u7269\u8282\u3002\u901a\u8fc7\u7ebf\u4e0a\u7ebf\u4e0b\u8054\u52a8\uff0c\u5168\u65b9\u4f4d\u5c55\u793a\u6850\u6893\u5730\u65b9\u7279\u8272\u4ea7\u54c1\uff0c\u62d3\u5c55\u519c\u7279\u4ea7\u54c1\u9500\u552e\u6e20\u9053\uff0c\u63a8\u52a8\u6850\u6893\u53bf\u7535\u5546\u4ea7\u4e1a\u53d1\u5c55\uff0c\u8fdb\u800c\u901a\u8fc7\u7ebf\u4e0a\u5f15\u6d41\u5e26\u52a8\u5b9e\u4f53\u6d88\u8d39\uff0c\u4fc3\u8fdb\u6d88\u8d39\u56de\u8865\u548c\u6f5c\u529b\u91ca\u653e\uff0c\u52a9\u63a8&amp;ldquo;\u9ed4\u8d27\u51fa\u5c71&amp;rdquo;\u3002&lt;\/p&gt;\n&lt;p style=\"text-align: center; text-indent: 0;\"&gt;&lt;img src=\"http:\/\/upload.cbg.cn\/2020\/0607\/1591498741670.jpg\" border=\"0\" alt=\"\u5fae\u4fe1\u56fe\u7247_20200607105915\" \/&gt;&lt;\/p&gt;\n&lt;p&gt;\u6d3b\u52a8\u73b0\u573a\uff0c\u6765\u81ea\u8be5\u53bf\u7684\u90e8\u5206\u515a\u653f\u9886\u5bfc\u4e5f\u6b63\u5728\u901a\u8fc7\u7f51\u7edc\u76f4\u64ad\u7684\u65b9\u5f0f\u4e3a\u6850\u6893\u519c\u7279\u4ea7\u54c1\u4ee3\u8a00\u5e26\u8d27\uff0c\u6e38\u5ba2\u7eb7\u7eb7\u8d70\u4e0a\u524d\u54c1\u5c1d\u8d2d\u4e70\u4ea7\u54c1\u3002&amp;ldquo;\u6850\u6893\u7684\u519c\u7279\u4ea7\u54c1\u54c1\u79cd\u597d\u4e30\u5bcc\uff0c\u7433\u7405\u6ee1\u76ee\u7684\uff0c\u5473\u9053\u4e5f\u90fd\u8fd8\u4e0d\u9519\u3002&amp;rdquo;\u6765\u81ea\u56db\u5ddd\u7684\u6e38\u5ba2\u5434\u6210\u5143\uff0c\u524d\u4e00\u5929\u5728\u670b\u53cb\u5708\u77e5\u9053\u8fd9\u91cc\u8981\u4e3e\u529e\u7535\u5546\u8d2d\u7269\u8282\uff0c\u4fbf\u65e9\u65e9\u5730\u6765\u5230\u4e86\u6d3b\u52a8\u73b0\u573a\uff0c\u770b\u4e86\u4e00\u5708\u73b0\u573a\u7684\u519c\u7279\u4ea7\u54c1\u540e\uff0c\u89c9\u5f97\u6765\u8fd9\u4e00\u8d9f\u5f88\u503c\u5f97\u3002\u6b64\u6b21\u6d3b\u52a8\uff0c\u5bf9\u5546\u5bb6\u6765\u8bf4\uff0c\u4e5f\u662f\u4e00\u6b21\u5f88\u597d\u7684\u4fc3\u9500\u673a\u4f1a\uff0c&amp;ldquo;\u8fd9\u6b21\u6d3b\u52a8\u62d3\u5bbd\u4e86\u6211\u4eec\u7684\u9500\u552e\u6e20\u9053\uff0c\u4e5f\u63d0\u5347\u4e86\u6211\u4eec\u4ea7\u54c1\u7684\u77e5\u540d\u5ea6\u548c\u5f71\u54cd\u529b\u3002&amp;rdquo;\u5546\u5bb6\u91d1\u6b66\u98de\u544a\u8bc9\u8bb0\u8005\u3002&lt;\/p&gt;\n&lt;p&gt;\u8be5\u53bf\u51fa\u8d4410\u4e07\u5143\u8d2d\u7269\u4f18\u60e0\u5238\uff0c\u7528\u4e8e\u672c\u6b21\u6d3b\u52a8\u7684\u5546\u57ce\u5e73\u53f0\u7535\u5546\u8d2d\u7269\u6d88\u8d39\u8865\u8d34\u3002\u8be5\u53bf\u8fd8\u4e0e\u65b0\u534e\u793e\u5ba2\u6237\u7aef\u3001\u592e\u89c6\u9891\u5ba2\u6237\u7aef\u3001\u4eba\u6c11\u7f51\u8d35\u5dde\u9891\u9053\u5fae\u535a\u3001\u52a8\u9759APP\u3001\u591a\u5f69\u8d35\u5dde\u7f51\u7b49\u5a92\u4f53\u5e73\u53f0\u53ca\u91cd\u5e86\u3001\u4e0a\u6d77\u3001\u6d77\u5357\u3001\u5c71\u4e1c\u3001\u56db\u5ddd\u3001\u5e7f\u897f\u7b498\u4e2a\u7701\u5e0250\u591a\u5bb6\u5e02\u53bf\u7ea7\u878d\u5a92\u4f53\u5b9e\u73b0\u8054\u52a8\u76f4\u64ad\u3002&lt;\/p&gt;\n&lt;p&gt;&amp;ldquo;\u8fd9\u6b21\u6d3b\u52a8\u7684\u76ee\u7684\u662f\u4e3a\u4e86\u4fc3\u8fdb\u6d88\u8d39\u6276\u8d2b\u3001\u51b3\u80dc\u8131\u8d2b\u653b\u575a\uff0c\u8fbe\u5230\u4e86\u5e26\u57fa\u5730\u3001\u8fde\u5e02\u573a\u3001\u5bcc\u519c\u6c11\u7684\u6548\u679c\u3002&amp;rdquo;\u6850\u6893\u53bf\u7ecf\u8d38\u5c40\u5c40\u957f\u5170\u7384\u5fb7\u544a\u8bc9\u8bb0\u8005\u3002\u6850\u6893\u53bf\u8fd8\u5728\u8be5\u53bf\u4ea7\u9500\u5bf9\u63a5\u667a\u6167\u670d\u52a1\u4e2d\u5fc3\u4e13\u95e8\u8bbe\u7acb\u4e86\u7535\u5546\u76f4\u64ad\u4ea7\u4e1a\u56ed\uff0c\u7f51\u4e0a\u4e0b\u5355\uff0c\u7f51\u4e0b\u914d\u9001\uff0c\u7ebf\u4e0a\u7ebf\u4e0b\u53cc\u8054\u52a8\uff0c\u521b\u65b0\u7535\u5b50\u5546\u52a1\u65b0\u4e1a\u6001\u3001\u65b0\u6a21\u5f0f\u3002\u5b9e\u73b0&amp;ldquo;\u7ebf\u4e0a\u5f15\u6d41\u3001\u7ebf\u4e0b\u6d88\u8d39&amp;rdquo;\uff0c\u521d\u6b65\u5f62\u6210\u4e1a\u6001\u4e30\u5bcc\u3001\u670d\u52a1\u8303\u56f4\u5e7f\u6cdb\u3001\u7ebf\u4e0a\u7ebf\u4e0b\u6df1\u5ea6\u878d\u5408\u7684\u7ebf\u4e0a\u4e1a\u6001\u4f53\u7cfb\u548c\u7ebf\u4e0a\u6d88\u8d39\u73af\u5883\u3002&lt;\/p&gt;\n&lt;p&gt;\u8bb0\u8005 \u674e\u751c\u751c&amp;nbsp;\u5f20\u9896&lt;\/p&gt;"</span>,</span><br><span class="line">		<span class="attr">"url"</span>: <span class="string">"http:\/\/cq.cbg.cn\/ycxw\/2020\/0607\/11698039.shtml"</span>,</span><br><span class="line">		<span class="attr">"catid"</span>: <span class="number">1596</span>,</span><br><span class="line">		<span class="attr">"published"</span>: <span class="string">"2020-06-07 11:18:07"</span>,</span><br><span class="line">		<span class="attr">"pv"</span>: <span class="number">34432</span>,</span><br><span class="line">		<span class="attr">"subtitle"</span>: <span class="string">""</span></span><br><span class="line">	&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="例二：爬虫中解析网页">例二：爬虫中解析网页</h3>
+<h4 id="部分展示-2">部分展示</h4>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dd</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"board-index board-index-8"</span>&gt;</span>8<span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/films/267"</span> <span class="attr">title</span>=<span class="string">"泰坦尼克号"</span> <span class="attr">class</span>=<span class="string">"image-link"</span> <span class="attr">data-act</span>=<span class="string">"boarditem-click"</span> <span class="attr">data-val</span>=<span class="string">"&#123;movieId:267&#125;"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"//s3plus.meituan.net/v1/mss_e2821d7f0cfe4ac1bf9202ecf9590e67/cdn-prod/file:5788b470/image/loading_2.e3d934bf.png"</span> <span class="attr">alt</span>=<span class="string">""</span> <span class="attr">class</span>=<span class="string">"poster-default"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">img</span> <span class="attr">data-src</span>=<span class="string">"https://p1.meituan.net/movie/b607fba7513e7f15eab170aac1e1400d878112.jpg@160w_220h_1e_1c"</span> <span class="attr">alt</span>=<span class="string">"泰坦尼克号"</span> <span class="attr">class</span>=<span class="string">"board-img"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"board-item-main"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"board-item-content"</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"movie-item-info"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"name"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/films/267"</span> <span class="attr">title</span>=<span class="string">"泰坦尼克号"</span> <span class="attr">data-act</span>=<span class="string">"boarditem-click"</span> <span class="attr">data-val</span>=<span class="string">"&#123;movieId:267&#125;"</span>&gt;</span>泰坦尼克号<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"star"</span>&gt;</span></span><br><span class="line">                主演：莱昂纳多·迪卡普里奥,凯特·温丝莱特,比利·赞恩</span><br><span class="line">        <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"releasetime"</span>&gt;</span>上映时间：1998-04-03<span class="tag">&lt;/<span class="name">p</span>&gt;</span>    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"movie-item-number score-num"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"score"</span>&gt;</span><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"integer"</span>&gt;</span>9.<span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fraction"</span>&gt;</span>4<span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span>        </span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="tag">&lt;/<span class="name">dd</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="代码实现-2">代码实现</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">url = <span class="string">'https://maoyan.com/board/4?offset=0'</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)Chrome/80.0.3987.87 Safari/537.36'</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">response = requests.get(url, headers=headers).text</span><br><span class="line"><span class="comment"># print(response)</span></span><br><span class="line">pattern = re.compile(</span><br><span class="line">        <span class="string">'&lt;dd&gt;.*?board-index.*?&gt;(.*?)&lt;/i&gt;.*?data-src="(.*?)".*?name.*?a.*?&gt;(.*?)&lt;/a&gt;.*?star.*?&gt;(.*?)&lt;/p&gt;.*?releasetime.*?&gt;(.*?)&lt;/p&gt;.*?integer.*?&gt;(.*?)&lt;/i&gt;.*?fraction.*?&gt;(.*?)&lt;/i&gt;.*?&lt;/dd&gt;'</span>,</span><br><span class="line">        re.S</span><br><span class="line">    )</span><br><span class="line">items = re.findall(pattern, response)</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">    print(item)</span><br></pre></td></tr></table></figure>
+<h4 id="输出-2">输出</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(<span class="string">'1'</span>, <span class="string">'https://p0.meituan.net/movie/4c41068ef7608c1d4fbfbe6016e589f7204391.jpg@160w_220h_1e_1c'</span>, <span class="string">'活着'</span>, <span class="string">'\n                主演：葛优,巩俐,牛犇\n        '</span>, <span class="string">'上映时间：1994-05-17(法国)'</span>, <span class="string">'9.'</span>, <span class="string">'0'</span>)</span><br><span class="line">(<span class="string">'2'</span>, <span class="string">'https://p0.meituan.net/movie/bcbe59fc51580317adf94537a61a1a26142090.jpg@160w_220h_1e_1c'</span>, <span class="string">'钢琴家'</span>, <span class="string">'\n                主演：艾德里安·布洛迪,艾米莉娅·福克斯,米哈乌·热布罗夫斯基\n        '</span>, <span class="string">'上映时间：2002-05-24(法国)'</span>, <span class="string">'8.'</span>, <span class="string">'8'</span>)</span><br><span class="line">(<span class="string">'3'</span>, <span class="string">'https://p1.meituan.net/movie/958f5ca5151e46b20919fb61ffc0d4d2238108.jpg@160w_220h_1e_1c'</span>, <span class="string">'勇敢的心'</span>, <span class="string">'\n                主演：梅尔·吉布森,苏菲·玛索,帕特里克·麦高汉\n        '</span>, <span class="string">'上映时间：1995-05-18(美国)'</span>, <span class="string">'8.'</span>, <span class="string">'8'</span>)</span><br><span class="line">(<span class="string">'4'</span>, <span class="string">'https://p0.meituan.net/movie/85215b28d568ea8e2c97766edd95f890210522.jpg@160w_220h_1e_1c'</span>, <span class="string">'阿飞正传'</span>, <span class="string">'\n                主演：张国荣,张曼玉,刘德华\n        '</span>, <span class="string">'上映时间：2018-06-25'</span>, <span class="string">'8.'</span>, <span class="string">'8'</span>)</span><br><span class="line">(<span class="string">'5'</span>, <span class="string">'https://p0.meituan.net/movie/86c5190ba1d1236093c13f2fe9ed8dd4150050.jpg@160w_220h_1e_1c'</span>, <span class="string">'射雕英雄传之东成西就'</span>, <span class="string">'\n                主演：张国荣,梁朝伟,张学友\n        '</span>, <span class="string">'上映时间：1993-02-05(中国香港)'</span>, <span class="string">'8.'</span>, <span class="string">'8'</span>)</span><br><span class="line">(<span class="string">'6'</span>, <span class="string">'https://p0.meituan.net/movie/de1142a5dceb901eb939eb0bcfc2f88470909.jpg@160w_220h_1e_1c'</span>, <span class="string">'爱·回家'</span>, <span class="string">'\n                主演：俞承豪,金艺芬,童孝熙\n        '</span>, <span class="string">'上映时间：2002-04-05(韩国)'</span>, <span class="string">'9.'</span>, <span class="string">'0'</span>)</span><br><span class="line">(<span class="string">'7'</span>, <span class="string">'https://p1.meituan.net/movie/05bc2f0ccf97aacfa64fcac4f237cf8082385.jpg@160w_220h_1e_1c'</span>, <span class="string">'初恋这件小事'</span>, <span class="string">'\n                主演：马里奥·毛瑞尔,平采娜·乐维瑟派布恩,阿查拉那·阿瑞亚卫考\n        '</span>, <span class="string">'上映时间：2012-06-05'</span>, <span class="string">'8.'</span>, <span class="string">'8'</span>)</span><br><span class="line">(<span class="string">'8'</span>, <span class="string">'https://p1.meituan.net/movie/b607fba7513e7f15eab170aac1e1400d878112.jpg@160w_220h_1e_1c'</span>, <span class="string">'泰坦尼克号'</span>, <span class="string">'\n                主演：莱昂纳多·迪卡普里奥,凯特·温丝莱特,比利·赞恩\n        '</span>, <span class="string">'上映时间：1998-04-03'</span>, <span class="string">'9.'</span>, <span class="string">'4'</span>)</span><br><span class="line">(<span class="string">'9'</span>, <span class="string">'https://p1.meituan.net/movie/a1634f4e49c8517ae0a3e4adcac6b0dc43994.jpg@160w_220h_1e_1c'</span>, <span class="string">'迁徙的鸟'</span>, <span class="string">'\n                主演：雅克·贝汉,Philippe Labro\n        '</span>, <span class="string">'上映时间：2001-12-12(法国)'</span>, <span class="string">'9.'</span>, <span class="string">'0'</span>)</span><br><span class="line">(<span class="string">'10'</span>, <span class="string">'https://p0.meituan.net/movie/09658109acfea0e248a63932337d8e6a4268980.jpg@160w_220h_1e_1c'</span>, <span class="string">'蝙蝠侠：黑暗骑士'</span>, <span class="string">'\n                主演：克里斯蒂安·贝尔,希斯·莱杰,阿伦·伊克哈特\n        '</span>, <span class="string">'上映时间：2008-07-14(阿根廷)'</span>, <span class="string">'9.'</span>, <span class="string">'3'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="标志修饰符">标志修饰符</h2>
+<p>  Python正则表达式中的标志修饰符</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">修饰符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">re.I</td>
+<td>使匹配对大小写不敏感</td>
+</tr>
+<tr>
+<td style="text-align:center">re.L</td>
+<td>做本地化识别（locale-aware）匹配</td>
+</tr>
+<tr>
+<td style="text-align:center">re.M</td>
+<td>多行匹配，影响 ^ 和 $</td>
+</tr>
+<tr>
+<td style="text-align:center">re.S</td>
+<td>使 . 匹配包括换行在内的所有字符</td>
+</tr>
+<tr>
+<td style="text-align:center">re.U</td>
+<td>根据Unicode字符集解析字符。这个标志影响 \w, \W, \b, \B</td>
+</tr>
+<tr>
+<td style="text-align:center">re.X</td>
+<td>该标志通过给予你更灵活的格式以便你将正则表达式写得更易于理解</td>
+</tr>
+</tbody>
+</table>
+<p><b>参考：</b><br>
+<a href="https://www.runoob.com/regexp/regexp-tutorial.html" target="_blank" rel="noopener">正则表达式 - 教程 | 菜鸟教程</a><br>
+<a href="https://baike.baidu.com/item/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/1700215?fr=aladdin" target="_blank" rel="noopener">正则表达式 |百度百科 </a><br>
+<a href="https://tool.oschina.net/regex/" target="_blank" rel="noopener">在线正则表达式测试</a><br>
+<a href="https://my.oschina.net/u/3018050/blog/2872587" target="_blank" rel="noopener">常用正则表达式（高亮，markdown）</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/RE/" rel="tag"><i class="fa fa-tag"></i> RE</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/a388e785.html" rel="prev" title="分词">
+      <i class="fa fa-chevron-left"></i> 分词
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/231c7ec.html" rel="next" title="Scrapy输出JSON中文乱码">
+      Scrapy输出JSON中文乱码 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特点"><span class="nav-number">2.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#元字符"><span class="nav-number">3.</span> <span class="nav-text">元字符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用正则表达式"><span class="nav-number">4.</span> <span class="nav-text">常用正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#校验数字"><span class="nav-number">4.1.</span> <span class="nav-text">校验数字</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数字"><span class="nav-number">4.1.1.</span> <span class="nav-text">数字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#n位的数字"><span class="nav-number">4.1.2.</span> <span class="nav-text">n位的数字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#至少n位的数字"><span class="nav-number">4.1.3.</span> <span class="nav-text">至少n位的数字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#m-n位的数字"><span class="nav-number">4.1.4.</span> <span class="nav-text">m-n位的数字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#零和非零开头的数字"><span class="nav-number">4.1.5.</span> <span class="nav-text">零和非零开头的数字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非零开头的最多带两位小数的数字"><span class="nav-number">4.1.6.</span> <span class="nav-text">非零开头的最多带两位小数的数字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#带1-2位小数的正数或负数"><span class="nav-number">4.1.7.</span> <span class="nav-text">带1-2位小数的正数或负数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#正数、负数、和小数"><span class="nav-number">4.1.8.</span> <span class="nav-text">正数、负数、和小数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有两位小数的正实数"><span class="nav-number">4.1.9.</span> <span class="nav-text">有两位小数的正实数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有1-3位小数的正实数"><span class="nav-number">4.1.10.</span> <span class="nav-text">有1~3位小数的正实数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非零的正整数"><span class="nav-number">4.1.11.</span> <span class="nav-text">非零的正整数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非零的负整数"><span class="nav-number">4.1.12.</span> <span class="nav-text">非零的负整数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非负整数"><span class="nav-number">4.1.13.</span> <span class="nav-text">非负整数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非正整数"><span class="nav-number">4.1.14.</span> <span class="nav-text">非正整数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非负浮点数"><span class="nav-number">4.1.15.</span> <span class="nav-text">非负浮点数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非正浮点数"><span class="nav-number">4.1.16.</span> <span class="nav-text">非正浮点数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#正浮点数"><span class="nav-number">4.1.17.</span> <span class="nav-text">正浮点数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#负浮点数"><span class="nav-number">4.1.18.</span> <span class="nav-text">负浮点数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#浮点数"><span class="nav-number">4.1.19.</span> <span class="nav-text">浮点数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#校验字符"><span class="nav-number">4.2.</span> <span class="nav-text">校验字符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#汉字"><span class="nav-number">4.2.1.</span> <span class="nav-text">汉字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#长度为3-20的所有字符"><span class="nav-number">4.2.2.</span> <span class="nav-text">长度为3-20的所有字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#由26个英文字母组成的字符串"><span class="nav-number">4.2.3.</span> <span class="nav-text">由26个英文字母组成的字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#由26个大写英文字母组成的字符串"><span class="nav-number">4.2.4.</span> <span class="nav-text">由26个大写英文字母组成的字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#由26个小写英文字母组成的字符串"><span class="nav-number">4.2.5.</span> <span class="nav-text">由26个小写英文字母组成的字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#由数字和26个英文字母组成的字符串"><span class="nav-number">4.2.6.</span> <span class="nav-text">由数字和26个英文字母组成的字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#由数字、26个英文字母或者下划线组成的字符串"><span class="nav-number">4.2.7.</span> <span class="nav-text">由数字、26个英文字母或者下划线组成的字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#中文、英文、数字包括下划线"><span class="nav-number">4.2.8.</span> <span class="nav-text">中文、英文、数字包括下划线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#中文、英文、数字但不包括下划线等符号"><span class="nav-number">4.2.9.</span> <span class="nav-text">中文、英文、数字但不包括下划线等符号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可以输入含有-’-等字符"><span class="nav-number">4.2.10.</span> <span class="nav-text">可以输入含有^%&amp;’,;&#x3D;?$&quot;等字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#禁止输入含有-的字符"><span class="nav-number">4.2.11.</span> <span class="nav-text">禁止输入含有~的字符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊需求"><span class="nav-number">4.3.</span> <span class="nav-text">特殊需求</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Email地址"><span class="nav-number">4.3.1.</span> <span class="nav-text">Email地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线"><span class="nav-number">4.3.2.</span> <span class="nav-text">帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线"><span class="nav-number">4.3.3.</span> <span class="nav-text">密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-18之间"><span class="nav-number">4.3.4.</span> <span class="nav-text">强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-18之间)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#19或20年某月某日"><span class="nav-number">4.3.5.</span> <span class="nav-text">19或20年某月某日</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例（Python）"><span class="nav-number">5.</span> <span class="nav-text">示例（Python）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#例一：爬虫中response返回的非标准json数据"><span class="nav-number">5.1.</span> <span class="nav-text">例一：爬虫中response返回的非标准json数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#部分展示"><span class="nav-number">5.1.1.</span> <span class="nav-text">部分展示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码实现"><span class="nav-number">5.1.2.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输出"><span class="nav-number">5.1.3.</span> <span class="nav-text">输出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例二：爬虫中解析网页"><span class="nav-number">5.2.</span> <span class="nav-text">例二：爬虫中解析网页</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#部分展示-2"><span class="nav-number">5.2.1.</span> <span class="nav-text">部分展示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码实现-2"><span class="nav-number">5.2.2.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输出-2"><span class="nav-number">5.2.3.</span> <span class="nav-text">输出</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标志修饰符"><span class="nav-number">6.</span> <span class="nav-text">标志修饰符</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mr.xiuxing"
+      src="/images/tiger.jpg">
+  <p class="site-author-name" itemprop="name">Mr.xiuxing</p>
+  <div class="site-description" itemprop="description">爱生活，爱技术（Python）</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mrxiuxing" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mrxiuxing" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:mr.xiuxing@qq.com" title="E-Mail → mailto:mr.xiuxing@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">By Mr.xiuxing</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">118k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:47</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : '5um9L2k8JVl7ueIaJgMgQTjQ-MdYXbMMI',
+      appKey     : 'LLKEjgHF8X1jFf4CvO89FHVv',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
