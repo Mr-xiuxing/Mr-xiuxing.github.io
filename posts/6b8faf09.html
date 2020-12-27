@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mrxiuxing.cn","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="If you only do what you can do， you will never be more than you are now. ——《功夫熊猫3》 如果你只做力所能及的事情, 你就没办法进步。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scrapy">
+<meta property="og:url" content="http://mrxiuxing.cn/posts/6b8faf09.html">
+<meta property="og:site_name" content="Mr.xiuxing&#39;s Blog">
+<meta property="og:description" content="If you only do what you can do， you will never be more than you are now. ——《功夫熊猫3》 如果你只做力所能及的事情, 你就没办法进步。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/6b8faf09/scrapy_1.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/6b8faf09/scrapy_2.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/6b8faf09/scrapy_3.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/6b8faf09/scrapy_4.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/6b8faf09/scrapy_5.jpg">
+<meta property="article:published_time" content="2020-11-16T11:32:59.000Z">
+<meta property="article:modified_time" content="2020-11-16T11:32:59.000Z">
+<meta property="article:author" content="Mr.xiuxing">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="爬虫">
+<meta property="article:tag" content="Scrapy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mrxiuxing.cn/posts/6b8faf09/scrapy_1.png">
+
+<link rel="canonical" href="http://mrxiuxing.cn/posts/6b8faf09.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Scrapy | Mr.xiuxing's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mr.xiuxing's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mrxiuxing.cn/posts/6b8faf09.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/tiger.jpg">
+      <meta itemprop="name" content="Mr.xiuxing">
+      <meta itemprop="description" content="爱生活，爱技术（Python）">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.xiuxing's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          Scrapy
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-16 19:32:59" itemprop="dateCreated datePublished" datetime="2020-11-16T19:32:59+08:00">2020-11-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%88%AC%E8%99%AB/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/posts/6b8faf09.html" class="post-meta-item leancloud_visitors" data-flag-title="Scrapy" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/6b8faf09.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/6b8faf09.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><em><strong><center>If you only do what you can do， you will never be more than you are now. ——《功夫熊猫3》</center></strong></em><br>
+<em><strong><center>如果你只做力所能及的事情, 你就没办法进步。</center></strong></em></p>
+<a id="more"></a>
+<h2 id="什么是-Scrapy">什么是 Scrapy</h2>
+<p>  Scrapy是适用于Python的一个快速、高层次的屏幕抓取和web抓取框架，用于抓取web站点并从页面中提取结构化的数据。Scrapy用途广泛，可以用于数据挖掘、监测和自动化测试。</p>
+<p>  Scrapy是一个适用爬取网站数据、提取结构性数据的应用程序框架，它可以应用在广泛领域：Scrapy 常应用在包括数据挖掘，信息处理或存储历史数据等一系列的程序中。通常我们可以很简单的通过 Scrapy 框架实现一个爬虫，抓取指定网站的内容或图片。</p>
+<p>  截止2020年11月16日，Scrapy最新版本为2.4，Python版本最低要求3.6+，适用于Linux，Windows，macOS，BSD</p>
+<h2 id="Scrapy-官方站点">Scrapy 官方站点</h2>
+<p>   github地址：<a href="https://github.com/scrapy/scrapy" target="_blank" rel="noopener">https://github.com/scrapy/scrapy</a><br>
+   官方社区：<a href="https://scrapy.org/" target="_blank" rel="noopener">https://scrapy.org/</a><br>
+   官方文档：<a href="https://docs.scrapy.org/en/latest/" target="_blank" rel="noopener">https://docs.scrapy.org/en/latest/</a></p>
+<h2 id="安装-Scrapy">安装 Scrapy</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scrapy</span><br></pre></td></tr></table></figure>
+<p>你也可以指定源，一般这样会快很多。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scrapy -i https://pypi.douban.com/simple</span><br></pre></td></tr></table></figure>
+<p>  如果你的scrapy是很早之前安装的，你也可以使用下面的命令进行升级安装。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scrapy -i --upgrade https://pypi.douban.com/simple</span><br></pre></td></tr></table></figure>
+<p>  我在使用上面的命令进行更新时出现了以下错误：<br>
+<img src="/posts/6b8faf09/scrapy_1.png" alt></p>
+<p>  意思是：gerapy 0.9.2 版本要求 pymysql 的版本为 0.7.10，但是您的 pymysql 版本为 0.10.1，这是不兼容的。不过在上图的最后一行中，我们可以了解到 scrapy 是更新成功的。</p>
+<p>  使用下面的命令查看scrapy 现在的版本。确定scrapy是更新成功了。既然安装成功就暂时先不管这些小问题了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy --version</span><br></pre></td></tr></table></figure>
+<p><img src="/posts/6b8faf09/scrapy_2.png" alt></p>
+<p>  使用 pip install scrapy 安装，极可能会遇到 Twisted 安装报错以及其他包版本的错误。<br>
+  关于 Twisted 可以在这个网站下载：<a href="https://pypi.org/project/Twisted/#files" target="_blank" rel="noopener">https://pypi.org/project/Twisted/#files</a><br>
+  在下载之前一定要先确定你机器上的Python版本，在cmd中输入python即可，如下图：</p>
+<p><img src="/posts/6b8faf09/scrapy_3.png" alt></p>
+<p>  可以看出我的python版本是3.7，机器是64位机器，那么我就可以下载下图所示版本：</p>
+<p><img src="/posts/6b8faf09/scrapy_4.png" alt></p>
+<p>  下载完成之后 使用 win + R 输入cmd 打开命令窗口，并输入 pip install 然后将你下载好的Twisted文件拖进命令窗口，然后回车即可安装。</p>
+<p>  安装完 Twisted 再次执行 pip install scrapy 命令进行安装，如果遇到其他包版本问题，按照错误提示安装指定版本的包即可。</p>
+<p>  当然我最推荐的安装方式是：先安装anaconda，然后安装scrapy，这样可以避免很多错误以节约时间。关于anaconda的下载可以到<a href="https://mirror.tuna.tsinghua.edu.cn/help/anaconda/" target="_blank" rel="noopener">清华大学开源软件镜像站</a>，关于镜像源的更换可以看<a href="https://jingyan.baidu.com/article/1876c8527be1c3890a137645.html" target="_blank" rel="noopener">百度经验 - anaconda清华源更换</a>这篇文章。</p>
+<p>  在清华源镜像站中 Anaconda3-2020.02-Windows-x86_64.exe 是最新的支持python3.7的版本，Anaconda3-2020.07-Windows-x86_64.exe是最新的支持python3.8的版本，关于其他版本可自行安装测试。</p>
+<h2 id="Scrapy架构">Scrapy架构</h2>
+<p><img src="/posts/6b8faf09/scrapy_5.jpg" alt></p>
+<h3 id="Scrapy-组件">Scrapy 组件</h3>
+<p><b>1、Scrapy Engine (引擎):</b><br>
+  负责Spider、ItemPipeline、Downloader、Scheduler中间的通讯，信号、数据传递等。</p>
+<p><b>2、Scheduler (调度器):</b><br>
+  负责接受引擎发送过来的Request请求，并按照一定的方式进行整理排列，入队，当引擎需要时，交还给引擎。</p>
+<p><b>3、Downloader (下载器):</b><br>
+  负责下载Scrapy Engine(引擎)发送的所有Requests请求，并将其获取到的Responses交还给Scrapy Engine(引擎)，由引擎交给Spider来处理。</p>
+<p><b>4、Spider (爬虫):</b><br>
+  负责处理所有Responses，从中分析提取数据，获取Item字段需要的数据，并将需要跟进的URL提交给引擎，再次进入Scheduler(调度器)。</p>
+<p><b>5、Item Pipeline (管道):</b><br>
+  负责处理Spider中获取到的Item，并进行进行后期处理（详细分析、过滤、存储等）的地方。</p>
+<p><b>6、Downloader Middlewares (下载中间件):</b><br>
+  介于Scrapy引擎和下载器之间的中间件，可以自定义扩展下载功能的组件。</p>
+<p><b>7、Spider Middlewares (爬虫中间件):</b><br>
+  介于Scrapy引擎和爬虫之间的中间件，可以自定义扩展操作引擎和爬虫中间通信的功能组件。</p>
+<p><b>8、Scheduler Middlewares(调度中间件):</b><br>
+  介于Scrapy引擎和调度之间的中间件，可以自定义扩展操作引擎和调度器中间通信的功能组件。</p>
+<h3 id="Scrapy-运行流程">Scrapy 运行流程</h3>
+<p>1、Spider：Engine，Engine 起来干活了！Spider 将 第一个 requests 发送给 Engine (引擎)<br>
+2、Engine：知道了！ Engine 对 requests 不做任何的处理就发送给 Scheduler (调度器)<br>
+3、Scheduler：看了一眼这个 requests，Scheduler 将 requests 发送给 Engine (引擎) ，并告诉引擎：你把它交给 Downloader (下载器)<br>
+4、Engine：知道了！ Engine 默默地将 requests (Downloader Middlewares中process_request进行处理) 发送给 Downloader (下载器)<br>
+5、Downloader：Engine，你看，我下载好了，快夸夸我。Downloader 将 response (Downloader Middlewares中process_response进行处理) 发送给 Engine (引擎)<br>
+6、Engine：知道了！Engine 将 response 交给 spider (爬虫)<br>
+7、Spider：Engine，Engine 我处理好了。Spider 将 item 以及下一个 requests 发送给Engine (引擎)<br>
+8、Engine：知道了！Engine 将 item 交给 Item Pipeline (管道) 过滤储存，将下一个 requests 发送给 Scheduler (调度器)</p>
+<p>  如果你只有一个链接需要抓取，那么在第8步的时候 Engine 将 item 交给 Item Pipeline 后，Engine就会停止，直至 Item Pipeline处理完所有的 item ，整个程序才算停止。在后面我会举例子证明这一点。如果你有很多的链接需要抓取，那么这个流程就是：1 ——&gt; 2 ——&gt; 3 ——&gt; 4 ——&gt; 5 ——&gt; 6 ——&gt; 7 ——&gt; 8 ——&gt; 3 ——&gt; 4 ——&gt; 5 ——&gt; 6 ——&gt; 7 ——&gt; 8 ——&gt; 3 ——&gt; … …  ——&gt; 8 。直至所有 item 处理完成，程序停止。</p>
+<h2 id="文中提到的网站">文中提到的网站</h2>
+<p><a href="https://github.com/scrapy/scrapy" target="_blank" rel="noopener">Scrapy | github</a>, <a href="https://scrapy.org/" target="_blank" rel="noopener">Scrapy | 官方社区</a>, <a href="https://docs.scrapy.org/en/latest/" target="_blank" rel="noopener">Scrapy | 官方文档</a>, <a href="https://pypi.org/project/Twisted/#files" target="_blank" rel="noopener">pypi | Twisted</a>, <a href="https://mirror.tuna.tsinghua.edu.cn/help/anaconda/" target="_blank" rel="noopener">清华大学开源软件镜像站</a>, <a href="https://jingyan.baidu.com/article/1876c8527be1c3890a137645.html" target="_blank" rel="noopener">百度经验 | anaconda清华源更换</a></p>
+<h2 id="未完待续-…">未完待续 …</h2>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+              <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"><i class="fa fa-tag"></i> 爬虫</a>
+              <a href="/tags/Scrapy/" rel="tag"><i class="fa fa-tag"></i> Scrapy</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/231c7ec.html" rel="prev" title="Scrapy输出JSON中文乱码">
+      <i class="fa fa-chevron-left"></i> Scrapy输出JSON中文乱码
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/a4f1f8b3.html" rel="next" title="Ubuntu Server 20.04 LTS 安装">
+      Ubuntu Server 20.04 LTS 安装 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-Scrapy"><span class="nav-number">1.</span> <span class="nav-text">什么是 Scrapy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scrapy-官方站点"><span class="nav-number">2.</span> <span class="nav-text">Scrapy 官方站点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Scrapy"><span class="nav-number">3.</span> <span class="nav-text">安装 Scrapy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scrapy架构"><span class="nav-number">4.</span> <span class="nav-text">Scrapy架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Scrapy-组件"><span class="nav-number">4.1.</span> <span class="nav-text">Scrapy 组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scrapy-运行流程"><span class="nav-number">4.2.</span> <span class="nav-text">Scrapy 运行流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文中提到的网站"><span class="nav-number">5.</span> <span class="nav-text">文中提到的网站</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未完待续-…"><span class="nav-number">6.</span> <span class="nav-text">未完待续 …</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mr.xiuxing"
+      src="/images/tiger.jpg">
+  <p class="site-author-name" itemprop="name">Mr.xiuxing</p>
+  <div class="site-description" itemprop="description">爱生活，爱技术（Python）</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mrxiuxing" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mrxiuxing" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:mr.xiuxing@qq.com" title="E-Mail → mailto:mr.xiuxing@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">By Mr.xiuxing</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">124k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : '5um9L2k8JVl7ueIaJgMgQTjQ-MdYXbMMI',
+      appKey     : 'LLKEjgHF8X1jFf4CvO89FHVv',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
