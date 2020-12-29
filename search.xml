@@ -16,7 +16,7 @@
 <p><img src="/posts/32e09451/ip_02.png" alt></p>
 <p>  终端输入 route -n 看一下网关，是192.168.0.1</p>
 <p><img src="/posts/32e09451/ip_03.png" alt></p>
-<p>  Ubuntu Server 20.04使用 netplan 工具进行修改IP，所以我们进入 /etc/netplan 目录, 然后使用 ll 命令查看目录有哪些文件,。不出意外的话你的Ubuntu Server 20.04在这个目录下也是只有一个以 yaml 结尾的文件。</p>
+<p>  Ubuntu Server 20.04 是使用 netplan 工具进行修改IP的，所以我们进入 /etc/netplan 目录, 然后使用 ll 命令查看目录有哪些文件,。不出意外的话你的Ubuntu Server 20.04在这个目录下也是只有一个以 yaml 结尾的文件。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /etc/netplan</span><br><span class="line">ll</span><br></pre></td></tr></table></figure>
 <p><img src="/posts/32e09451/ip_04.png" alt></p>
 <p>  我们需要修改的就是这个以 yaml 结尾的文件，为了防止意外，做个备份</p>
@@ -24,10 +24,10 @@
 <p>  现在就可以放心的修改了，我们打开这个yaml文件，看看里面是啥？</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo vi 00-installer-config.yaml</span><br></pre></td></tr></table></figure>
 <p><img src="/posts/32e09451/ip_05.png" alt></p>
-<p>  这比想象中的简单呀！上图中 dhcp4 的值为 true ，就是因为它所以，每次重启才会大概率会更换IP。我们需要把它关掉，然后加入我们需要的配置，如下图：</p>
+<p>  这比想象中的简单呀！上图中 dhcp4 的值为 true ，就是因为它，每次重启才会大概率会更换IP。我们需要把它关掉，然后加入我们需要的配置，如下图：</p>
 <p><img src="/posts/32e09451/ip_06.png" alt></p>
 <p>  如果你的网卡和网关都和我的一样，那么赶紧把下面的这一段复制粘贴保存吧！</p>
-<p>  <b>注意：网卡设为你自己的网卡，网关设置为你自己的网关，IP要根据你的网关去设置，例如你的网关是192.168.0.1 那么你的IP 可以设置为 192.168.0.x , x的范围是大于1且小于255（因为你的网关是192.168.0.1所以的IP不能设置为192.168.0.1；广播地址为192.168.0.255，所以不能设置为192.168.0.255）。yaml文件中冒号是英文冒号，且冒号后面要有空格</b></p>
+<p>  <b>注意：网卡设为你自己的网卡，网关设置为你自己的网关，IP要根据你的网关去设置，例如你的网关是192.168.0.1 那么你的IP 可以设置为 192.168.0.x , x的范围是大于1且小于255（因为你的网关是192.168.0.1所以的IP不能设置为192.168.0.1；广播地址为192.168.0.255，所以不能设置为192.168.0.255），掩码必须有，且一般为24。yaml文件中冒号是英文冒号，且冒号后面要有空格。</b></p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">ens32:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">false</span></span><br><span class="line">      <span class="attr">addresses:</span> <span class="string">[192.168.0.200/24]</span></span><br><span class="line">      <span class="attr">gateway4:</span> <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">      <span class="attr">nameservers:</span></span><br><span class="line">              <span class="attr">addresses:</span> <span class="string">[192.168.0.1,8.8.8.8]</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
 <p>  修改改完之后还需要重启 netplan 才能生效</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo netplan --debug apply</span><br></pre></td></tr></table></figure>
