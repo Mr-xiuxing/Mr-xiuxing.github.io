@@ -358,8 +358,8 @@
       </categories>
       <tags>
         <tag>Python</tag>
-        <tag>爬虫</tag>
         <tag>Scrapy</tag>
+        <tag>爬虫</tag>
       </tags>
   </entry>
   <entry>
@@ -393,8 +393,8 @@
       </categories>
       <tags>
         <tag>Python</tag>
-        <tag>爬虫</tag>
         <tag>Scrapy</tag>
+        <tag>爬虫</tag>
       </tags>
   </entry>
   <entry>
@@ -1693,8 +1693,8 @@
         <category>爬虫</category>
       </categories>
       <tags>
-        <tag>爬虫</tag>
         <tag>Scrapy</tag>
+        <tag>爬虫</tag>
       </tags>
   </entry>
   <entry>
@@ -2456,8 +2456,8 @@ show tables;返回当前数据库所有可用表的列表。</p>
         <category>Hexo</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Hexo</tag>
+        <tag>Linux</tag>
         <tag>Ubuntu</tag>
         <tag>Nginx</tag>
       </tags>
