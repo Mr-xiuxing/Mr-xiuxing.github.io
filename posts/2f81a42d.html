@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mrxiuxing.cn","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="We can’t change the past. But we can make the future.——《都市侠盗》 不念过往，未来可期。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树莓派折腾记（一）-- 安装系统（Ubuntu Server 20.04.1）">
+<meta property="og:url" content="http://mrxiuxing.cn/posts/2f81a42d.html">
+<meta property="og:site_name" content="Mr.xiuxing&#39;s Blog">
+<meta property="og:description" content="We can’t change the past. But we can make the future.——《都市侠盗》 不念过往，未来可期。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_001.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_002.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_01.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_02.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_03.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_04.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_05.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_06.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_07.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_08.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_09.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_10.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_11.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_11_1.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_11_2.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_12.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_13.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_14.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_15.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_16.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_16_1.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_17.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_11_3.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_18.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_19.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_20.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_21.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_22.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_24.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_25.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_26.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_27.png">
+<meta property="og:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_28.png">
+<meta property="article:published_time" content="2021-01-18T14:09:31.000Z">
+<meta property="article:modified_time" content="2021-01-18T14:09:31.000Z">
+<meta property="article:author" content="Mr.xiuxing">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Ubuntu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mrxiuxing.cn/posts/2f81a42d/pi_001.png">
+
+<link rel="canonical" href="http://mrxiuxing.cn/posts/2f81a42d.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>树莓派折腾记（一）-- 安装系统（Ubuntu Server 20.04.1） | Mr.xiuxing's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mr.xiuxing's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mrxiuxing.cn/posts/2f81a42d.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/tiger.jpg">
+      <meta itemprop="name" content="Mr.xiuxing">
+      <meta itemprop="description" content="爱生活，爱技术（Python）">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.xiuxing's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          树莓派折腾记（一）-- 安装系统（Ubuntu Server 20.04.1）
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-18 22:09:31" itemprop="dateCreated datePublished" datetime="2021-01-18T22:09:31+08:00">2021-01-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/posts/2f81a42d.html" class="post-meta-item leancloud_visitors" data-flag-title="树莓派折腾记（一）-- 安装系统（Ubuntu Server 20.04.1）" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/2f81a42d.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/2f81a42d.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><em><strong><center>We can’t change the past. But we can make the future.——《都市侠盗》</center></strong></em><br>
+<em><strong><center>不念过往，未来可期。</center></strong></em></p>
+<a id="more"></a>
+<h2 id="前言">前言</h2>
+<p>  最近刚整个了个树莓派4B 8GB版本，详细配置如下：</p>
+<p><img src="/posts/2f81a42d/pi_001.png" alt><br>
+<img src="/posts/2f81a42d/pi_002.png" alt></p>
+<p>  准备给它装上 Ubuntu Server 20.04 当服务器来用。关于什么是树莓派这里不做过多赘述，有兴趣的话可以浏览下面几篇文章：<a href="https://baike.baidu.com/item/%E6%A0%91%E8%8E%93%E6%B4%BE/80427?fr=aladdin" target="_blank" rel="noopener">树莓派 （微型电脑）_百度百科</a> 、<a href="https://baike.baidu.com/item/%E6%A0%91%E8%8E%93%E6%B4%BE%E7%94%B5%E8%84%91/3928138?fr=aladdin" target="_blank" rel="noopener">树莓派电脑_百度百科</a> 、<a href="https://www.zhihu.com/question/32163206/answer/1025151986" target="_blank" rel="noopener">能用树莓派干些什么有趣的事情？</a></p>
+<h2 id="镜像准备">镜像准备</h2>
+<p>  既然要安装ubuntu server，那肯定要去ubuntu官网了！</p>
+<p><img src="/posts/2f81a42d/pi_01.png" alt></p>
+<p>  ubuntu 有可供树莓派安装使用的基于arm64架构的系统。我的是树莓派4B，就按照下图所示进行下载。</p>
+<p><img src="/posts/2f81a42d/pi_02.png" alt></p>
+<p>  如果你的浏览器转了好大会圈圈还不下载，就点击下图中的的红框，立即下载。推荐使用迅雷下载，不然你可能要等到花都谢了！！！</p>
+<p><img src="/posts/2f81a42d/pi_03.png" alt></p>
+<p>  下载完成之后它是一个以xz结尾的压缩文件，有600M+大小，我们需要将它解压，解压后的文件后缀为img，有3G+大小，也就是我们所需要的镜像。如下图所示：</p>
+<p><img src="/posts/2f81a42d/pi_04.png" alt></p>
+<h2 id="烧录系统">烧录系统</h2>
+<p>  树莓派安装系统与我们平常用的台式机笔记本安装系统的方式不太一样。树莓派需要进行烧录安装系统，然后我们就需要用到一个专业软件了 balenaEtcher 这是github地址： <a href="https://github.com/balena-io/etcher/releases" target="_blank" rel="noopener">https://github.com/balena-io/etcher/releases</a></p>
+<p>  安装好balenaEtcher之后，按照下图所示操作即可</p>
+<p><img src="/posts/2f81a42d/pi_05.png" alt></p>
+<p>  稍等片刻，出现如下图所示，系统就烧录进TF卡中了。关闭balenaEtcher即可</p>
+<p><img src="/posts/2f81a42d/pi_06.png" alt></p>
+<p>  此时，第一个坑点来了。烧录完之后，你的电脑可能找不到TF了，这时你可以重新插拔一下TF卡，如果还是不显示你就重启一下电脑。<br>
+  随之而来的是第二个坑，从windows自带的磁盘工具查看到还有很大一部分空间未分配，你的可用空间（主分区）大概只有2G左右的样子。</p>
+<p><img src="/posts/2f81a42d/pi_07.png" alt></p>
+<p>  这时就需要另一个工具了 DiskGenius 一个强大的磁盘管理工具，官网地址：<a href="https://www.diskgenius.cn/" target="_blank" rel="noopener">https://www.diskgenius.cn/</a> 。打开DiskGenius，找到你的TF卡，不出意外你的TF下有两个分区</p>
+<p><img src="/posts/2f81a42d/pi_08.png" alt></p>
+<p>  选中主分区（Ext4分区），然后右键扩容分区</p>
+<p><img src="/posts/2f81a42d/pi_09.png" alt></p>
+<p>  点击开始，会有一个警告弹窗，点击确定，稍等片刻即可扩容完毕</p>
+<p><img src="/posts/2f81a42d/pi_10.png" alt></p>
+<p>  如下图，这是扩容之后的样子，所有的空闲空间已经扩容到了主分区（Ext4分区）了</p>
+<p><img src="/posts/2f81a42d/pi_11.png" alt></p>
+<p>  使用 WIN + E 打开文件管理，不出意外在你的设备和驱动器下有一个 system-boot 盘符，打开这个盘符，找到 network-config 这个文件（wifi网络配置文件）</p>
+<p><img src="/posts/2f81a42d/pi_11_1.png" alt></p>
+<p>  打开network-config，发现内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">version: 2</span><br><span class="line">ethernets:</span><br><span class="line">  eth0:</span><br><span class="line">    dhcp4: true</span><br><span class="line">    optional: true</span><br><span class="line">#wifis:</span><br><span class="line">#  wlan0:</span><br><span class="line">#    dhcp4: true</span><br><span class="line">#    optional: true</span><br><span class="line">#    access-points:</span><br><span class="line">#      myhomewifi:</span><br><span class="line">#        password: &quot;S3kr1t&quot;</span><br><span class="line">#      myworkwifi:</span><br><span class="line">#        password: &quot;correct battery horse staple&quot;</span><br><span class="line">#      workssid:</span><br><span class="line">#        auth:</span><br><span class="line">#          key-management: eap</span><br><span class="line">#          method: peap</span><br><span class="line">#          identity: &quot;me@example.com&quot;</span><br><span class="line">#          password: &quot;passw0rd&quot;</span><br><span class="line">#          ca-certificate: &#x2F;etc&#x2F;my_ca.pem</span><br></pre></td></tr></table></figure>
+<p>  修改为如下内容，你可以添加多个wifi配置，如下内容中TP-LINK_1以及TP-LINK_2都是wifi名称，不需要引号引起来，除非wifi名称中含有空格，密码填入对应wifi名称下password后的引号中即可。此外缩进一定要使用空格。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">version: 2</span><br><span class="line">ethernets:</span><br><span class="line">  eth0:</span><br><span class="line">    dhcp4: true</span><br><span class="line">    optional: true</span><br><span class="line">wifis:</span><br><span class="line">  wlan0:</span><br><span class="line">    dhcp4: true</span><br><span class="line">    optional: true</span><br><span class="line">    access-points:</span><br><span class="line">      TP-LINK_1:</span><br><span class="line">        password: &quot;TP-LINK_1的密码&quot;</span><br><span class="line">      TP-LINK_2:</span><br><span class="line">        password: &quot;TP-LINK_2的密码&quot;</span><br><span class="line">#      myhomewifi:</span><br><span class="line">#        password: &quot;S3kr1t&quot;</span><br><span class="line">#      myworkwifi:</span><br><span class="line">#        password: &quot;correct battery horse staple&quot;</span><br><span class="line">#      workssid:</span><br><span class="line">#        auth:</span><br><span class="line">#          key-management: eap</span><br><span class="line">#          method: peap</span><br><span class="line">#          identity: &quot;me@example.com&quot;</span><br><span class="line">#          password: &quot;passw0rd&quot;</span><br><span class="line">#          ca-certificate: &#x2F;etc&#x2F;my_ca.pem</span><br></pre></td></tr></table></figure>
+<h2 id="启动系统">启动系统</h2>
+<p>  <b>首先说明</b>：默认用户名，密码都是ubuntu。首次登录后会让你再输一遍密码也就是ubuntu，然后创建一个复杂密码、 确认密码。如下图所示：如果你是使用ssh工具登录，验证新密码后会退出，你只需使用你刚设置的新密码重新登录即可</p>
+<p><img src="/posts/2f81a42d/pi_11_2.png" alt></p>
+<h3 id="配置网络">配置网络</h3>
+<p>  <b>对于我们安装的ubuntu server亲测有两种方法可以查看ip地址。</b></p>
+<p>  <b>方法①、网线 + 笔记本电脑共享网络 + 显示器（需miniHDMI转HDMI接头）+ 键盘 + 树莓派</b></p>
+<p>  首先在笔记本电脑中依次打开 设置 --&gt; 网络和Internet --&gt; 更改适配器选项，如下图：</p>
+<p><img src="/posts/2f81a42d/pi_12.png" alt></p>
+<p><img src="/posts/2f81a42d/pi_13.png" alt></p>
+<p>  进入到如下界面，可以看到我的笔记本使用的是WLAN连接到网络，网线插口未被使用</p>
+<p><img src="/posts/2f81a42d/pi_14.png" alt></p>
+<p>  我们选中WLAN，右键点击属性，进入到如下界面，然后点击共享</p>
+<p><img src="/posts/2f81a42d/pi_15.png" alt></p>
+<p>  按照下图所示，勾选允许其他网络用户通过此计算机的Internet连接来连接，家庭网络连接选择以太网，点击确定即可</p>
+<p><img src="/posts/2f81a42d/pi_16.png" alt></p>
+<p>  然后将烧录好的TF卡插入树莓派TF卡槽中，网线的一端插入笔记本网口，另一端插入树莓派网口，连接好显示器键盘，然后接通电源，稍等片刻便可进入系统。进入系统修改完密码，使用 ip addr 即可查看ip。</p>
+<p>  <b>方法②、网线 + 路由器 + 树莓派</b></p>
+<p>  这种方法最为便捷，不需要显示器以及键盘等配件。将烧录好的TF卡插入树莓派TF卡槽中，网线的一端插入路由器网口，另一端插入树莓派网口，然后接通电源。</p>
+<p>  当然，使用这种方式连接网络什么时候开机我们是无法直接看到的。需要我们登录路由器，（一般来说地址是192.168.0.1，当然有些品牌型号可能例外，具体请查找说明书）然后通过路由器的设备管理查看新增的设备的ip即可，不出意外的话，新增了一个名称为ubuntu的设备。（有的路由器的设备管理可以区分是否使用网线连接的，我的路由器是TP-LINK WDR5620）如下图：</p>
+<p><img src="/posts/2f81a42d/pi_16_1.png" alt></p>
+<p>  然后就可以使用ssh工具连接到树莓派了，修改初始密码重新连接即可。</p>
+<p>  如果你不知道路由器的登录密码，也可以使用360流量防火墙下的防蹭网来检测设备，腾讯安全管家应该也有类似功能。</p>
+<p>  到了这里，有的朋友可能要问了：那你之前配置的wifi有什么用？树莓派不是支持wifi吗？</p>
+<p>  答：ubuntu server 20.04.x安装完之后，首次启动会初始化一次配置，之前配置的wifi会初始化写入到 /etc/netplan 目录下的yaml配置文件，之后再修改的话只能修改这个yaml配置文件了。而且树莓派安装最大的坑点来了–没有wlan0无线网卡，如下图：只有eth0有线网卡。</p>
+<p><img src="/posts/2f81a42d/pi_17.png" alt></p>
+<p>  这不是我们想要的，在某些情况下我们是需要无线网卡的。经过不断的测试终于解决了没有wlan0的问题。</p>
+<p>  第一步，在首次开机前就配置好wifi，也就是上文中扩容TF卡之后的操作</p>
+<p>  第二步，依次执行下面的命令更新软件（切记：不要更换软件源）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+<p>  如果你在执行sudo apt upgrade时，出现了类似下图问题</p>
+<p><img src="/posts/2f81a42d/pi_11_3.png" alt></p>
+<p>  使用Ctrl + c 停止，然后执行 sudo reboot 重启树莓派。重新依次执行sudo apt update 和 sudo apt upgrade即可。这时，你使用 ip addr 命令发现还是没有wlan0网卡，不要慌不要急，我们执行一下 sudo reboot 重启树莓派。然后执行 ip addr 命令，发现wlan0出现了，如下图：</p>
+<p><img src="/posts/2f81a42d/pi_18.png" alt></p>
+<p>  <b>上面的方法仅适用于ubuntu server 20.04.1版本</b>，ubuntu server 20.04.2版本是行不通的。通过对比发现：ubuntu server 20.04.1版本在更新软件的时候更新了内核</p>
+<p><img src="/posts/2f81a42d/pi_19.png" alt></p>
+<p>  并且随着内核的更新安装了驱动，如下图（太多了，只截取了部分）。</p>
+<p><img src="/posts/2f81a42d/pi_20.png" alt></p>
+<p>  而ubuntu server 20.04.2版本因内核是最新的，没有更新内核，也就没有安装驱动，所以ubuntu server 20.04.2版本无论怎么更新都是找不到wlan0无线网卡的。这里也是最大的坑点（系统在第一次启动初始化时并没有安装驱动）。</p>
+<p>  至于我为什么发现了这点，是因为写这篇文章我拖了好久，以至于ubuntu server 20.04.2都发布了。因为官网只提供最新版本的下载，所以在官网上是找不到ubuntu server 20.04.1版本的。但是我们可以在历史版本找，这是链接： <a href="http://old-releases.ubuntu.com/releases/20.04.1/" target="_blank" rel="noopener">http://old-releases.ubuntu.com/releases/20.04.1/</a> ，打开这个链接，滑到最后，选择	ubuntu-20.04.1-preinstalled-server-arm64+raspi.img.xz 进行下载即可。</p>
+<p><img src="/posts/2f81a42d/pi_21.png" alt></p>
+<h3 id="更换软件源">更换软件源</h3>
+<p>  官方的软件源还是太慢了，为了以后更新或安装软件时更加的快捷，推荐更换国内的软件源。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 将官方源做一下备份</span></span><br><span class="line">sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak</span><br><span class="line"><span class="meta">#</span><span class="bash"> 将ubuntu的镜像站点替换为阿里云的镜像站点</span></span><br><span class="line">sudo sed -i 's/http:\/\/.*.ubuntu.com/https:\/\/mirrors.aliyun.com/g' /etc/apt/sources.list</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+<h3 id="修改时区">修改时区</h3>
+<p>  ubuntu server 安装完后，默认时区并不是Asia/Shanghai，也就是说对于我们来说时间是不准确的，所以我们需要修改下时区。我们可以使用 date -R 命令查看当前时区， 发现为 +0000。</p>
+<p><img src="/posts/2f81a42d/pi_22.png" alt></p>
+<p>  修改时区可以使用 sudo tzselect 命令。例如我要修改为北京时间，可以在输入 sudo tzselect 命令后依次输入 4 --&gt; 9 --&gt; 1 --&gt; 1 ，如下图：</p>
+<p><img src="/posts/2f81a42d/pi_24.png" alt></p>
+<p>  我们还需执行下面的命令让其生效</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br></pre></td></tr></table></figure>
+<p>  这时使用 date -R 命令查看当前时区，就会发现时区变成了 +0800 ,此刻的时间对于我们来说也就是正确的时间了。</p>
+<p><img src="/posts/2f81a42d/pi_25.png" alt></p>
+<h3 id="配置静态IP">配置静态IP</h3>
+<p>  之前我们在系统第一次启动前就配置了wifi，但是DHCP是开启的，也就是ip可能会因为我们重启机器而改变，所以我们需要将IP固定下来，毕竟不能每次使用ssh工具连接的时候都找一次ip吧。</p>
+<p>  在上文中也提到过，首次启动会初始化一次配置，之前配置的wifi会初始化写入到 /etc/netplan 目录下的yaml配置文件。我们要想配置静态IP也是在这个yaml文件中。我们可以使用下面的命令查看配置文件全名。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ll /etc/netplan/</span><br></pre></td></tr></table></figure>
+<p>  不出意外的话你的配置文件全名应该也是50-cloud-init.yaml</p>
+<p><img src="/posts/2f81a42d/pi_26.png" alt></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 进入配置目录</span></span><br><span class="line">cd /etc/netplan/</span><br><span class="line"><span class="meta">#</span><span class="bash"> 先做一下备份</span></span><br><span class="line">sudo cp 50-cloud-init.yaml 50-cloud-init.yaml.back</span><br><span class="line"><span class="meta">#</span><span class="bash"> 打开配置文件</span></span><br><span class="line">sudo vim 50-cloud-init.yaml</span><br></pre></td></tr></table></figure>
+<p>  你会发现这不就是之前配置的wifi吗？只不过缩进由2个空格变成了4个空格，密码没有被双引号包裹而已。</p>
+<p><img src="/posts/2f81a42d/pi_27.png" alt></p>
+<p>  配置静态ip，我们需要将DHCP关闭，指定静态ip地址/子网掩码，指定网关地址，指定DNS地址。具体如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">network:</span></span><br><span class="line">    <span class="attr">ethernets:</span></span><br><span class="line">        <span class="attr">eth0:</span>  <span class="comment"># 有线网卡</span></span><br><span class="line">            <span class="attr">addresses:</span></span><br><span class="line">                <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.0</span><span class="number">.109</span><span class="string">/24</span>  <span class="comment"># ip地址/子网掩码</span></span><br><span class="line">            <span class="attr">gateway4:</span> <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span>  <span class="comment"># 网关地址</span></span><br><span class="line">            <span class="attr">nameservers:</span></span><br><span class="line">                    <span class="attr">addresses:</span> <span class="comment"># DNS地址，多个的话按照下面添加即可</span></span><br><span class="line">                        <span class="bullet">-</span> <span class="number">114.114</span><span class="number">.114</span><span class="number">.114</span></span><br><span class="line">                        <span class="bullet">-</span> <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span></span><br><span class="line">            <span class="attr">dhcp4:</span> <span class="literal">no</span>  <span class="comment"># DHCP</span></span><br><span class="line">            <span class="attr">optional:</span> <span class="literal">no</span></span><br><span class="line">    <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">    <span class="attr">wifis:</span></span><br><span class="line">        <span class="attr">wlan0:</span>  <span class="comment"># 无线网卡</span></span><br><span class="line">            <span class="attr">addresses:</span></span><br><span class="line">                <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.0</span><span class="number">.110</span><span class="string">/24</span>  <span class="comment"># ip地址/子网掩码</span></span><br><span class="line">            <span class="attr">gateway4:</span> <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span>  <span class="comment"># 网关地址</span></span><br><span class="line">            <span class="attr">nameservers:</span></span><br><span class="line">                    <span class="attr">addresses:</span> <span class="comment"># DNS地址，多个的话按照下面添加即可</span></span><br><span class="line">                        <span class="bullet">-</span> <span class="number">114.114</span><span class="number">.114</span><span class="number">.114</span></span><br><span class="line">                        <span class="bullet">-</span> <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span></span><br><span class="line">            <span class="attr">access-points:</span></span><br><span class="line">                <span class="attr">TP-LINK_1:</span>  <span class="comment"># wifi名称</span></span><br><span class="line">                    <span class="attr">password:</span> <span class="string">TP-LINK_1的密码</span>  <span class="comment"># wifi密码</span></span><br><span class="line">                <span class="attr">TP-LINK_2:</span>  <span class="comment"># wifi名称</span></span><br><span class="line">                    <span class="attr">password:</span> <span class="string">TP-LINK_2的密码</span>  <span class="comment"># wifi密码</span></span><br><span class="line">            <span class="attr">dhcp4:</span> <span class="literal">no</span>  <span class="comment"># DHCP</span></span><br><span class="line">            <span class="attr">optional:</span> <span class="literal">no</span></span><br></pre></td></tr></table></figure>
+<p>  然后使用下面的命令让配置生效，当然你也可以重启树莓派。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo netplan --debug apply</span><br></pre></td></tr></table></figure>
+<p>  如果你当前连接树莓派的ip地址与你在配置文件中指定的地址不一样，ssh工具会断开与树莓派的连接。当然这也说明你的配置大概率是成功了的，然后你就可以使用你刚刚在配置文件中指定的ip地址连接到树莓派了。</p>
+<p>  使用 ip addr 命令查看效果。如下图：可以看到有限网卡 eth0 静态ip为 192.168.0.109 ，无线网卡 wlan0 静态ip为 192.168.0.110, ， 和我们配置的一样，说明配置生效了。</p>
+<p><img src="/posts/2f81a42d/pi_28.png" alt></p>
+<h2 id="写在最后">写在最后</h2>
+<p>  至此，ubuntu server 20.04的安装以及配置就完毕了。整个安装过程可以说是一波三折，小问题不断。因为树莓派的受众很小，再加上很少有人使用树莓派当做服务器，所以很多问题网上没有同类型的只能自己摸索，如果你还遇到了其他问题，欢迎在下方留言。</p>
+<p><b>参考：</b><br>
+<a href="https://www.cnblogs.com/mrfangd/p/Ubuntu20_04-Change_repo.html" target="_blank" rel="noopener">Ubuntu Server 20.04换用阿里源 - mrfangd</a><br>
+<a href="https://www.cnblogs.com/jiu0821/p/5999566.html" target="_blank" rel="noopener">linux修改系统时间和linux查看时区、修改时区的方法 - jiu__</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+              <a href="/tags/Ubuntu/" rel="tag"><i class="fa fa-tag"></i> Ubuntu</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/32e09451.html" rel="prev" title="Ubuntu Server 20.04 配置静态IP">
+      <i class="fa fa-chevron-left"></i> Ubuntu Server 20.04 配置静态IP
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#镜像准备"><span class="nav-number">2.</span> <span class="nav-text">镜像准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#烧录系统"><span class="nav-number">3.</span> <span class="nav-text">烧录系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动系统"><span class="nav-number">4.</span> <span class="nav-text">启动系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置网络"><span class="nav-number">4.1.</span> <span class="nav-text">配置网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更换软件源"><span class="nav-number">4.2.</span> <span class="nav-text">更换软件源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改时区"><span class="nav-number">4.3.</span> <span class="nav-text">修改时区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置静态IP"><span class="nav-number">4.4.</span> <span class="nav-text">配置静态IP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最后"><span class="nav-number">5.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mr.xiuxing"
+      src="/images/tiger.jpg">
+  <p class="site-author-name" itemprop="name">Mr.xiuxing</p>
+  <div class="site-description" itemprop="description">爱生活，爱技术（Python）</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mrxiuxing" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mrxiuxing" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:mr.xiuxing@qq.com" title="E-Mail → mailto:mr.xiuxing@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">By Mr.xiuxing</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">131k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:59</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : '5um9L2k8JVl7ueIaJgMgQTjQ-MdYXbMMI',
+      appKey     : 'LLKEjgHF8X1jFf4CvO89FHVv',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
