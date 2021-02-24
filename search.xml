@@ -66,7 +66,7 @@
 <p>  然后就可以使用ssh工具连接到树莓派了，修改初始密码重新连接即可。</p>
 <p>  如果你不知道路由器的登录密码，也可以使用360流量防火墙下的防蹭网来检测设备，腾讯安全管家应该也有类似功能。</p>
 <p>  到了这里，有的朋友可能要问了：那你之前配置的wifi有什么用？树莓派不是支持wifi吗？</p>
-<p>  答：ubuntu server 20.04.x安装完之后，首次启动会初始化一次配置，之前配置的wifi会初始化写入到 /etc/netplan 目录下的yaml配置文件，之后再修改的话只能修改这个yaml配置文件了。而且树莓派安装最大的坑点来了–没有wlan0无线网卡，如下图：只有eth0有线网卡。</p>
+<p>  答：ubuntu server 20.04.x安装完之后，首次启动会初始化一次配置，之前配置的wifi会初始化写入到 /etc/netplan 目录下的yaml配置文件，之后再修改的话只能修改这个yaml配置文件了。而且<b>树莓派安装最大的坑点来了–没有wlan0无线网卡</b>，如下图：只有eth0有线网卡。</p>
 <p><img src="/posts/2f81a42d/pi_17.png" alt></p>
 <p>  这不是我们想要的，在某些情况下我们是需要无线网卡的。经过不断的测试终于解决了没有wlan0的问题。</p>
 <p>  第一步，在首次开机前就配置好wifi，也就是上文中扩容TF卡之后的操作</p>
@@ -358,8 +358,8 @@
       </categories>
       <tags>
         <tag>Python</tag>
-        <tag>Scrapy</tag>
         <tag>爬虫</tag>
+        <tag>Scrapy</tag>
       </tags>
   </entry>
   <entry>
@@ -393,8 +393,8 @@
       </categories>
       <tags>
         <tag>Python</tag>
-        <tag>Scrapy</tag>
         <tag>爬虫</tag>
+        <tag>Scrapy</tag>
       </tags>
   </entry>
   <entry>
@@ -1693,8 +1693,8 @@
         <category>爬虫</category>
       </categories>
       <tags>
-        <tag>Scrapy</tag>
         <tag>爬虫</tag>
+        <tag>Scrapy</tag>
       </tags>
   </entry>
   <entry>
@@ -2456,8 +2456,8 @@ show tables;返回当前数据库所有可用表的列表。</p>
         <category>Hexo</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
         <tag>Linux</tag>
+        <tag>Hexo</tag>
         <tag>Ubuntu</tag>
         <tag>Nginx</tag>
       </tags>
