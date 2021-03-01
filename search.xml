@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>树莓派折腾记（二）-- 停电后 Ubuntu Server 全部文件变成只读模式</title>
+    <url>/posts/ce2fd1e4.html</url>
+    <content><![CDATA[<p><em><strong><center>Success is working up in the morning, so excited about what you hava to do.——《名扬四海》</center></strong></em><br>
+<em><strong><center>成功是清晨醒来，对自己的人生充满期待。</center></strong></em></p>
+<a id="more"></a>
+<h2 id="前言">前言</h2>
+<p>  在写这个系列之前我的树莓派就已经被我折腾完了。我安装了ARM版本的anaconda，配置了虚拟环境，安装了docker，docker倒是有ARM版本的，然后又在docker安装了MySQL、MongoDB等，最后舍弃TF，将系统迁移到了固态硬盘（这些在后面的折腾记中会一一提到）。在这台树莓派上我还跑着几个爬虫，然而，灾难发生了，在一次停电过后，Ubuntu 全部文件变成只读模式（readonly），且很多命令不可用。</p>
+<h2 id="问题复现">问题复现</h2>
+<p>  这是使用MobaXterm登录后的样子，报错如下图：并且是顿了好久才进入了系统</p>
+<p><img src="/posts/ce2fd1e4/pi_001.png" alt></p>
+<p>  执行 docker ps -a 命令后，报错如下图：</p>
+<p><img src="/posts/ce2fd1e4/pi_002.png" alt></p>
+<p>  执行 sudo service docker restart 后，报错如下图：</p>
+<p><img src="/posts/ce2fd1e4/pi_003.png" alt></p>
+<p>  执行 sudo su 后，报错如下图并卡顿了一会，虽说切换到了root用户，但是打开文件还是只读模式</p>
+<p><img src="/posts/ce2fd1e4/pi_004.png" alt></p>
+<h2 id="解决问题">解决问题</h2>
+<p>  此刻的我好像抓住了重点，突然断电导致了整个文件系统变成了只读。既然是文件系统的问题，那就修复它吧。经过一番搜索发现 fsck 命令可以解决这一问题。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">fsck -t ext4 -v /dev/sda2</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+<p>  根据提示信息一路y下去，然后 reboot 重启即可，如下图：</p>
+<p><img src="/posts/ce2fd1e4/pi_005.png" alt></p>
+<p>  在 fsck -t ext4 -v /dev/sda2 命令中 ext4 代表的是文件系统类型，在 <a href="https://mrxiuxing.com/posts/2f81a42d.html" target="_blank" rel="noopener">树莓派折腾记（一）-- 安装系统（Ubuntu Server 20.04.1）</a> 曾提到过，/dev/sda2 代表的是根目录设备文件名称，如下图：</p>
+<p><img src="/posts/ce2fd1e4/pi_006.png" alt></p>
+<p><b>PS：关于更多fsck的参数可以查看 <a href="https://www.runoob.com/linux/linux-comm-fsck.html" target="_blank" rel="noopener">Linux fsck 命令 | 菜鸟教程</a></b></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>树莓派折腾记（一）-- 安装系统（Ubuntu Server 20.04.1）</title>
     <url>/posts/2f81a42d.html</url>
     <content><![CDATA[<p><em><strong><center>We can’t change the past. But we can make the future.——《都市侠盗》</center></strong></em><br>
